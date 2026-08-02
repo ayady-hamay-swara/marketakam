@@ -1,0 +1,220 @@
+/* ============================================================================
+   MANAGE EMPLOYEES - CSS
+   ============================================================================ */
+
+body {
+    background: #f5f7fa;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* Page Title */
+.page-title {
+    color: #2E75B6;
+    font-weight: 700;
+    font-size: 28px;
+}
+
+/* ============================================================================
+   STAT CARDS
+   ============================================================================ */
+.stat-card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    transition: transform 0.3s, box-shadow 0.3s;
+    margin-bottom: 15px;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.stat-card .card-body {
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* ============================================================================
+   MAIN FORM CARD
+   ============================================================================ */
+.card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    margin-bottom: 20px;
+}
+
+.card-header {
+    border-radius: 12px 12px 0 0 !important;
+    padding: 15px 20px;
+}
+
+/* Login Credentials Section */
+.card-body hr {
+    border-color: #dee2e6;
+    margin: 15px 0 10px 0;
+}
+
+/* ============================================================================
+   FORM ELEMENTS
+   ============================================================================ */
+.form-control {
+    border-radius: 8px;
+    border: 1px solid #d0d9e8;
+    padding: 8px 12px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-control:focus {
+    border-color: #2E75B6;
+    box-shadow: 0 0 0 3px rgba(46,117,182,0.15);
+}
+
+.form-control:disabled {
+    background-color: #f8f9fa;
+    color: #6c757d;
+}
+
+label {
+    font-weight: 600;
+    color: #495057;
+    font-size: 13px;
+    margin-bottom: 5px;
+}
+
+/* Access Level Preview Box */
+#accessLevelPreview {
+    border-radius: 8px;
+    min-height: 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    transition: all 0.3s;
+    padding: 10px;
+}
+
+/* ============================================================================
+   BUTTONS
+   ============================================================================ */
+.btn {
+    border-radius: 8px;
+    padding: 8px 18px;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.btn-success  { background: #28a745; border-color: #28a745; }
+.btn-primary  { background: #2E75B6; border-color: #2E75B6; }
+.btn-danger   { background: #dc3545; border-color: #dc3545; }
+.btn-warning  { background: #ffc107; border-color: #ffc107; color: #333; }
+
+/* ============================================================================
+   TABLE
+   ============================================================================ */
+.table {
+    margin-bottom: 0;
+}
+
+.table thead th {
+    background: #2c3e50;
+    color: white;
+    border: none;
+    padding: 12px 15px;
+    font-weight: 600;
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+.table tbody tr {
+    transition: background 0.15s;
+}
+
+.table tbody tr:hover {
+    background: #f0f5ff !important;
+    cursor: pointer;
+}
+
+.table tbody td {
+    padding: 12px 15px;
+    vertical-align: middle;
+    border-color: #f0f0f0;
+    font-size: 14px;
+}
+
+/* Position Badges */
+.badge {
+    font-size: 12px;
+    letter-spacing: 0.3px;
+}
+
+/* ============================================================================
+   POSITION-BASED STYLING
+   ============================================================================ */
+
+/* Highlight owner rows */
+tr[data-position="OWNER"] {
+    border-left: 4px solid #6f42c1;
+}
+
+tr[data-position="MANAGER"] {
+    border-left: 4px solid #2E75B6;
+}
+
+/* ============================================================================
+   ACCESS DENIED OVERLAY
+   ============================================================================ */
+#accessDeniedOverlay {
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+}
+
+/* ============================================================================
+   HEADER BADGES
+   ============================================================================ */
+#currentUserBadge,
+#accessLevelBadge {
+    font-size: 13px;
+    padding: 7px 14px;
+    border-radius: 20px;
+}
+
+#currentUserBadge {
+    background: #17a2b8;
+}
+
+/* ============================================================================
+   RESPONSIVE
+   ============================================================================ */
+@media (max-width: 768px) {
+    .page-title {
+        font-size: 22px;
+    }
+
+    .stat-card .card-body {
+        flex-direction: column;
+        text-align: center;
+        gap: 8px;
+    }
+
+    .table-responsive {
+        font-size: 12px;
+    }
+
+    .btn {
+        padding: 6px 12px;
+        font-size: 13px;
+    }
+}
