@@ -184,7 +184,7 @@
                     <div class="col-md-3">
                         <div class="mb-3">
                             <label class="form-label" data-i18n="debts_notes">تێبینی</label>
-                            <input type="text" class="form-control" id="txtNotes" placeholder="بۆ کڕینی...">
+                            <input type="text" class="form-control" id="txtNotes" data-i18n="debts_notes_placeholder" placeholder="بۆ کڕینی...">
                         </div>
                     </div>
                 </div>
@@ -278,7 +278,7 @@
                 </div>
                 <div class="mb-3">
                     <label class="form-label" data-i18n="debts_payment_notes">تێبینی</label>
-                    <input type="text" class="form-control" id="txtPaymentNotes" placeholder="واردکرا لە...">
+                    <input type="text" class="form-control" id="txtPaymentNotes" data-i18n="debts_payment_notes_placeholder" placeholder="واردکرا لە...">
                 </div>
             </div>
             <div class="modal-footer">

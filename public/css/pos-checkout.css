@@ -284,18 +284,45 @@ body { background:#eef2f7; font-family:'Segoe UI',sans-serif; overflow:hidden; }
 
 /* Totals bar */
 .totals-bar {
-    display:flex; align-items:center; background:white; border-radius:10px;
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    align-items:center;
+    background:white; border-radius:10px;
     padding:10px 20px; box-shadow:0 2px 8px rgba(0,0,0,.08);
-    flex-shrink:0; border:2px solid #e0e8f0; gap:0;
+    flex-shrink:0; border:2px solid #e0e8f0;
+    row-gap:10px; column-gap:16px;
 }
-.total-item { flex:1; display:flex; align-items:center; gap:8px; padding-right:20px; border-right:1px solid #e0e0e0; }
-.total-item:last-child { border-right:none; padding-right:0; }
+.total-item {
+    display:flex; align-items:center; gap:8px;
+    padding-inline-end:16px; border-inline-end:1px solid #e0e0e0;
+}
+.discount-item {
+    gap:6px; border-inline-end:none; padding-inline-end:0;
+    justify-content:flex-end;
+}
 .total-lbl { font-size:13px; color:#666; font-weight:600; white-space:nowrap; }
 .total-val { font-size:16px; font-weight:800; color:#2c3e50; }
+.total-final {
+    grid-column: 1 / -1;
+    border-inline-end:none; padding-inline-end:0;
+    justify-content:center;
+    border-top:1px solid #e0e0e0; padding-top:10px;
+}
+.total-final .total-lbl { font-size:15px; }
 .total-final .total-val { font-size:22px; color:#28a745; }
-.discount-item { gap:6px; }
 .discount-input { width:55px; padding:4px 6px; font-size:14px; border:2px solid #d0d9e8; border-radius:6px; text-align:center; font-weight:700; }
 .discount-input:focus { border-color:#2E75B6; outline:none; }
+
+@media (max-width: 480px) {
+    .totals-bar { grid-template-columns: 1fr; }
+    .total-item {
+        border-inline-end:none; padding-inline-end:0;
+        border-bottom:1px solid #e0e0e0; padding-bottom:8px;
+    }
+    .discount-item { justify-content:flex-start; }
+    .total-final { border-top:none; padding-top:0; }
+}
 
 /* ════ RIGHT ════ */
 .pos-right { width:280px; flex-shrink:0; display:flex; flex-direction:column; gap:8px; overflow-y:auto; }
