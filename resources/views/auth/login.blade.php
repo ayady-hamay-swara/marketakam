@@ -89,15 +89,27 @@
             <p class="login-subtitle" data-i18n="login_subtitle">بەخێربێیت بۆ سیستەمی فرۆشتنی مارکێتەکەم</p>
         </div>
 
-        <form>
+        <form id="loginform" method="post" action="/login">
+            @csrf
+
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul class="mb-0">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
             <div class="form-group">
                 <label for="username" data-i18n="login_username">ناوی بەکارهێنەر</label>
-                <input type="text" id="username" class="form-control" data-i18n="login_username_placeholder" placeholder="ناوی بەکارهێنەر">
+                <input type="text" id="username" name="username" value="{{ old('username') }}" class="form-control" data-i18n="login_username_placeholder" placeholder="ناوی بەکارهێنەر">
             </div>
 
             <div class="form-group">
                 <label for="password" data-i18n="login_password">تێپەڕەوشە</label>
-                <input type="password" id="password" class="form-control" data-i18n="login_password_placeholder" placeholder="تێپەڕەوشە">
+                <input type="password" id="password" name="password" class="form-control" data-i18n="login_password_placeholder" placeholder="تێپەڕەوشە">
             </div>
 
             <div class="form-group form-check text-right">
@@ -106,7 +118,7 @@
                 <label class="form-check-label" for="rememberMe" data-i18n="login_remember">منت بیربێت</label>
             </div>
 
-            <a href="/home" class="btn btn-primary btn-login" data-i18n="login_button">چوونەژوورەوە</a>
+            <button type="submit" class="btn btn-primary btn-login" data-i18n="login_button">چوونەژوورەوە</button>
         </form>
     </div>
 </div>
