@@ -34,11 +34,7 @@
         </ul>
 
         <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="/blog" target="_blank" rel="noopener">
-                    📝 <span data-i18n="blog_nav">بلۆگ</span>
-                </a>
-            </li>
+
 
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="langDropdown"
@@ -59,9 +55,9 @@
             </li>
 
             <li class="nav-item">
-                <span class="nav-link text-warning">
+                <a class="nav-link text-warning" href="/blog" id="navbarUsernameDisplay">
                     👤 <strong id="navbarUsername">بەڕێوەبەر</strong>
-                </span>
+                </a>
             </li>
         </ul>
     </div>
