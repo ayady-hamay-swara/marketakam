@@ -86,7 +86,7 @@
         <div class="text-center">
             <div class="brand-badge">🏪</div>
             <h2 class="login-title" data-i18n="login_title">چوونەژوورەوە</h2>
-            <p class="login-subtitle" data-i18n="login_subtitle">بەخێربێیت بۆ سیستەمی فرۆشتنی Marketakam</p>
+            <p class="login-subtitle" data-i18n="login_subtitle">بەخێربێیت بۆ سیستەمی فرۆشتنی مارکێتەکەم</p>
         </div>
 
         <form>
@@ -102,7 +102,8 @@
 
             <div class="form-group form-check text-right">
                 <input type="checkbox" class="form-check-input" id="rememberMe">
-                <label class="form-check-label" for="rememberMe" data-i18n="login_remember">بیرهێنانەوە</label>
+                <br>
+                <label class="form-check-label" for="rememberMe" data-i18n="login_remember">منت بیربێت</label>
             </div>
 
             <a href="/home" class="btn btn-primary btn-login" data-i18n="login_button">چوونەژوورەوە</a>

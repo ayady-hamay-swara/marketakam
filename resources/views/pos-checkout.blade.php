@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>فرۆشتن - سیستەمی فرۆشگا</title>
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/navbar-global.css">
-    <link rel="stylesheet" href="css/pos-checkout.css">
+    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/navbar-global.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/pos-checkout.css') }}">
 </head>
 <body>
 
@@ -97,15 +97,15 @@
             <!-- Stats Bar -->
             <div class="stats-bar">
                 <div class="stat-pill">
-                    <span class="stat-lbl">فرۆشی ئەمڕۆ</span>
+                    <span class="stat-lbl" data-i18n="dashboard_today_sales">فرۆشی ئەمڕۆ</span>
                     <span class="stat-val" id="todaySales">IQD 0</span>
                 </div>
                 <div class="stat-pill">
-                    <span class="stat-lbl">وەسڵەکان</span>
+                    <span class="stat-lbl" data-i18n="pos_transactions_label">وەسڵەکان</span>
                     <span class="stat-val" id="todayTransactions">0</span>
                 </div>
                 <div class="stat-pill">
-                    <span class="stat-lbl">کاشێر</span>
+                    <span class="stat-lbl" data-i18n="pos_cashier_label">کاشێر</span>
                     <span class="stat-val" id="cashierName">بەڕێوەبەر</span>
                 </div>
             </div>
@@ -115,32 +115,32 @@
                 <div class="search-wrap">
                     <span class="search-icon">🔍</span>
                     <input type="text" id="productSearch" class="search-input"
-                           placeholder="گەڕان بە ناو، کۆد یان بارکۆد..." autofocus>
+                           data-i18n="pos_search_placeholder" placeholder="گەڕان بە ناو، کۆد یان بارکۆد..." autofocus>
                     <div class="product-results" id="productResults" style="display:none;"></div>
                 </div>
                 <select id="categoryFilter" class="category-select">
-                    <option value="">هەموو جۆرەکان</option>
+                    <option value="" data-i18n="pos_all_categories">هەموو جۆرەکان</option>
                 </select>
             </div>
 
             <!-- Cart Box -->
             <div class="cart-box">
                 <div class="cart-box-header">
-                    <span>🛒 کاڵاکانی سەبەتە <span class="cart-count" id="cartCount">0 دانە</span></span>
-                    <button class="btn-clear-cart" id="btnClearCart">🗑 پاککردنەوە</button>
+                    <span>🛒 <span data-i18n="pos_cart_items">کاڵاکانی سەبەتە</span> <span class="cart-count" id="cartCount">0 دانە</span></span>
+                    <button class="btn-clear-cart" id="btnClearCart">🗑 <span data-i18n="pos_clear_cart">پاککردنەوە</span></button>
                 </div>
                 <div class="cart-table-head">
-                    <span class="col-name">کاڵا</span>
-                    <span class="col-qty">ژمارە</span>
-                    <span class="col-price">نرخی یەک</span>
-                    <span class="col-total">کۆی گشتی</span>
+                    <span class="col-name" data-i18n="pos_col_item">کاڵا</span>
+                    <span class="col-qty" data-i18n="pos_col_qty">ژمارە</span>
+                    <span class="col-price" data-i18n="pos_col_unit_price">نرخی یەک</span>
+                    <span class="col-total" data-i18n="pos_col_total">کۆی گشتی</span>
                     <span class="col-action"></span>
                 </div>
                 <div class="cart-table-body" id="cartItems">
                     <div class="cart-empty">
                         <div style="font-size:48px;">🛒</div>
-                        <p>سەبەتە بەتاڵە</p>
-                        <small>کاڵایەک بگەڕێ یان سکان بکە</small>
+                        <p data-i18n="pos_cart_empty_title">سەبەتە بەتاڵە</p>
+                        <small data-i18n="pos_cart_empty_desc">کاڵایەک بگەڕێ یان سکان بکە</small>
                     </div>
                 </div>
             </div>
@@ -148,17 +148,17 @@
             <!-- Totals Bar -->
             <div class="totals-bar">
                 <div class="total-item">
-                    <span class="total-lbl">کۆی لاوەکی:</span>
+                    <span class="total-lbl" data-i18n="pos_subtotal_label">کۆی لاوەکی:</span>
                     <span class="total-val" id="subtotal">IQD 0</span>
                 </div>
                 <div class="total-item discount-item">
-                    <span class="total-lbl">داشکاندن:</span>
+                    <span class="total-lbl" data-i18n="pos_discount_label">داشکاندن:</span>
                     <input type="number" id="discountPercent" class="discount-input" value="0" min="0" max="100" step="1">
                     <span class="total-lbl">%</span>
                     <span class="total-val text-danger" id="discountAmount">- IQD 0</span>
                 </div>
                 <div class="total-item total-final">
-                    <span class="total-lbl">کۆی گشتی:</span>
+                    <span class="total-lbl" data-i18n="pos_total_label">کۆی گشتی:</span>
                     <span class="total-val" id="totalAmount">IQD 0</span>
                 </div>
             </div>
@@ -170,17 +170,17 @@
 
             <!-- Payment Method -->
             <div class="right-section payment-section">
-                <div class="right-section-title">💳 شێوازی پارەدان</div>
+                <div class="right-section-title">💳 <span data-i18n="pos_payment_method_title">شێوازی پارەدان</span></div>
                 <div class="payment-btns">
-                    <button class="pay-btn active" data-method="CASH">💵 کاش</button>
-                    <button class="pay-btn" data-method="CARD">💳 کارت</button>
-                    <button class="pay-btn" data-method="TRANSFER">🏦 گواستنەوە</button>
+                    <button class="pay-btn active" data-method="CASH">💵 <span data-i18n="pos_pay_cash">کاش</span></button>
+                    <button class="pay-btn" data-method="CARD">💳 <span data-i18n="pos_pay_card">کارت</span></button>
+                    <button class="pay-btn" data-method="TRANSFER">🏦 <span data-i18n="pos_pay_transfer">گواستنەوە</span></button>
                 </div>
                 <div id="cashSection" class="cash-section">
-                    <label class="cash-label">بڕی وەرگیراو</label>
+                    <label class="cash-label" data-i18n="pos_amount_received">بڕی وەرگیراو</label>
                     <input type="number" id="amountReceived" class="cash-input" placeholder="0" step="1000">
                     <div class="change-row">
-                        <span>پارەی ماوە:</span>
+                        <span data-i18n="pos_change_label">پارەی ماوە:</span>
                         <span id="changeAmount" class="change-val">IQD 0</span>
                     </div>
                 </div>
@@ -188,16 +188,16 @@
 
             <!-- Action Buttons (Updated with Debt button) -->
             <div class="right-section action-section">
-                <button class="btn-complete" id="btnCompleteSale">✅ تەواوکردنی فرۆشتن</button>
+                <button class="btn-complete" id="btnCompleteSale">✅ <span data-i18n="pos_complete_sale">تەواوکردنی فرۆشتن</span></button>
 
                 <!-- NEW: Sell as Debt Button -->
-                <button class="btn-debt" id="btnSellAsDebt">💳 فرۆشتن بە قەرز</button>
+                <button class="btn-debt" id="btnSellAsDebt">💳 <span data-i18n="pos_sell_as_debt">فرۆشتن بە قەرز</span></button>
 
                 <div class="btn-row-2">
-                    <button class="btn-hold" id="btnHold">⏸ ڕاگرتن</button>
-                    <button class="btn-cancel" id="btnCancel">✕ هەڵوەشاندنەوە</button>
+                    <button class="btn-hold" id="btnHold">⏸ <span data-i18n="pos_hold">ڕاگرتن</span></button>
+                    <button class="btn-cancel" id="btnCancel">✕ <span data-i18n="cancel">هەڵوەشاندنەوە</span></button>
                 </div>
-                <button class="btn-return" id="btnReturn">↩ گەڕاندنەوە</button>
+                <button class="btn-return" id="btnReturn">↩ <span data-i18n="pos_return">گەڕاندنەوە</span></button>
             </div>
 
         </div>
@@ -304,11 +304,11 @@
     </div>
 </div>
 
-<script src="js/languages.js"></script>
-<script src="js/navbar-global.js"></script>
-<script src="js/jquery-3.4.1.min.js"></script>
-<script src="js/bootstrap.bundle.min.js"></script>
-<script src="js/pos-checkout-debt-controller.js"></script>
+<script src="{{ asset('js/languages.js') }}"></script>
+<script src="{{ asset('js/navbar-global.js') }}"></script>
+<script src="{{ asset('js/jquery-3.4.1.min.js') }}"></script>
+<script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ asset('js/pos-checkout-debt-controller.js') }}"></script>
 
 <style>
 /* Additional styles for debt button */

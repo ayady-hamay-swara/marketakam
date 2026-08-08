@@ -173,27 +173,27 @@
 
     <!-- Welcome Card -->
     <div class="welcome-card">
-        <div class="welcome-title">بەخێربێیت! 👋</div>
-        <div class="welcome-subtitle">سیستەمی بەڕێوەبردنی فرۆشگا</div>
+        <div class="welcome-title" data-i18n="dashboard_welcome">بەخێربێیت! 👋</div>
+        <div class="welcome-subtitle" data-i18n="dashboard_subtitle">سیستەمی بەڕێوەبردنی فرۆشگا</div>
     </div>
 
     <!-- Quick Stats -->
     <div class="stats-grid">
         <div class="stat-box">
             <div class="stat-value" id="statTodaySales">IQD 0</div>
-            <div class="stat-label">فرۆشی ئەمڕۆ</div>
+            <div class="stat-label" data-i18n="dashboard_today_sales">فرۆشی ئەمڕۆ</div>
         </div>
         <div class="stat-box">
             <div class="stat-value" id="statOrders">0</div>
-            <div class="stat-label">ژمارەی وەسڵەکان</div>
+            <div class="stat-label" data-i18n="dashboard_orders_count">ژمارەی وەسڵەکان</div>
         </div>
         <div class="stat-box">
             <div class="stat-value" id="statItems">0</div>
-            <div class="stat-label">کۆی کاڵاکان</div>
+            <div class="stat-label" data-i18n="items_total">کۆی کاڵاکان</div>
         </div>
         <div class="stat-box">
             <div class="stat-value" id="statLowStock">0</div>
-            <div class="stat-label">کاڵای کۆگای کەم</div>
+            <div class="stat-label" data-i18n="dashboard_low_stock">کاڵای کۆگای کەم</div>
         </div>
     </div>
 
@@ -201,26 +201,26 @@
     <div class="quick-actions">
         <a href="/pos-checkout" class="action-card">
             <div class="action-icon">🛒</div>
-            <div class="action-title">فرۆشتن</div>
-            <div class="action-desc">دەستپێکردنی فرۆشتنی نوێ</div>
+            <div class="action-title" data-i18n="dashboard_action_pos_title">فرۆشتن</div>
+            <div class="action-desc" data-i18n="dashboard_action_pos_desc">دەستپێکردنی فرۆشتنی نوێ</div>
         </a>
 
         <a href="/manage-items" class="action-card">
             <div class="action-icon">📦</div>
-            <div class="action-title">بەڕێوەبردنی کاڵا</div>
-            <div class="action-desc">زیادکردن و دەستکاریکردنی کاڵاکان</div>
+            <div class="action-title" data-i18n="dashboard_action_items_title">بەڕێوەبردنی کاڵا</div>
+            <div class="action-desc" data-i18n="dashboard_action_items_desc">زیادکردن و دەستکاریکردنی کاڵاکان</div>
         </a>
 
         <a href="/manage-employees" class="action-card">
             <div class="action-icon">👥</div>
-            <div class="action-title">کارمەندان</div>
-            <div class="action-desc">بەڕێوەبردنی کارمەندان</div>
+            <div class="action-title" data-i18n="dashboard_action_employees_title">کارمەندان</div>
+            <div class="action-desc" data-i18n="dashboard_action_employees_desc">بەڕێوەبردنی کارمەندان</div>
         </a>
 
         <a href="/search-orders" class="action-card">
             <div class="action-icon">📋</div>
-            <div class="action-title">گەڕان لە وەسڵەکان</div>
-            <div class="action-desc">بینینی وەسڵە پێشووەکان</div>
+            <div class="action-title" data-i18n="dashboard_action_search_title">گەڕان لە وەسڵەکان</div>
+            <div class="action-desc" data-i18n="dashboard_action_search_desc">بینینی وەسڵە پێشووەکان</div>
         </a>
     </div>
 
