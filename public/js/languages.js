@@ -88,7 +88,17 @@ const translations = {
         toggle_off: 'ناچالاک',
 
         // Calculator
-        calc_title: 'ژمێرەر'
+        calc_title: 'ژمێرەر',
+
+        // Login
+        login_title: 'چوونەژوورەوە',
+        login_subtitle: 'بەخێربێیت بۆ سیستەمی فرۆشتنی Marketakam',
+        login_username: 'ناوی بەکارهێنەر',
+        login_password: 'تێپەڕەوشە',
+        login_remember: 'بیرهێنانەوە',
+        login_button: 'چوونەژوورەوە',
+        login_username_placeholder: 'ناوی بەکارهێنەر',
+        login_password_placeholder: 'تێپەڕەوشە'
     },
 
     en: {
@@ -176,7 +186,17 @@ const translations = {
         toggle_off: 'Off',
 
         // Calculator
-        calc_title: 'Calculator'
+        calc_title: 'Calculator',
+
+        // Login
+        login_title: 'Sign In',
+        login_subtitle: 'Welcome to the Marketakam sales system',
+        login_username: 'Username',
+        login_password: 'Password',
+        login_remember: 'Remember me',
+        login_button: 'Sign In',
+        login_username_placeholder: 'Username',
+        login_password_placeholder: 'Password'
     },
 
     ar: {
@@ -264,7 +284,17 @@ const translations = {
         toggle_off: 'معطّل',
 
         // Calculator
-        calc_title: 'الآلة الحاسبة'
+        calc_title: 'الآلة الحاسبة',
+
+        // Login
+        login_title: 'تسجيل الدخول',
+        login_subtitle: 'مرحبًا بكم في نظام Marketakam للمبيعات',
+        login_username: 'اسم المستخدم',
+        login_password: 'كلمة المرور',
+        login_remember: 'تذكرني',
+        login_button: 'تسجيل الدخول',
+        login_username_placeholder: 'اسم المستخدم',
+        login_password_placeholder: 'كلمة المرور'
     }
 };
 
