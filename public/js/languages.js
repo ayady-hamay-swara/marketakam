@@ -111,10 +111,10 @@ const translations = {
         dashboard_action_employees_desc: 'بەڕێوەبردنی کارمەندان',
         dashboard_action_search_title: 'گەڕان لە وەسڵەکان',
         dashboard_action_search_desc: 'بینینی وەسڵە پێشووەکان',
-        blog_nav: 'بلۆگ',
-        blog_title: 'بلۆگی کەسی',
-        blog_subtitle: 'بیر و بۆچوون، پرۆژەکان و ئەزموونەکانم',
-        blog_empty: 'هیچ بابەتێک هێشتا بڵاو نەکراوەتەوە. بەم زووانە دێتەوە!',
+        profile_nav: 'پڕۆفایل',
+        profile_title: 'پڕۆفایلی کەسی',
+        profile_subtitle: 'زانیاری و دۆخی کەسی',
+        profile_empty: 'هێشتا هیچ زانیارییەک لەسەر پڕۆفایلەکە دانەدرابوو.',
 
         // POS Checkout
         pos_transactions_label: 'وەسڵەکان',
@@ -262,10 +262,10 @@ const translations = {
         dashboard_action_employees_desc: 'Manage employees',
         dashboard_action_search_title: 'Search Orders',
         dashboard_action_search_desc: 'View previous orders',
-        blog_nav: 'Blog',
-        blog_title: 'Personal Blog',
-        blog_subtitle: 'Thoughts, projects, and experiences',
-        blog_empty: 'No posts published yet. Coming soon!',
+        profile_nav: 'Profile',
+        profile_title: 'Personal Profile',
+        profile_subtitle: 'Your personal information and status',
+        profile_empty: 'No profile details have been added yet.',
 
         // POS Checkout
         pos_transactions_label: 'Transactions',
@@ -413,10 +413,10 @@ const translations = {
         dashboard_action_employees_desc: 'إدارة الموظفين',
         dashboard_action_search_title: 'البحث في الطلبات',
         dashboard_action_search_desc: 'عرض الطلبات السابقة',
-        blog_nav: 'المدونة',
-        blog_title: 'المدونة الشخصية',
-        blog_subtitle: 'أفكار ومشاريع وتجارب',
-        blog_empty: 'لا توجد مقالات منشورة بعد. قريبًا!',
+        profile_nav: 'الملف الشخصي',
+        profile_title: 'الملف الشخصي',
+        profile_subtitle: 'معلوماتك والحالة الشخصية',
+        profile_empty: 'لا توجد تفاصيل ملف شخصي بعد.',
 
         // POS Checkout
         pos_transactions_label: 'الطلبات',

@@ -55,7 +55,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link text-warning" href="/blog" id="navbarUsernameDisplay">
+                <a class="nav-link text-warning" href="/profile" id="navbarUsernameDisplay" data-i18n="profile_nav">
                     👤 <strong id="navbarUsername">بەڕێوەبەر</strong>
                 </a>
             </li>
