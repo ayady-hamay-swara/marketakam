@@ -398,6 +398,24 @@ body {
     .navbar-toggler {
         order: 3;
     }
+
+    /* Language dropdown blends into the collapsed navbar instead of
+       showing a jarring white box on the translucent dark background */
+    .global-navbar .dropdown-menu {
+        background: rgba(0, 0, 0, .18);
+        box-shadow: none;
+        border-radius: 8px;
+        padding: 4px 0;
+    }
+
+    .global-navbar .dropdown-item {
+        color: #fff;
+    }
+
+    .global-navbar .dropdown-item:hover {
+        background: rgba(255, 255, 255, .15);
+        color: #fff;
+    }
 }
 
 @media (max-width: 576px) {

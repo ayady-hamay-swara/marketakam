@@ -31,38 +31,12 @@
 
         <div class="settings-section">
             <div class="settings-label" data-i18n="settings_store">ناوی فرۆشگا</div>
-            <input type="text" id="globalStoreName" class="settings-input" placeholder="فرۆشگای من">
-        </div>
-
-        <!-- CURRENCY REMOVED - Fixed as IQD -->
-
-        <div class="settings-section">
-            <div class="settings-label" data-i18n="settings_tax">ڕێژەی باج (%)</div>
-            <input type="number" id="globalTaxRate" class="settings-input"
-                   placeholder="0" min="0" max="100" step="0.1">
-        </div>
-
-        <div class="settings-section">
-            <div class="settings-label" data-i18n="settings_auto_print">چاپی خۆکار</div>
-            <label class="toggle-label">
-                <input type="checkbox" id="globalAutoPrint">
-                <span class="toggle-track"></span>
-                <span class="toggle-text" data-i18n="toggle_off">ناچالاک</span>
-            </label>
-        </div>
-
-        <div class="settings-section">
-            <div class="settings-label" data-i18n="settings_sound">دەنگ لە زیادکردن</div>
-            <label class="toggle-label">
-                <input type="checkbox" id="globalSound" checked>
-                <span class="toggle-track"></span>
-                <span class="toggle-text" data-i18n="toggle_on">چالاک</span>
-            </label>
+            <input type="text" id="globalStoreName" class="settings-input" data-i18n="settings_store_placeholder" placeholder="فرۆشگای من">
         </div>
 
         <div class="settings-section">
             <div class="settings-label" data-i18n="settings_cashier_name">ناوی بەکارهێنەر</div>
-            <input type="text" id="globalCashierName" class="settings-input" placeholder="بەڕێوەبەر">
+            <input type="text" id="globalCashierName" class="settings-input" data-i18n="settings_cashier_placeholder" placeholder="بەڕێوەبەر">
         </div>
 
         <button class="settings-save-btn" id="btnGlobalSaveSettings">

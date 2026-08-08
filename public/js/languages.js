@@ -79,13 +79,20 @@ const translations = {
         // Settings
         settings_title: 'ڕێکخستنەکان',
         settings_store: 'ناوی فرۆشگا',
-        settings_tax: 'ڕێژەی باج (%)',
-        settings_auto_print: 'چاپی خۆکار',
-        settings_sound: 'دەنگ لە زیادکردن',
+        settings_store_placeholder: 'فرۆشگای من',
         settings_cashier_name: 'ناوی بەکارهێنەر',
+        settings_cashier_placeholder: 'بەڕێوەبەر',
         settings_save: 'پاشەکەوت',
         toggle_on: 'چالاک',
         toggle_off: 'ناچالاک',
+
+        // Items page extras
+        items_notes_placeholder: 'قەبارە، ڕەنگ، ژمارە زنجیرە...',
+        items_new_category_placeholder: 'ناوی جۆری نوێ...',
+        items_category_manage_title: 'بەڕێوەبردنی جۆرەکان',
+        items_category_placeholder: 'هەڵبژێرە...',
+        items_stock_filter_all: 'هەموو کاڵاکان',
+        items_stock_ok: 'کۆگا هەیە',
 
         // Calculator
         calc_title: 'ژمێرەر',
@@ -223,13 +230,20 @@ const translations = {
         // Settings
         settings_title: 'Settings',
         settings_store: 'Store Name',
-        settings_tax: 'Tax Rate (%)',
-        settings_auto_print: 'Auto-print',
-        settings_sound: 'Sound',
+        settings_store_placeholder: 'My Store',
         settings_cashier_name: 'User Name',
+        settings_cashier_placeholder: 'Manager',
         settings_save: 'Save',
         toggle_on: 'On',
         toggle_off: 'Off',
+
+        // Items page extras
+        items_notes_placeholder: 'Size, color, serial number...',
+        items_new_category_placeholder: 'New category name...',
+        items_category_manage_title: 'Manage Categories',
+        items_category_placeholder: 'Select...',
+        items_stock_filter_all: 'All Items',
+        items_stock_ok: 'In Stock',
 
         // Calculator
         calc_title: 'Calculator',
@@ -367,13 +381,20 @@ const translations = {
         // Settings
         settings_title: 'الإعدادات',
         settings_store: 'اسم المتجر',
-        settings_tax: 'معدل الضريبة (%)',
-        settings_auto_print: 'طباعة تلقائية',
-        settings_sound: 'صوت',
+        settings_store_placeholder: 'متجري',
         settings_cashier_name: 'اسم المستخدم',
+        settings_cashier_placeholder: 'المدير',
         settings_save: 'حفظ',
         toggle_on: 'مفعّل',
         toggle_off: 'معطّل',
+
+        // Items page extras
+        items_notes_placeholder: 'المقاس، اللون، الرقم التسلسلي...',
+        items_new_category_placeholder: 'اسم الفئة الجديدة...',
+        items_category_manage_title: 'إدارة الفئات',
+        items_category_placeholder: 'اختر...',
+        items_stock_filter_all: 'كل المنتجات',
+        items_stock_ok: 'متوفر',
 
         // Calculator
         calc_title: 'الآلة الحاسبة',

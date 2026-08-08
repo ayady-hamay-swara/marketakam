@@ -25,38 +25,12 @@
 
         <div class="settings-section">
             <div class="settings-label" data-i18n="settings_store">ناوی فرۆشگا</div>
-            <input type="text" id="globalStoreName" class="settings-input" placeholder="فرۆشگای من">
-        </div>
-
-        <!-- CURRENCY REMOVED - Fixed as IQD -->
-
-        <div class="settings-section">
-            <div class="settings-label" data-i18n="settings_tax">ڕێژەی باج (%)</div>
-            <input type="number" id="globalTaxRate" class="settings-input"
-                   placeholder="0" min="0" max="100" step="0.1">
-        </div>
-
-        <div class="settings-section">
-            <div class="settings-label" data-i18n="settings_auto_print">چاپی خۆکار</div>
-            <label class="toggle-label">
-                <input type="checkbox" id="globalAutoPrint">
-                <span class="toggle-track"></span>
-                <span class="toggle-text" data-i18n="toggle_off">ناچالاک</span>
-            </label>
-        </div>
-
-        <div class="settings-section">
-            <div class="settings-label" data-i18n="settings_sound">دەنگ لە زیادکردن</div>
-            <label class="toggle-label">
-                <input type="checkbox" id="globalSound" checked>
-                <span class="toggle-track"></span>
-                <span class="toggle-text" data-i18n="toggle_on">چالاک</span>
-            </label>
+            <input type="text" id="globalStoreName" class="settings-input" data-i18n="settings_store_placeholder" placeholder="فرۆشگای من">
         </div>
 
         <div class="settings-section">
             <div class="settings-label" data-i18n="settings_cashier_name">ناوی بەکارهێنەر</div>
-            <input type="text" id="globalCashierName" class="settings-input" placeholder="بەڕێوەبەر">
+            <input type="text" id="globalCashierName" class="settings-input" data-i18n="settings_cashier_placeholder" placeholder="بەڕێوەبەر">
         </div>
 
         <button class="settings-save-btn" id="btnGlobalSaveSettings">
@@ -68,10 +42,6 @@
 
 
 <!-- Backdrop for popups -->
-<div class="global-popup-backdrop" id="globalBackdrop"></div>
-
-
-
 <div class="global-popup-backdrop" id="globalBackdrop"></div>
 
 <!-- Main Content -->
@@ -127,7 +97,7 @@
     <!-- Item Form -->
     <div class="row mt-4">
         <div class="col-12">
-            <div class="card">
+            <div class="card item-form-card">
                 <div class="card-header">
                     <h5 data-i18n="items_form_title">زانیاری کاڵا</h5>
                 </div>
@@ -151,7 +121,7 @@
                                     <label data-i18n="items_category">جۆر</label>
                                     <div class="input-group">
                                         <select class="form-control" id="txtCategory">
-                                            <option value="">هەڵبژێرە...</option>
+                                            <option value="" data-i18n="items_category_placeholder">هەڵبژێرە...</option>
                                         </select>
                                         <div class="input-group-append">
                                             <button class="btn btn-outline-secondary" type="button" id="btnManageCategories">⚙️</button>
@@ -189,7 +159,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label data-i18n="items_notes">تێبینی</label>
-                                    <textarea class="form-control" id="txtNotes" rows="2" placeholder="قەبارە، ڕەنگ، ژمارە زنجیرە..."></textarea>
+                                    <textarea class="form-control" id="txtNotes" rows="2" data-i18n="items_notes_placeholder" placeholder="قەبارە، ڕەنگ، ژمارە زنجیرە..."></textarea>
                                 </div>
                             </div>
                         </div>
@@ -215,21 +185,21 @@
     </div>
 
     <!-- Search & Filter -->
-    <div class="row mt-4">
+    <div class="row mt-4 items-search-filter">
         <div class="col-md-6">
-            <input type="text" class="form-control" id="txtSearch" placeholder="گەڕان بە ناو، کۆد یان بارکۆد...">
+            <input type="text" class="form-control" id="txtSearch" data-i18n="pos_search_placeholder" placeholder="گەڕان بە ناو، کۆد یان بارکۆد...">
         </div>
         <div class="col-md-3">
             <select class="form-control" id="filterCategory">
-                <option value="">هەموو جۆرەکان</option>
+                <option value="" data-i18n="pos_all_categories">هەموو جۆرەکان</option>
             </select>
         </div>
         <div class="col-md-3">
             <select class="form-control" id="filterStock">
-                <option value="">هەموو کاڵاکان</option>
-                <option value="low">کۆگای کەم</option>
-                <option value="out">کۆگا نییە</option>
-                <option value="ok">کۆگا هەیە</option>
+                <option value="" data-i18n="items_stock_filter_all">هەموو کاڵاکان</option>
+                <option value="low" data-i18n="items_low_stock">کۆگای کەم</option>
+                <option value="out" data-i18n="items_out_stock">کۆگا نییە</option>
+                <option value="ok" data-i18n="items_stock_ok">کۆگا هەیە</option>
             </select>
         </div>
     </div>

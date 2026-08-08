@@ -20,34 +20,14 @@
     </div>
     <div class="settings-body">
         <div class="settings-section">
-            <div class="settings-label">ناوی فرۆشگا</div>
-            <input type="text" id="globalStoreName" class="settings-input" placeholder="فرۆشگای من">
+            <div class="settings-label" data-i18n="settings_store">ناوی فرۆشگا</div>
+            <input type="text" id="globalStoreName" class="settings-input" data-i18n="settings_store_placeholder" placeholder="فرۆشگای من">
         </div>
         <div class="settings-section">
-            <div class="settings-label">ڕێژەی باج (%)</div>
-            <input type="number" id="globalTaxRate" class="settings-input" placeholder="0" min="0" max="100" step="0.1">
+            <div class="settings-label" data-i18n="settings_cashier_name">ناوی بەکارهێنەر</div>
+            <input type="text" id="globalCashierName" class="settings-input" data-i18n="settings_cashier_placeholder" placeholder="بەڕێوەبەر">
         </div>
-        <div class="settings-section">
-            <div class="settings-label">چاپی خۆکار</div>
-            <label class="toggle-label">
-                <input type="checkbox" id="globalAutoPrint">
-                <span class="toggle-track"></span>
-                <span class="toggle-text">ناچالاک</span>
-            </label>
-        </div>
-        <div class="settings-section">
-            <div class="settings-label">دەنگ لە زیادکردن</div>
-            <label class="toggle-label">
-                <input type="checkbox" id="globalSound" checked>
-                <span class="toggle-track"></span>
-                <span class="toggle-text">چالاک</span>
-            </label>
-        </div>
-        <div class="settings-section">
-            <div class="settings-label">ناوی بەکارهێنەر</div>
-            <input type="text" id="globalCashierName" class="settings-input" placeholder="بەڕێوەبەر">
-        </div>
-        <button class="settings-save-btn" id="btnGlobalSaveSettings">💾 پاشەکەوت</button>
+        <button class="settings-save-btn" id="btnGlobalSaveSettings">💾 <span data-i18n="settings_save">پاشەکەوت</span></button>
     </div>
 </div>
 
