@@ -7,7 +7,10 @@
  * - Access level preview
  */
 
-const EMPLOYEES_URL = "http://localhost:8080/api/employees";
+// Relative path - hits this same app's own backend, correctly scoped to
+// whichever store is in the session. The old hardcoded localhost:8080 URL
+// only ever worked against a throwaway dev JSON server.
+const EMPLOYEES_URL = "/api/employees";
 
 let allEmployees = [];
 let currentEmployeeId = null;
@@ -71,6 +74,15 @@ const POSITION_LABELS = {
 $(document).ready(function() {
     console.log("Employees Controller Loaded");
 
+    // Laravel needs this header on every POST/PUT/DELETE or requests 419.
+    // The token comes from the <meta name="csrf-token"> tag rendered by
+    // manage-employees.blade.php (added alongside window.CURRENT_STORE_ROLE).
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
     // Check access FIRST before showing anything
     if (!checkPageAccess()) return;
 
@@ -85,9 +97,13 @@ $(document).ready(function() {
 // ============================================================================
 
 function checkPageAccess() {
-    // Get current user's position from localStorage (set during login)
-    currentUserPosition = localStorage.getItem('userPosition') || 'CASHIER';
-    const currentUserName = localStorage.getItem('userName') || 'User';
+    // The role shown here is server-rendered from the session (see
+    // window.CURRENT_STORE_ROLE in manage-employees.blade.php) - it is
+    // display-only. Every real permission check happens again in
+    // EmployeeController on the server, so this value being wrong or
+    // tampered with client-side can't unlock anything it shouldn't.
+    currentUserPosition = window.CURRENT_STORE_ROLE || 'CASHIER';
+    const currentUserName = window.CURRENT_USER_NAME || 'User';
 
     const access = ACCESS_CONFIG[currentUserPosition];
 

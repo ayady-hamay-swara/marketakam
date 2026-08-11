@@ -104,7 +104,7 @@
 
             <div class="form-group">
                 <label for="username" data-i18n="login_username">ناوی بەکارهێنەر</label>
-                <input type="text" id="username" name="username" value="{{ old('username') }}" class="form-control" data-i18n="login_username_placeholder" placeholder="ناوی بەکارهێنەر">
+                <input type="text" id="username" name="username" value="{{ old('username') }}" class="form-control" data-i18n="login_username_placeholder" placeholder="ناوی بەکارهێنەر" autofocus>
             </div>
 
             <div class="form-group">
@@ -112,9 +112,8 @@
                 <input type="password" id="password" name="password" class="form-control" data-i18n="login_password_placeholder" placeholder="تێپەڕەوشە">
             </div>
 
-            <div class="form-group form-check text-right">
-                <input type="checkbox" class="form-check-input" id="rememberMe">
-                <br>
+            <div class="form-group form-check">
+                <input type="checkbox" class="form-check-input" id="rememberMe" name="rememberMe">
                 <label class="form-check-label" for="rememberMe" data-i18n="login_remember">منت بیربێت</label>
             </div>
 

@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Manage Employees - POS System</title>
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/bootstrap-reboot.min.css') }}">
@@ -66,8 +67,8 @@
                 <strong>Required Access Level:</strong> Owner, Manager, or Assistant Manager
             </div>
             <br><br>
-            <a href="pos-checkout.html" class="btn btn-primary btn-lg" data-i18n="nav_pos">Go to POS Checkout</a>
-            <a href="index.html" class="btn btn-secondary btn-lg ml-2" data-i18n="nav_home">Go to Dashboard</a>
+            <a href="{{ url('/pos-checkout') }}" class="btn btn-primary btn-lg" data-i18n="nav_pos">Go to POS Checkout</a>
+            <a href="{{ url('/home') }}" class="btn btn-secondary btn-lg ml-2" data-i18n="nav_home">Go to Dashboard</a>
         </div>
     </div>
 
@@ -404,8 +405,18 @@
     <script src="{{ asset('js/bootstrap.min.js') }}"></script>
     <!-- Language Support -->
     <script src="{{ asset('js/languages.js') }}"></script>
-    <!-- Global Navbar JS -->
+    <!-- Navbar JS -->
     <script src="{{ asset('js/navbar-global.js') }}"></script>
+
+    <!-- Server-rendered session values - the ONLY source of truth for role.
+         The old localStorage-based role was fully client-controlled and
+         trivially spoofable via devtools; this reads it from the actual
+         session set during login/store-select instead. -->
+    <script>
+        window.CURRENT_STORE_ROLE = @json(session('current_store_role', 'CASHIER'));
+        window.CURRENT_USER_NAME = @json(auth()->user()->name ?? 'User');
+    </script>
+
     <!-- Controller -->
     <script src="{{ asset('js/manage-employees-controller.js') }}"></script>
 
