@@ -60,7 +60,7 @@
 <body>
 
 <!-- Navbar -->
-@include('partials.navbar')
+@include('cashier.partials.global-partial')
 
 <!-- Settings Popup -->
 <div class="global-popup" id="globalSettingsPanel">

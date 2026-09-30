@@ -11,7 +11,7 @@
 <body>
 
 <!-- Global Navbar -->
-@include('partials.navbar')
+@include('cashier.partials.global-partial')
 
 <!-- ════════════════════════════════════════════════════════════════════
      GLOBAL SETTINGS POPUP - SIMPLIFIED (No Currency)

@@ -55,6 +55,11 @@
 
     <div class="profile-empty" data-i18n="profile_empty">هێشتا هیچ زانیارییەک لەسەر پڕۆفایلەکە دانەدرابوو.</div>
 
+    <form method="POST" action="{{ route('logout') }}" class="mt-4 text-center">
+        @csrf
+        <button type="submit" class="btn btn-danger btn-lg">چوونەدەرەوە</button>
+    </form>
+
 </div>
 
 <script src="{{ asset('js/languages.js') }}"></script>
