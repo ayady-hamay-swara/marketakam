@@ -10,7 +10,7 @@
 </head>
 <body>
 
-@include('cashier.partials.global-partial')
+@include('cashier.partials.nav')
 
 <!-- Settings & Calculator Popups (same as before) -->
 <div class="global-popup" id="globalSettingsPanel">

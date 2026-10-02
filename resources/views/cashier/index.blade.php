@@ -107,7 +107,7 @@
 </head>
 <body>
 
-@include('cashier.partials.global-partial')
+@include('cashier.partials.nav')
 
 
 <!-- ════════════════════════════════════════════════════════════════════
