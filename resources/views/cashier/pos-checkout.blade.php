@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>فرۆشتن - سیستەمی فرۆشگا</title>
+    <title data-i18n="pos_page_title">فرۆشتن - سیستەمی فرۆشگا</title>
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/navbar-global.css') }}">
     <link rel="stylesheet" href="{{ asset('css/pos-checkout.css') }}">
@@ -86,7 +86,7 @@
                 </div>
                 <div class="stat-pill">
                     <span class="stat-lbl" data-i18n="pos_cashier_label">کاشێر</span>
-                    <span class="stat-val" id="cashierName">بەڕێوەبەر</span>
+                    <span class="stat-val" id="cashierName" data-i18n="settings_cashier_placeholder">بەڕێوەبەر</span>
                 </div>
             </div>
 
@@ -106,7 +106,7 @@
             <!-- Cart Box -->
             <div class="cart-box">
                 <div class="cart-box-header">
-                    <span>🛒 <span data-i18n="pos_cart_items">کاڵاکانی سەبەتە</span> <span class="cart-count" id="cartCount">0 دانە</span></span>
+                    <span>🛒 <span data-i18n="pos_cart_items">کاڵاکانی سەبەتە</span> <span class="cart-count" id="cartCount">0 <span data-i18n="unit_label">دانە</span></span></span>
                     <button class="btn-clear-cart" id="btnClearCart">🗑 <span data-i18n="pos_clear_cart">پاککردنەوە</span></button>
                 </div>
                 <div class="cart-table-head">
@@ -188,14 +188,14 @@
 <div class="modal fade" id="receiptModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <div class="modal-header bg-success text-white">
-                <h5 class="modal-title">✅ فرۆشتن تەواو بوو!</h5>
+                <div class="modal-header bg-success text-white">
+                <h5 class="modal-title" data-i18n="receipt_success_title">✅ فرۆشتن تەواو بوو!</h5>
                 <button type="button" class="close text-white" data-dismiss="modal"><span>×</span></button>
             </div>
             <div class="modal-body" id="receiptContent"></div>
             <div class="modal-footer">
-                <button class="btn btn-primary" onclick="window.print()">🖨️ چاپ</button>
-                <button class="btn btn-success" data-dismiss="modal" id="btnNewSale">➕ فرۆشتنی نوێ</button>
+                <button class="btn btn-primary" onclick="window.print()" data-i18n="receipt_print">🖨️ چاپ</button>
+                <button class="btn btn-success" data-dismiss="modal" id="btnNewSale" data-i18n="receipt_new_sale">➕ فرۆشتنی نوێ</button>
             </div>
         </div>
     </div>
@@ -206,7 +206,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header" style="background: linear-gradient(135deg, #e74c3c, #c0392b); color: white;">
-                <h5 class="modal-title">👤 هەڵبژاردنی کڕیار بۆ قەرز</h5>
+                <h5 class="modal-title" data-i18n="customer_select_modal_title">👤 هەڵبژاردنی کڕیار بۆ قەرز</h5>
                 <button type="button" class="close text-white" data-dismiss="modal"><span>×</span></button>
             </div>
             <div class="modal-body">
@@ -214,16 +214,16 @@
                 <!-- Quick Add Customer -->
                 <div class="card mb-3" style="border: 2px solid #e74c3c;">
                     <div class="card-body">
-                        <h6 class="text-danger mb-3">➕ زیادکردنی کڕیاری نوێ (خێرا)</h6>
+                        <h6 class="text-danger mb-3" data-i18n="quick_add_heading">➕ زیادکردنی کڕیاری نوێ (خێرا)</h6>
                         <div class="row">
                             <div class="col-md-6">
-                                <input type="text" class="form-control" id="quickCustomerName" placeholder="ناوی کڕیار *">
+                                <input type="text" class="form-control" id="quickCustomerName" data-i18n="quick_customer_name_placeholder" placeholder="ناوی کڕیار *">
                             </div>
                             <div class="col-md-4">
-                                <input type="text" class="form-control" id="quickCustomerPhone" placeholder="ژمارە مۆبایل">
+                                <input type="text" class="form-control" id="quickCustomerPhone" data-i18n="quick_customer_phone_placeholder" placeholder="ژمارە مۆبایل">
                             </div>
                             <div class="col-md-2">
-                                <button class="btn btn-danger btn-block" id="btnQuickAddCustomer">زیادکردن</button>
+                                <button class="btn btn-danger btn-block" id="btnQuickAddCustomer" data-i18n="quick_add_button">زیادکردن</button>
                             </div>
                         </div>
                     </div>
@@ -231,15 +231,15 @@
 
                 <!-- Search Existing -->
                 <div class="form-group">
-                    <input type="text" class="form-control" id="customerSearchInput"
-                           placeholder="گەڕان بە ناو یان ژمارە مۆبایل...">
+                          <input type="text" class="form-control" id="customerSearchInput" data-i18n="customer_search_placeholder"
+                              placeholder="گەڕان بە ناو یان ژمارە مۆبایل...">
                 </div>
 
                 <!-- Customers List -->
                 <div id="customersList" style="max-height: 300px; overflow-y: auto;">
                     <div class="text-center text-muted py-4">
                         <div style="font-size: 48px;">👥</div>
-                        <p>چاوەڕوان بە...</p>
+                        <p data-i18n="customers_waiting">چاوەڕوان بە...</p>
                     </div>
                 </div>
 
@@ -253,32 +253,32 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header bg-warning">
-                <h5 class="modal-title">↩ گەڕاندنەوە</h5>
+                <h5 class="modal-title" data-i18n="return_modal_title">↩ گەڕاندنەوە</h5>
                 <button type="button" class="close" data-dismiss="modal"><span>×</span></button>
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label>ژمارەی وەسڵ</label>
-                    <input type="text" class="form-control" id="returnOrderNumber" placeholder="ORD0000001">
+                    <label data-i18n="return_label_order_number">ژمارەی وەسڵ</label>
+                    <input type="text" class="form-control" id="returnOrderNumber" data-i18n="return_order_placeholder" placeholder="ORD0000001">
                 </div>
                 <div class="form-group">
-                    <label>هۆکار</label>
+                    <label data-i18n="return_label_reason">هۆکار</label>
                     <select class="form-control" id="returnReason">
-                        <option value="">هەڵبژێرە...</option>
-                        <option value="DEFECTIVE">کاڵا خراپە</option>
-                        <option value="WRONG_ITEM">کاڵای هەڵە</option>
-                        <option value="CUSTOMER_CHANGE">کڕیار بیری گۆڕی</option>
-                        <option value="OTHER">هۆکاری تر</option>
+                        <option value="" data-i18n="return_option_select">هەڵبژێرە...</option>
+                        <option value="DEFECTIVE" data-i18n="return_option_defective">کاڵا خراپە</option>
+                        <option value="WRONG_ITEM" data-i18n="return_option_wrong_item">کاڵای هەڵە</option>
+                        <option value="CUSTOMER_CHANGE" data-i18n="return_option_customer_change">کڕیار بیری گۆڕی</option>
+                        <option value="OTHER" data-i18n="return_option_other">هۆکاری تر</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>تێبینی</label>
+                    <label data-i18n="return_notes_label">تێبینی</label>
                     <textarea class="form-control" id="returnNotes" rows="2"></textarea>
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-secondary" data-dismiss="modal">هەڵوەشاندنەوە</button>
-                <button class="btn btn-warning" id="btnProcessReturn">جێبەجێکردن</button>
+                <button class="btn btn-secondary" data-dismiss="modal" data-i18n="return_cancel_button">هەڵوەشاندنەوە</button>
+                <button class="btn btn-warning" id="btnProcessReturn" data-i18n="return_process_button">جێبەجێکردن</button>
             </div>
         </div>
     </div>

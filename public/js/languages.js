@@ -41,6 +41,22 @@ const translations = {
         items_low_stock: 'کۆگای کەم',
         items_out_stock: 'کۆگا نییە',
         items_total_value: 'کۆی نرخ',
+        // Items - extras
+        items_no_result: 'هیچ کاڵایەک نەدۆزرایەوە',
+        items_price_floored: 'نرخەکە بۆ {amount} IQD کەم کرا',
+        items_load_error: 'هەڵە لە بارکردنی کاڵاکان',
+        item_code_required: 'کۆدی کاڵا پێویستە',
+        item_name_required: 'ناوی کاڵا پێویستە',
+        item_invalid_price: 'نرخی دروستی داخڵ بکە',
+        item_invalid_stock: 'کۆی کاڵا دروستی داخڵ بکە',
+        item_saved: 'کاڵا بە سەرکەوتوویی پاشەکەوت کرا',
+        item_save_failed: 'پاشەکەوتکردن سەرکەوتوو نەبوو',
+        item_updated: 'کاڵا بە سەرکەوتوویی نوێکرایەوە',
+        item_update_failed: 'نوێکردنەوە سەرکەوتوو نەبوو',
+        confirm_delete_item: 'دڵنیایت لە سڕینەوەی {code}؟',
+        item_deleted: 'کاڵا سڕایەوە',
+        item_delete_failed: 'سڕینەوە سەرکەوتوو نەبوو',
+        item_none_selected: 'هیچ کاڵایەک هەڵنەبژاردووە',
 
         // Debts
         debts_title: 'بەڕێوەبردنی قەرزەکان',
@@ -77,6 +93,20 @@ const translations = {
         debts_payment_amount: 'بڕی پارەی وارد (IQD)',
         debts_payment_notes: 'تێبینی',
         debts_confirm: 'دڵنیابوونەوە',
+        // Debts - messages
+        debts_load_error: 'هەڵە لە بارکردنی قەرزەکان',
+        debts_save_missing_fields: 'تکایە ناو و بڕی قەرز پڕبکەرەوە!',
+        debts_add_success: 'قەرز زیادکرا!',
+        debts_add_error: 'هەڵە لە زیادکردن',
+        debts_update_success: 'قەرز نوێکرایەوە!',
+        debts_update_error: 'هەڵە لە نوێکردن',
+        debts_delete_success: 'قەرز سڕایەوە!',
+        debts_delete_error: 'هەڵە لە سڕینەوە',
+        debts_payment_success: 'پارە واردکرا!',
+        debts_payment_error: 'هەڵە لە واردکردن',
+        debts_invalid_payment_amount: 'تکایە بڕێکی دروست بنووسە!',
+        debts_payment_exceeds: 'بڕەکە زیاترە لە قەرزی ماوە!',
+        debts_file_exported: 'فایل دەرهێنرا!',
 
         // Settings
         settings_title: 'ڕێکخستنەکان',
@@ -144,6 +174,52 @@ const translations = {
         pos_sell_as_debt: 'فرۆشتن بە قەرز',
         pos_hold: 'ڕاگرتن',
         pos_return: 'گەڕاندنەوە',
+        pos_amount_received_insufficient: 'پارەی وەرگیراو کەمترە!',
+        pos_cart_empty_title: 'سەبەتە بەتاڵە!',
+        pos_cart_empty_desc: 'کاڵایەک بگەڕێ یان سکان بکە',
+        pos_max_stock: 'زۆرترین کۆگا: {max}',
+        pos_customer_added: 'کڕیار زیادکرا!',
+        pos_debt_recorded_for: 'قەرز تۆمارکرا بۆ: {name}',
+        pos_generic_error: 'هەڵە!',
+        pos_confirm_clear_cart: 'دڵنیایت لە سڕینەوەی هەموو کاڵاکان؟',
+        customer_select_modal_title: '👤 هەڵبژاردنی کڕیار بۆ قەرز',
+        unit_label: 'دانە',
+        pos_note_default: 'لە سیستەمی POS',
+        confirm_cancel: 'دڵنیایت لە هەڵوەشاندنەوە؟',
+        refund_not_available: 'گەڕاندنەوە بەردەست نییە!',
+        thank_you: 'سوپاس! 🙏',
+        debts_empty_export: 'هیچ قەرزێک نییە بۆ دەرهێنان!',
+        debts_csv_headers: 'ژمارە,ناو,مۆبایل,کۆی قەرز,واردبووی,ماوە,دۆخ,بەروار,تێبینی\n',
+        customers_empty: 'هیچ کڕیارێک نییە',
+        customers_load_error: 'هەڵە لە بارکردنی کڕیاران',
+        no_phone: 'ژمارە نییە',
+        // POS page & receipt
+        pos_page_title: 'فرۆشتن - سیستەمی فرۆشگا',
+        receipt_success_title: '✅ فرۆشتن تەواو بوو!',
+        receipt_print: 'چاپ',
+        receipt_new_sale: 'فرۆشتنی نوێ',
+
+        // Quick add customer (POS)
+        quick_add_heading: '➕ زیادکردنی کڕیاری نوێ (خێرا)',
+        quick_customer_name_placeholder: 'ناوی کڕیار *',
+        quick_customer_phone_placeholder: 'ژمارە مۆبایل',
+        quick_add_button: 'زیادکردن',
+        customer_search_placeholder: 'گەڕان بە ناو یان ژمارە مۆبایل...',
+        customers_waiting: 'چاوەڕوان بە...',
+
+        // Return modal
+        return_modal_title: '↩ گەڕاندنەوە',
+        return_label_order_number: 'ژمارەی وەسڵ',
+        return_order_placeholder: 'ORD0000001',
+        return_label_reason: 'هۆکار',
+        return_option_select: 'هەڵبژێرە...',
+        return_option_defective: 'کاڵا خراپە',
+        return_option_wrong_item: 'کاڵای هەڵە',
+        return_option_customer_change: 'کڕیار بیری گۆڕی',
+        return_option_other: 'هۆکاری تر',
+        return_notes_label: 'تێبینی',
+        return_cancel_button: 'هەڵوەشاندنەوە',
+        return_process_button: 'جێبەجێکردن',
 
         // Login
         login_title: 'چوونەژوورەوە',
@@ -298,6 +374,34 @@ const translations = {
         pos_hold: 'Hold',
         pos_return: 'Return',
 
+        // POS page & receipt
+        pos_page_title: 'POS - Store System',
+        receipt_success_title: '✅ Sale Completed!',
+        receipt_print: 'Print',
+        receipt_new_sale: 'New Sale',
+
+        // Quick add customer (POS)
+        quick_add_heading: '➕ Quick Add Customer',
+        quick_customer_name_placeholder: 'Customer name *',
+        quick_customer_phone_placeholder: 'Mobile number',
+        quick_add_button: 'Add',
+        customer_search_placeholder: 'Search by name or phone...',
+        customers_waiting: 'Please wait...',
+
+        // Return modal
+        return_modal_title: '↩ Return',
+        return_label_order_number: 'Order Number',
+        return_order_placeholder: 'ORD0000001',
+        return_label_reason: 'Reason',
+        return_option_select: 'Select...',
+        return_option_defective: 'Defective Item',
+        return_option_wrong_item: 'Wrong Item',
+        return_option_customer_change: 'Customer Changed Mind',
+        return_option_other: 'Other',
+        return_notes_label: 'Notes',
+        return_cancel_button: 'Cancel',
+        return_process_button: 'Process Return',
+
         // Login
         login_title: 'Sign In',
         login_subtitle: 'Welcome to the Marketakam sales system',
@@ -406,7 +510,7 @@ const translations = {
         calc_title: 'الآلة الحاسبة',
 
         // Dashboard
-        dashboard_welcome: 'مرحبًا! 👋',
+        dashboard_welcome: 'مرحبًا!',
         dashboard_subtitle: 'نظام إدارة المتجر',
         dashboard_today_sales: 'مبيعات اليوم',
         dashboard_orders_count: 'عدد الطلبات',
@@ -450,6 +554,34 @@ const translations = {
         pos_sell_as_debt: 'بيع بالدين',
         pos_hold: 'تعليق',
         pos_return: 'إرجاع',
+
+        // POS page & receipt
+        pos_page_title: 'نظام نقاط البيع',
+        receipt_success_title: '✅ تم اتمام البيع!',
+        receipt_print: 'طباعة',
+        receipt_new_sale: 'بيع جديد',
+
+        // Quick add customer (POS)
+        quick_add_heading: '➕ إضافة زبون سريع',
+        quick_customer_name_placeholder: 'اسم الزبون *',
+        quick_customer_phone_placeholder: 'رقم الجوال',
+        quick_add_button: 'إضافة',
+        customer_search_placeholder: 'بحث بالاسم أو رقم الجوال...',
+        customers_waiting: 'يرجى الانتظار...',
+
+        // Return modal
+        return_modal_title: '↩ إرجاع',
+        return_label_order_number: 'رقم الفاتورة',
+        return_order_placeholder: 'ORD0000001',
+        return_label_reason: 'السبب',
+        return_option_select: 'اختر...',
+        return_option_defective: 'منتج معيب',
+        return_option_wrong_item: 'منتج خاطئ',
+        return_option_customer_change: 'تغيير رأي العميل',
+        return_option_other: 'أخرى',
+        return_notes_label: 'ملاحظات',
+        return_cancel_button: 'إلغاء',
+        return_process_button: 'تنفيذ الإرجاع',
 
         // Login
         login_title: 'تسجيل الدخول',

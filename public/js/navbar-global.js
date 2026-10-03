@@ -295,31 +295,36 @@
     // HIGHLIGHT ACTIVE PAGE
     // ═══════════════════════════════════════════════════════════
     function highlightActivePage() {
-        const currentPage = window.location.pathname.split('/').pop() || 'index.html';
-        const navLinks = document.querySelectorAll('.global-navbar .nav-link');
-        
+        const currentPath = window.location.pathname; // e.g. /pos-checkout
+        const navLinks = document.querySelectorAll('.global-navbar .nav-link:not(.dropdown-toggle):not(.navbar-user-chip)');
+
         navLinks.forEach(link => {
             const href = link.getAttribute('href');
             const parentLi = link.closest('.nav-item');
-            
-            if (href === currentPage || (currentPage === '' && href === 'index.html')) {
-                if (parentLi) parentLi.classList.add('active');
-            } else {
-                if (parentLi) parentLi.classList.remove('active');
-            }
+            if (!href || !parentLi) return;
+
+            // Exact match (/pos-checkout) or home fallback (/ or /home)
+            const isActive = href === currentPath ||
+                (href === '/home' && (currentPath === '/' || currentPath === ''));
+
+            parentLi.classList.toggle('active', isActive);
         });
     }
 
     // ═══════════════════════════════════════════════════════════
-    // UPDATE USERNAME
+    // UPDATE USERNAME + AVATAR INITIAL
     // ═══════════════════════════════════════════════════════════
     function updateUsernameDisplay() {
         try {
             const settings = JSON.parse(localStorage.getItem('posSettings') || '{}');
-            const username = settings.cashier || 'Admin';
-            
+            const username = settings.cashier || 'بەڕێوەبەر';
+
             const usernameEl = document.getElementById('navbarUsername');
             if (usernameEl) usernameEl.textContent = username;
+
+            // Show first character as avatar initial
+            const initialEl = document.getElementById('navbarUserInitial');
+            if (initialEl) initialEl.textContent = [...username][0] || '👤';
         } catch (e) {
             console.error('Error updating username:', e);
         }

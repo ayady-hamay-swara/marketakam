@@ -32,15 +32,26 @@ function setTodayDate() {
 
 // Load debts from localStorage
 function loadDebts() {
-    const saved = localStorage.getItem('posDebts');
-    debts = saved ? JSON.parse(saved) : [];
-    renderDebts();
-    updateStats();
+    $.ajax({
+        url: '/api/debts',
+        method: 'GET',
+        success(res) {
+            debts = res || [];
+            renderDebts();
+            updateStats();
+        },
+        error() {
+            showToast(t('debts_load_error'), 'error');
+            debts = [];
+            renderDebts();
+            updateStats();
+        }
+    });
 }
 
 // Save debts to localStorage
 function saveDebts() {
-    localStorage.setItem('posDebts', JSON.stringify(debts));
+    // no-op (server-backed)
 }
 
 // Save new debt
@@ -52,44 +63,41 @@ function saveDebt() {
     const notes = $('#txtNotes').val().trim();
 
     if (!name || !amount) {
-        alert('تکایە ناو و بڕی قەرز پڕبکەرەوە!');
+        alert(t('debts_save_missing_fields'));
         return;
     }
 
-    const debt = {
-        id: Date.now(),
-        name,
-        phone,
-        totalAmount: amount,
-        paidAmount: 0,
-        remainingAmount: amount,
-        date,
-        notes,
-        payments: [],
-        status: 'unpaid'
-    };
-
-    debts.push(debt);
-    saveDebts();
-    loadDebts();
-    clearForm();
-    showToast('قەرز زیادکرا!', 'success');
+    $.ajax({
+        url: '/api/debts',
+        method: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({ name, phone, totalAmount: amount, paidAmount: 0, remainingAmount: amount, notes: notes, date }),
+        success() {
+            showToast(t('debts_add_success'), 'success');
+            clearForm();
+            loadDebts();
+        },
+        error() { showToast(t('debts_add_error'), 'error'); }
+    });
 }
 
 // Update debt
 function updateDebt() {
-    const debt = debts.find(d => d.id === currentDebtId);
-    if (!debt) return;
+    const payload = {
+        name: $('#txtCustomerName').val().trim(),
+        phone: $('#txtPhone').val().trim(),
+        notes: $('#txtNotes').val().trim(),
+        totalAmount: parseFloat($('#txtAmount').val())
+    };
 
-    debt.name = $('#txtCustomerName').val().trim();
-    debt.phone = $('#txtPhone').val().trim();
-    debt.notes = $('#txtNotes').val().trim();
-    debt.date = $('#txtDate').val();
-
-    saveDebts();
-    loadDebts();
-    clearForm();
-    showToast('قەرز نوێکرایەوە!', 'success');
+    $.ajax({
+        url: '/api/debts/' + currentDebtId,
+        method: 'PUT',
+        contentType: 'application/json',
+        data: JSON.stringify(payload),
+        success() { loadDebts(); clearForm(); showToast(t('debts_update_success'), 'success'); },
+        error() { showToast(t('debts_update_error'), 'error'); }
+    });
 }
 
 // Delete debt
@@ -100,11 +108,9 @@ function deleteDebt(id) {
 }
 
 function confirmDelete() {
-    debts = debts.filter(d => d.id !== debtToDelete);
-    saveDebts();
-    loadDebts();
-    $('#deleteModal').modal('hide');
-    showToast('قەرز سڕایەوە!', 'success');
+    $.ajax({ url: '/api/debts/' + debtToDelete, method: 'DELETE', success() {
+        $('#deleteModal').modal('hide'); loadDebts(); showToast(t('debts_delete_success'), 'success');
+    }, error() { showToast(t('debts_delete_error'), 'error'); } });
 }
 
 // Select debt for editing
@@ -121,7 +127,7 @@ function selectDebt(id) {
 
     $('#btnSave').hide();
     $('#btnUpdate').show();
-    
+
     $('html, body').animate({ scrollTop: 0 }, 300);
 }
 
@@ -144,9 +150,9 @@ function openPaymentModal(id) {
     currentPaymentDebt = debt;
     $('#paymentCustomerName').text(debt.name);
     $('#paymentDebtInfo').html(`
-        کۆی قەرز: <strong class="text-danger">IQD ${fmt(debt.totalAmount)}</strong><br>
-        واردبووی: <strong class="text-success">IQD ${fmt(debt.paidAmount)}</strong><br>
-        ماوە: <strong class="text-warning">IQD ${fmt(debt.remainingAmount)}</strong>
+        ${t('debts_total')}: <strong class="text-danger">IQD ${fmt(debt.totalAmount)}</strong><br>
+        ${t('debts_paid_amount')}: <strong class="text-success">IQD ${fmt(debt.paidAmount)}</strong><br>
+        ${t('debts_remaining')}: <strong class="text-warning">IQD ${fmt(debt.remainingAmount)}</strong>
     `);
     $('#txtPaymentAmount').val('').attr('max', debt.remainingAmount);
     $('#txtPaymentNotes').val('');
@@ -157,38 +163,27 @@ function openPaymentModal(id) {
 function processPayment() {
     const amount = parseFloat($('#txtPaymentAmount').val());
     const notes = $('#txtPaymentNotes').val().trim();
-    
+
     if (!amount || amount <= 0) {
-        alert('تکایە بڕێکی دروست بنووسە!');
+        alert(t('debts_invalid_payment_amount'));
         return;
     }
 
     if (amount > currentPaymentDebt.remainingAmount) {
-        alert('بڕەکە زیاترە لە قەرزی ماوە!');
+        alert(t('debts_payment_exceeds'));
         return;
     }
 
-    const payment = {
-        amount,
-        date: new Date().toISOString(),
-        notes
-    };
-
-    currentPaymentDebt.payments.push(payment);
-    currentPaymentDebt.paidAmount += amount;
-    currentPaymentDebt.remainingAmount -= amount;
-
-    // Update status
-    if (currentPaymentDebt.remainingAmount === 0) {
-        currentPaymentDebt.status = 'paid';
-    } else {
-        currentPaymentDebt.status = 'partial';
-    }
-
-    saveDebts();
-    loadDebts();
-    $('#paymentModal').modal('hide');
-    showToast('پارە واردکرا!', 'success');
+    $.ajax({
+        url: '/api/debts/' + currentPaymentDebt.id,
+        method: 'PUT',
+        contentType: 'application/json',
+        data: JSON.stringify({ paymentAmount: amount, notes }),
+        success() {
+            $('#paymentModal').modal('hide'); loadDebts(); showToast(t('debts_payment_success'), 'success');
+        },
+        error() { showToast(t('debts_payment_error'), 'error'); }
+    });
 }
 
 // Render debts table
@@ -201,7 +196,7 @@ function renderDebts() {
             <tr>
                 <td colspan="10" class="text-center py-5">
                     <div style="font-size:48px;">💳</div>
-                    <p class="text-muted">هیچ قەرزێک تۆمار نەکراوە</p>
+                    <p class="text-muted">${t('debts_empty')}</p>
                 </td>
             </tr>
         `);
@@ -210,9 +205,9 @@ function renderDebts() {
 
     debts.forEach((debt, index) => {
         const statusBadge = {
-            unpaid: '<span class="badge badge-unpaid">نەدراوە</span>',
-            partial: '<span class="badge badge-partial">بەشێک</span>',
-            paid: '<span class="badge badge-paid">تەواو دراوە</span>'
+            unpaid: `<span class="badge badge-unpaid">${t('debts_status_unpaid')}</span>`,
+            partial: `<span class="badge badge-partial">${t('debts_status_partial')}</span>`,
+            paid: `<span class="badge badge-paid">${t('debts_status_paid')}</span>`
         }[debt.status];
 
         const row = `
@@ -227,8 +222,8 @@ function renderDebts() {
                 <td>${formatDate(debt.date)}</td>
                 <td>${debt.notes || '-'}</td>
                 <td onclick="event.stopPropagation()">
-                    ${debt.status !== 'paid' ? `<button class="btn btn-success btn-sm" onclick="openPaymentModal(${debt.id})">💰 وارد</button>` : ''}
-                    <button class="btn btn-danger btn-sm" onclick="deleteDebt(${debt.id})">🗑️</button>
+                    ${debt.status !== 'paid' ? `<button class="btn btn-success btn-sm" onclick="openPaymentModal(${debt.id})">💰 ${t('debts_payment_title')}</button>` : ''}
+                    <button class="btn btn-danger btn-sm" onclick="deleteDebt(${debt.id})">🗑️ ${t('delete')}</button>
                 </td>
             </tr>
         `;
@@ -244,7 +239,7 @@ function filterDebts() {
     let filtered = debts;
 
     if (search) {
-        filtered = filtered.filter(d => 
+        filtered = filtered.filter(d =>
             d.name.toLowerCase().includes(search) ||
             (d.phone && d.phone.includes(search))
         );
@@ -296,14 +291,14 @@ function updateStats() {
 // Export to Excel (simple CSV)
 function exportToExcel() {
     if (debts.length === 0) {
-        alert('هیچ قەرزێک نییە بۆ دەرهێنان!');
+           showToast(t('debts_empty_export'), 'info');
         return;
     }
 
-    let csv = 'ژمارە,ناو,مۆبایل,کۆی قەرز,واردبووی,ماوە,دۆخ,بەروار,تێبینی\n';
+    let csv = t('debts_csv_headers');
 
     debts.forEach((d, i) => {
-        const status = { unpaid: 'نەدراوە', partial: 'بەشێک', paid: 'تەواو' }[d.status];
+        const status = d.status === 'unpaid' ? t('debts_status_unpaid') : (d.status === 'partial' ? t('debts_status_partial') : t('debts_status_paid'));
         csv += `${i+1},"${d.name}","${d.phone || ''}",${d.totalAmount},${d.paidAmount},${d.remainingAmount},"${status}","${d.date}","${d.notes || ''}"\n`;
     });
 
@@ -313,7 +308,7 @@ function exportToExcel() {
     link.download = `debts_${new Date().toISOString().split('T')[0]}.csv`;
     link.click();
 
-    showToast('فایل دەرهێنرا!', 'success');
+    showToast(t('debts_file_exported'), 'success');
 }
 
 // Utilities

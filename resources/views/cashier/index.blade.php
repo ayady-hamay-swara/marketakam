@@ -107,7 +107,7 @@
 </head>
 <body>
 
-@include('cashier.partials.nav')
+@include('cashier.partials.navbar')
 
 
 <!-- ════════════════════════════════════════════════════════════════════
@@ -155,19 +155,19 @@
     <!-- Quick Stats -->
     <div class="stats-grid">
         <div class="stat-box">
-            <div class="stat-value" id="statTodaySales">IQD 0</div>
+            <div class="stat-value" id="statTodaySales">IQD {{ number_format((float) ($today_sales ?? 0), 0, '.', ',') }}</div>
             <div class="stat-label" data-i18n="dashboard_today_sales">فرۆشی ئەمڕۆ</div>
         </div>
         <div class="stat-box">
-            <div class="stat-value" id="statOrders">0</div>
+            <div class="stat-value" id="statOrders">{{ (int) ($orders_count ?? 0) }}</div>
             <div class="stat-label" data-i18n="dashboard_orders_count">ژمارەی وەسڵەکان</div>
         </div>
         <div class="stat-box">
-            <div class="stat-value" id="statItems">0</div>
+            <div class="stat-value" id="statItems">{{ (int) ($items_count ?? 0) }}</div>
             <div class="stat-label" data-i18n="items_total">کۆی کاڵاکان</div>
         </div>
         <div class="stat-box">
-            <div class="stat-value" id="statLowStock">0</div>
+            <div class="stat-value" id="statLowStock">{{ (int) ($low_stock_count ?? 0) }}</div>
             <div class="stat-label" data-i18n="dashboard_low_stock">کاڵای کۆگای کەم</div>
         </div>
     </div>
@@ -205,27 +205,6 @@
 <script src="{{ asset('js/navbar-global.js') }}"></script>
 <script src="{{ asset('js/jquery-3.4.1.min.js') }}"></script>
 <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
-<script>
-// Load dashboard stats
-$(document).ready(function(){
-    // Today's sales
-    const todaySales = parseFloat(localStorage.getItem('todaySales') || 0);
-    $('#statTodaySales').text('IQD ' + todaySales.toLocaleString('en-US', {minimumFractionDigits: 0}));
-
-    // Orders count
-    const orders = parseInt(localStorage.getItem('todayOrders') || 0);
-    $('#statOrders').text(orders);
-
-    // Load items count from API
-    $.get('http://localhost:8080/api/items', function(items){
-        $('#statItems').text(items.length);
-
-        // Low stock count
-        const lowStock = items.filter(i => i.qtyOnHand <= (i.minStockLevel || 10) && i.qtyOnHand > 0).length;
-        $('#statLowStock').text(lowStock);
-    });
-});
-</script>
 @include('partials.footer')
 </body>
 </html>

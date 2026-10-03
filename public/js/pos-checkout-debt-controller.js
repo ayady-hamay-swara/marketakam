@@ -2,11 +2,11 @@
  * POS CHECKOUT CONTROLLER - With Debt Integration
  */
 
-const ITEMS_URL = "http://localhost:8080/api/items";
-const ORDERS_URL = "http://localhost:8080/api/orders";
-const CUSTOMERS_URL = "http://localhost:8080/api/customers";
-const CATEGORIES_URL = "http://localhost:8080/api/categories";
-const DEBTS_URL = "http://localhost:8080/api/debts";
+const ITEMS_URL = "/api/items";
+const ORDERS_URL = "/api/orders";
+const CUSTOMERS_URL = "/api/customers";
+const CATEGORIES_URL = "/api/categories";
+const DEBTS_URL = "/api/debts";
 
 let allProducts = [], allCustomers = [];
 let cart = [], paymentMethod = "CASH";
@@ -28,38 +28,38 @@ function setupPosListeners() {
         if(q.length<1){ $('#productResults').hide(); return; }
         showSearchResults(q, $('#categoryFilter').val());
     });
-    
+
     $('#productSearch').on('keydown', function(e){
         if(e.key==='Escape'){ $('#productResults').hide(); $(this).val(''); }
     });
-    
+
     $(document).on('click', function(e){
         if(!$(e.target).closest('.search-wrap').length) $('#productResults').hide();
     });
-    
+
     $('#categoryFilter').on('change', function(){
         const q = $('#productSearch').val().trim();
         if(q) showSearchResults(q, $(this).val());
     });
-    
+
     $('#discountPercent').on('input', recalc);
-    
+
     $('.pay-btn').on('click', function(){
         $('.pay-btn').removeClass('active'); $(this).addClass('active');
         paymentMethod = $(this).data('method');
         $('#cashSection').toggle(paymentMethod==='CASH');
     });
-    
+
     $('#amountReceived').on('input', calcChange);
     $('#btnClearCart').on('click', clearCart);
     $('#btnCompleteSale').on('click', completeSale);
     $('#btnSellAsDebt').on('click', openCustomerSelect);  // NEW
     $('#btnCancel').on('click', cancelOrder);
-    $('#btnHold').on('click', ()=>showToast('ڕاگرتن بەردەست نییە!', 'info'));
+    $('#btnHold').on('click', ()=>showToast(t('pos_hold'), 'info'));
     $('#btnReturn').on('click', ()=>$('#returnModal').modal('show'));
     $('#btnNewSale').on('click', newSale);
     $('#btnProcessReturn').on('click', processReturn);
-    
+
     // Customer selection listeners
     $('#btnQuickAddCustomer').on('click', quickAddCustomer);
     $('#customerSearchInput').on('input', filterCustomers);
@@ -82,17 +82,17 @@ function loadCategories(){
 function loadProducts(){
     $.ajax({ url:ITEMS_URL, method:'GET',
         success(items){ allProducts=(items||[]); },
-        error(){ showToast('هەڵە لە بارکردنی کاڵاکان', 'error'); }
+        error(){ showToast(t('items_load_error'), 'error'); }
     });
 }
 
 function loadCustomers(){
     $.ajax({ url:CUSTOMERS_URL, method:'GET',
-        success(customers){ 
+        success(customers){
             allCustomers = customers || [];
             renderCustomers(allCustomers);
         },
-        error(){ showToast('هەڵە لە بارکردنی کڕیاران', 'error'); }
+        error(){ showToast(t('customers_load_error'), 'error'); }
     });
 }
 
@@ -106,17 +106,17 @@ function showSearchResults(q, cat){
     if(cat) res = res.filter(p=>p.category===cat);
 
     const box=$('#productResults'); box.empty();
-    if(!res.length){ 
-        box.html('<div style="padding:12px;color:#999;text-align:center;">کاڵا نەدۆزرایەوە</div>'); 
-        box.show(); 
-        return; 
+    if(!res.length){
+        box.html(`<div style="padding:12px;color:#999;text-align:center;">${t('items_no_result')}</div>`);
+        box.show();
+        return;
     }
 
     res.slice(0,10).forEach(p=>{
         const qty=p.qtyOnHand||0, min=p.minStockLevel||10;
         const isOut=qty===0, isLow=!isOut&&qty<=min;
         let stk = `<span style="color:#27ae60;">✅ ${qty}</span>`;
-        if(isOut)  stk=`<span style="color:#e74c3c;">❌ نەماوە</span>`;
+        if(isOut)  stk=`<span style="color:#e74c3c;">❌ ${t('items_out_stock')}</span>`;
         else if(isLow) stk=`<span style="color:#f39c12;">⚠️ ${qty}</span>`;
 
         const row=$(`
@@ -140,15 +140,15 @@ function showSearchResults(q, cat){
 // ═══════════════════════════════════════════════════════
 function addToCart(p){
     const ex=cart.find(c=>c.code===p.code);
-    if(ex){ 
-        if(ex.qty>=p.qtyOnHand){ showToast(`زۆرترین کۆگا: ${p.qtyOnHand}`,'warning'); return; }
-        ex.qty++; 
+        if(ex){
+        if(ex.qty>=p.qtyOnHand){ showToast(t('pos_max_stock').replace('{max}', p.qtyOnHand), 'warning'); return; }
+        ex.qty++;
     } else {
-        cart.push({ 
-            code:p.code, 
-            name:p.description, 
-            price:p.unitPrice, 
-            qty:1, 
+        cart.push({
+            code:p.code,
+            name:p.description,
+            price:p.unitPrice,
+            qty:1,
             maxQty:p.qtyOnHand
         });
     }
@@ -160,37 +160,37 @@ function updateQty(code, delta){
     const item=cart.find(c=>c.code===code); if(!item) return;
     item.qty+=delta;
     if(item.qty<=0) cart=cart.filter(c=>c.code!==code);
-    else if(item.qty>item.maxQty){ item.qty=item.maxQty; showToast('زۆرترین کۆگا', 'warning'); }
+    else if(item.qty>item.maxQty){ item.qty=item.maxQty; showToast(t('pos_max_stock').replace('{max}', item.maxQty), 'warning'); }
     renderCart(); recalc();
 }
 
-function removeItem(code){ 
-    cart=cart.filter(c=>c.code!==code); 
-    renderCart(); recalc(); 
+function removeItem(code){
+    cart=cart.filter(c=>c.code!==code);
+    renderCart(); recalc();
 }
 
 function clearCart(){
     if(!cart.length) return;
-    if(!confirm('سڕینەوەی هەموو کاڵاکان؟')) return;
+    if(!confirm(t('pos_confirm_clear_cart'))) return;
     cart=[]; renderCart(); recalc();
 }
 
 function renderCart(){
     const body=$('#cartItems'); body.empty();
     const totalQty=cart.reduce((s,c)=>s+c.qty,0);
-    $('#cartCount').text(totalQty + (totalQty===1?' دانە':' دانە'));
+    $('#cartCount').text(totalQty + ' ' + t('unit_label'));
 
     if(!cart.length){
         body.html(`
             <div class="cart-empty">
                 <div style="font-size:48px;">🛒</div>
-                <p>سەبەتە بەتاڵە</p>
-                <small>کاڵایەک بگەڕێ یان سکان بکە</small>
+                <p>${t('pos_cart_empty_title')}</p>
+                <small>${t('pos_cart_empty_desc')}</small>
             </div>
         `);
         return;
     }
-    
+
     cart.forEach(item=>{
         const row=$(`
             <div class="cart-row" style="display:grid; grid-template-columns:1fr 90px 120px 120px 40px; padding:10px 16px; align-items:center;">
@@ -241,12 +241,12 @@ function calcChange(){
 // COMPLETE SALE (CASH)
 // ═══════════════════════════════════════════════════════
 function completeSale(){
-    if(!cart.length){ showToast('سەبەتە بەتاڵە!','warning'); return; }
-    
+    if(!cart.length){ showToast(t('pos_cart_empty_title'),'warning'); return; }
+
     if(paymentMethod==='CASH'){
         const total=parseFloat($('#totalAmount').text().replace(/[^0-9.]/g,''))||0;
         const received=parseFloat($('#amountReceived').val())||0;
-        if(received<total){ showToast('پارەی وەرگیراو کەمترە!','warning'); return; }
+        if(received<total){ showToast(t('pos_amount_received_insufficient'),'warning'); return; }
     }
 
     const sub=cart.reduce((t,c)=>t+(c.price*c.qty),0);
@@ -270,7 +270,7 @@ function completeSale(){
         amountPaid:paid,
         changeAmount:change,
         processedBy: localStorage.getItem('userId')||null,
-        orderDetails:cart.map(c=>({ 
+        orderDetails:cart.map(c=>({
             itemCode:c.code,
             quantity:c.qty,
             unitPrice:c.price,
@@ -288,8 +288,8 @@ function completeSale(){
 // SELL AS DEBT (NEW)
 // ═══════════════════════════════════════════════════════
 function openCustomerSelect(){
-    if(!cart.length){ showToast('سەبەتە بەتاڵە!','warning'); return; }
-    
+    if(!cart.length){ showToast(t('pos_cart_empty_title'),'warning'); return; }
+
     selectedCustomerForDebt = null;
     loadCustomers();
     $('#customerSelectModal').modal('show');
@@ -298,9 +298,9 @@ function openCustomerSelect(){
 function quickAddCustomer(){
     const name = $('#quickCustomerName').val().trim();
     const phone = $('#quickCustomerPhone').val().trim();
-    
+
     if(!name){
-        showToast('ناو پێویستە!', 'warning');
+        showToast(t('item_name_required'), 'warning');
         return;
     }
 
@@ -312,12 +312,12 @@ function quickAddCustomer(){
         contentType: 'application/json',
         data: JSON.stringify(customer),
         success(res){
-            showToast('کڕیار زیادکرا!', 'success');
+            showToast(t('pos_customer_added'), 'success');
             $('#quickCustomerName').val('');
             $('#quickCustomerPhone').val('');
             loadCustomers();  // Reload list
         },
-        error(){ showToast('هەڵە لە زیادکردن', 'error'); }
+        error(){ showToast(t('debts_add_error'), 'error'); }
     });
 }
 
@@ -329,8 +329,8 @@ function renderCustomers(customers){
         list.html(`
             <div class="text-center text-muted py-4">
                 <div style="font-size:48px;">👥</div>
-                <p>هیچ کڕیارێک نییە</p>
-                <small>لە سەرەوە زیادی بکە</small>
+                <p>${t('customers_empty')}</p>
+                <small>${t('add') + ' ' + t('debts_customer_name')}</small>
             </div>
         `);
         return;
@@ -341,18 +341,18 @@ function renderCustomers(customers){
             <div class="customer-item" data-id="${c.id}">
                 <div>
                     <div class="customer-name">${c.name}</div>
-                    <div class="customer-phone">${c.phone || 'ژمارە نییە'}</div>
+                    <div class="customer-phone">${c.phone || t('no_phone')}</div>
                 </div>
                 <div class="customer-debt-badge">💳</div>
             </div>
         `);
-        
+
         div.on('click', function(){
             $('.customer-item').removeClass('selected');
             $(this).addClass('selected');
             selectCustomerForDebt(c);
         });
-        
+
         list.append(div);
     });
 }
@@ -363,18 +363,18 @@ function filterCustomers(){
         renderCustomers(allCustomers);
         return;
     }
-    
-    const filtered = allCustomers.filter(c => 
+
+    const filtered = allCustomers.filter(c =>
         c.name.toLowerCase().includes(search) ||
         (c.phone && c.phone.includes(search))
     );
-    
+
     renderCustomers(filtered);
 }
 
 function selectCustomerForDebt(customer){
     selectedCustomerForDebt = customer;
-    
+
     // Auto-proceed with debt sale
     setTimeout(() => {
         $('#customerSelectModal').modal('hide');
@@ -384,7 +384,7 @@ function selectCustomerForDebt(customer){
 
 function completeSaleAsDebt(){
     if(!selectedCustomerForDebt){
-        showToast('کڕیارێک هەڵبژێرە!', 'warning');
+        showToast(t('debts_customer_name') + ' ' + t('item_code_required'), 'warning');
         return;
     }
 
@@ -408,7 +408,7 @@ function completeSaleAsDebt(){
         amountPaid:0,
         changeAmount:0,
         processedBy: localStorage.getItem('userId')||null,
-        orderDetails:cart.map(c=>({ 
+        orderDetails:cart.map(c=>({
             itemCode:c.code,
             quantity:c.qty,
             unitPrice:c.price,
@@ -426,12 +426,12 @@ function completeSaleAsDebt(){
 // SAVE ORDER (Common for both cash and debt)
 // ═══════════════════════════════════════════════════════
 function saveOrder(order, isDebt){
-    $('#btnCompleteSale, #btnSellAsDebt').prop('disabled',true).text('⏳ چاوەڕوان بە...');
-    
-    $.ajax({ 
-        url: ORDERS_URL, 
-        method: 'POST', 
-        contentType: 'application/json', 
+    $('#btnCompleteSale, #btnSellAsDebt').prop('disabled',true).text(`⏳ ${t('loading')}`);
+
+    $.ajax({
+        url: ORDERS_URL,
+        method: 'POST',
+        contentType: 'application/json',
         data: JSON.stringify(order),
         success(res){
             // Update stats
@@ -441,10 +441,10 @@ function saveOrder(order, isDebt){
             localStorage.setItem('todayOrders', po + 1);
             updateStats();
 
-            if(isDebt){
+                if(isDebt){
                 // Create debt record
                 createDebtRecord(selectedCustomerForDebt.id, res.id, order.totalAmount);
-                showToast('قەرز تۆمارکرا بۆ: ' + selectedCustomerForDebt.name, 'success');
+                showToast(t('pos_debt_recorded_for').replace('{name}', selectedCustomerForDebt.name), 'success');
             } else {
                 // Show receipt for cash
                 showReceipt(res, order);
@@ -452,12 +452,12 @@ function saveOrder(order, isDebt){
 
             // Reset
             newSale();
-            $('#btnCompleteSale, #btnSellAsDebt').prop('disabled',false).text('✅ تەواوکردن');
+            $('#btnCompleteSale, #btnSellAsDebt').prop('disabled',false).text(`✅ ${t('pos_complete_sale')}`);
         },
-        error(err){ 
-            console.error(err); 
-            showToast('هەڵە!', 'error'); 
-            $('#btnCompleteSale, #btnSellAsDebt').prop('disabled',false).text('✅ تەواوکردن');
+        error(err){
+            console.error(err);
+            showToast(t('pos_generic_error'), 'error');
+            $('#btnCompleteSale, #btnSellAsDebt').prop('disabled',false).text(`✅ ${t('pos_complete_sale')}`);
         }
     });
 }
@@ -471,7 +471,7 @@ function createDebtRecord(customerId, orderId, amount){
         remainingAmount: amount,
         status: 'UNPAID',
         debtDate: new Date().toISOString().split('T')[0],
-        notes: 'لە سیستەمی POS'
+        notes: t('pos_note_default')
     };
 
     $.ajax({
@@ -492,47 +492,47 @@ function showReceipt(order, data){
             <span>IQD ${fmt(i.price*i.qty)}</span>
         </div>
     `).join('');
-    
+
     $('#receiptContent').html(`
         <div style="font-family:monospace; font-size:13px;">
             <div style="text-align:center; margin-bottom:10px;">
-                <strong>🏪 فرۆشگا</strong><br>
+                <strong>🏪 ${t('brand_name')}</strong><br>
                 <small>${now}</small><br>
                 <small>#${order.orderNumber||'N/A'}</small>
             </div>
             <hr>${rows}<hr>
-            <div style="display:flex; justify-content:space-between;"><span>کۆی لاوەکی:</span><span>${$('#subtotal').text()}</span></div>
-            ${data.discount>0?`<div style="display:flex; justify-content:space-between;"><span>داشکاندن:</span><span>${$('#discountAmount').text()}</span></div>`:''}
-            <div style="display:flex; justify-content:space-between; font-weight:700; font-size:15px;"><span>کۆی گشتی:</span><span>${$('#totalAmount').text()}</span></div>
-            <div style="display:flex; justify-content:space-between;"><span>واردبووی:</span><span>IQD ${fmt(data.amountPaid)}</span></div>
-            ${data.changeAmount>0?`<div style="display:flex; justify-content:space-between;"><span>پارەی ماوە:</span><span>IQD ${fmt(data.changeAmount)}</span></div>`:''}
+            <div style="display:flex; justify-content:space-between;"><span>${t('pos_subtotal_label')}</span><span>${$('#subtotal').text()}</span></div>
+            ${data.discount>0?`<div style="display:flex; justify-content:space-between;"><span>${t('pos_discount_label')}</span><span>${$('#discountAmount').text()}</span></div>`:''}
+            <div style="display:flex; justify-content:space-between; font-weight:700; font-size:15px;"><span>${t('pos_total_label')}</span><span>${$('#totalAmount').text()}</span></div>
+            <div style="display:flex; justify-content:space-between;"><span>${t('pos_amount_received')}</span><span>IQD ${fmt(data.amountPaid)}</span></div>
+            ${data.changeAmount>0?`<div style="display:flex; justify-content:space-between;"><span>${t('pos_change_label')}</span><span>IQD ${fmt(data.changeAmount)}</span></div>`:''}
             <hr>
-            <div style="text-align:center;"><small>سوپاس! 🙏</small></div>
+            <div style="text-align:center;"><small>${t('thank_you')}</small></div>
         </div>
     `);
     $('#receiptModal').modal('show');
 }
 
-function cancelOrder(){ 
-    if(!cart.length) return; 
-    if(!confirm('هەڵوەشاندنەوە؟')) return; 
-    newSale(); 
+function cancelOrder(){
+    if(!cart.length) return;
+    if(!confirm(t('confirm_cancel'))) return;
+    newSale();
 }
 
 function processReturn(){
-    showToast('گەڕاندنەوە بەردەست نییە!', 'info'); 
+    showToast(t('refund_not_available'), 'info');
     $('#returnModal').modal('hide');
 }
 
 function newSale(){
-    cart=[]; 
+    cart=[];
     selectedCustomerForDebt = null;
     paymentMethod='CASH';
     renderCart(); recalc();
-    $('#discountPercent').val(0); 
+    $('#discountPercent').val(0);
     $('#amountReceived').val('');
     $('#productSearch').val('').focus();
-    $('.pay-btn').removeClass('active'); 
+    $('.pay-btn').removeClass('active');
     $('[data-method="CASH"]').addClass('active');
     $('#cashSection').show();
 }
@@ -542,25 +542,25 @@ function updateStats(){
     const t = parseInt(localStorage.getItem('todayOrders')||0);
     $('#todaySales').text('IQD ' + fmt(s));
     $('#todayTransactions').text(t);
-    
+
     const settings = JSON.parse(localStorage.getItem('posSettings') || '{}');
-    $('#cashierName').text(settings.cashier || 'بەڕێوەبەر');
+    $('#cashierName').text(settings.cashier || t('settings_cashier_placeholder'));
 }
 
 // UTILS
 function fmt(n){ return (n||0).toLocaleString('en-US', {minimumFractionDigits:0}); }
 
-function playBeep(){ 
-    try{ 
-        const a=new AudioContext(); 
-        const o=a.createOscillator(); 
-        const g=a.createGain(); 
-        o.connect(g); g.connect(a.destination); 
-        o.frequency.value=880; 
-        g.gain.setValueAtTime(0.3,a.currentTime); 
-        g.gain.exponentialRampToValueAtTime(0.001,a.currentTime+0.08); 
-        o.start(); o.stop(a.currentTime+0.08); 
-    }catch(e){} 
+function playBeep(){
+    try{
+        const a=new AudioContext();
+        const o=a.createOscillator();
+        const g=a.createGain();
+        o.connect(g); g.connect(a.destination);
+        o.frequency.value=880;
+        g.gain.setValueAtTime(0.3,a.currentTime);
+        g.gain.exponentialRampToValueAtTime(0.001,a.currentTime+0.08);
+        o.start(); o.stop(a.currentTime+0.08);
+    }catch(e){}
 }
 
 function showToast(msg,type='info'){

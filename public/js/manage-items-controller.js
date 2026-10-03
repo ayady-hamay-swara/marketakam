@@ -1,455 +1,411 @@
 /**
- * ITEMS/INVENTORY MANAGEMENT CONTROLLER
- * Advanced Inventory Management with Stock Control
+ * Inventory management for cashier items page
  */
 
-// ============================================================================
-// CONFIGURATION
-// ============================================================================
-
-const BASE_URL = "http://localhost:8080/api/items";
+const BASE_URL = '/api/items';
+const CURRENCY_STEP = 250;
 let currentItemCode = null;
 let allItems = [];
 
-// ============================================================================
-// INITIALIZATION
-// ============================================================================
-
-$(document).ready(function() {
-    console.log("Items Management Initialized");
-    
-    loadAllItems();
-    loadStatistics();
-    generateItemCode();
-    
+$(document).ready(function () {
     setupEventListeners();
+    loadAllItems();
+    generateItemCode();
 });
 
 function setupEventListeners() {
-    // Form buttons
-    $('#btnGenerateCode').click(generateItemCode);
-    $('#btnSave').click(saveItem);
-    $('#btnUpdate').click(updateItem);
-    $('#btnDelete').click(deleteItem);
-    $('#btnClear').click(clearForm);
-    
-    // Search and filter
-    $('#btnSearch').click(searchItems);
-    $('#btnResetFilters').click(resetFilters);
-    $('#txtSearch').on('keyup', function(e) {
-        if (e.key === 'Enter') searchItems();
-    });
-    $('#filterCategory, #filterStock, #filterStatus').change(searchItems);
-    
-    // Bulk operations
-    $('#btnBulkImport').click(() => $('#bulkImportModal').modal('show'));
-    $('#btnExport').click(exportToCSV);
-    $('#btnDownloadTemplate').click(downloadCSVTemplate);
-    $('#csvFileInput').change(previewCSVImport);
-    $('#btnConfirmImport').click(confirmBulkImport);
-    
-    // Image upload
-    $('#btnUploadImage').click(() => showNotification("Image upload coming soon!", "info"));
-    
-    // Stock adjustment
-    $('#adjustmentType, #adjustmentQty').on('change input', calculateNewStock);
-    $('#btnConfirmAdjustment').click(confirmStockAdjustment);
-}
+    $('#btnGenerateCode').on('click', generateItemCode);
+    $('#btnFloorPrice').on('click', floorPriceTo250);
+    $('#btnSave').on('click', saveItem);
+    $('#btnUpdate').on('click', updateItem);
+    $('#btnDelete').on('click', deleteItem);
+    $('#btnClear').on('click', clearForm);
 
-// ============================================================================
-// DATA LOADING
-// ============================================================================
+    if ($('#btnOpenSettingsPage').length) {
+        $('#btnOpenSettingsPage').on('click', function () {
+            window.location.href = '/settings';
+        });
+    }
+
+    $('#txtSearch').on('input', searchItems);
+    $('#filterCategory').on('change', searchItems);
+    $('#filterStock').on('change', searchItems);
+}
 
 function loadAllItems() {
     $.ajax({
         url: BASE_URL,
-        method: "GET",
-        success: function(items) {
+        method: 'GET',
+        success: function (items) {
             allItems = items || [];
             displayItems(allItems);
-            console.log(`Loaded ${allItems.length} items`);
+            populateCategoryOptions();
+            updateStatistics();
         },
-        error: function(error) {
-            console.error("Error loading items:", error);
-            showNotification("Error loading items", "error");
+        error: function (error) {
+            console.error('Error loading items:', error);
+            showNotification(t('items_load_error'), 'error');
             allItems = [];
+            displayItems([]);
+            updateStatistics();
         }
     });
 }
 
-function loadStatistics() {
-    // Calculate statistics from loaded items
-    setTimeout(() => {
-        const activeItems = allItems.filter(item => item.active);
-        const lowStock = allItems.filter(item => 
-            item.active && item.qtyOnHand <= (item.minStockLevel || 10)
-        );
-        const outOfStock = allItems.filter(item => 
-            item.active && item.qtyOnHand === 0
-        );
-        
-        const totalValue = allItems
-            .filter(item => item.active)
-            .reduce((sum, item) => sum + (item.unitPrice * item.qtyOnHand), 0);
-        
-        $('#totalItems').text(activeItems.length);
-        $('#lowStockItems').text(lowStock.length);
-        $('#outOfStockItems').text(outOfStock.length);
-        $('#inventoryValue').text(`Rs. ${formatCurrency(totalValue)}`);
-    }, 500);
-}
-
-// ============================================================================
-// ITEM DISPLAY
-// ============================================================================
-
 function displayItems(items) {
-    const tbody = $('#tblItemsBody');
+    const tbody = $('#itemsTableBody');
     tbody.empty();
-    
-    if (items.length === 0) {
-        tbody.html(`
+
+    if (!items.length) {
+        tbody.append(`
             <tr>
-                <td colspan="9" class="text-center text-muted py-5">
-                    <h5>No items found</h5>
-                    <p>Add your first product to get started</p>
-                </td>
+                <td colspan="8" class="text-center text-muted py-4">${t('items_no_result')}</td>
             </tr>
         `);
         return;
     }
-    
-    items.forEach(item => {
-        const statusClass = item.active ? 'badge-active' : 'badge-inactive';
-        const statusText = item.active ? 'Active' : 'Inactive';
-        
-        // Stock level indicator
-        let stockClass = 'stock-good';
-        let stockBadge = 'stock-badge-good';
-        if (item.qtyOnHand === 0) {
-            stockClass = 'stock-critical';
-            stockBadge = 'stock-badge-critical';
-        } else if (item.qtyOnHand <= (item.minStockLevel || 10)) {
-            stockClass = 'stock-low';
-            stockBadge = 'stock-badge-low';
-        }
-        
-        const itemValue = item.unitPrice * item.qtyOnHand;
-        
+
+    items.forEach(function (item) {
         const row = $(`
             <tr>
                 <td><strong>${item.code}</strong></td>
-                <td>${item.description}</td>
-                <td><span class="category-badge">${item.category || 'General'}</span></td>
-                <td class="price-cell">Rs. ${formatCurrency(item.unitPrice)}</td>
+                <td>${item.name || item.description || ''}</td>
+                <td>${item.category || '-'}</td>
+                <td>IQD ${Number(item.price || item.unitPrice || 0).toLocaleString('en-US')}</td>
+                <td>${item.stock || item.qtyOnHand || 0}</td>
+                <td>${item.barcode || '-'}</td>
+                <td>${item.notes || '-'}</td>
                 <td>
-                    <span class="${stockClass}">${item.qtyOnHand}</span>
-                    <span class="stock-badge ${stockBadge}">${getStockStatus(item)}</span>
-                </td>
-                <td>${item.minStockLevel || 10}</td>
-                <td><span class="${statusClass}">${statusText}</span></td>
-                <td class="value-cell">Rs. ${formatCurrency(itemValue)}</td>
-                <td class="action-buttons">
-                    <button class="btn btn-sm btn-primary btn-edit" data-code="${item.code}">
-                        ✏️ Edit
-                    </button>
-                    <button class="btn btn-sm btn-info btn-stock" data-code="${item.code}">
-                        📦 Stock
-                    </button>
-                    <button class="btn btn-sm btn-danger btn-delete-row" data-code="${item.code}">
-                        🗑️
-                    </button>
+                    <button class="btn btn-sm btn-primary" type="button" data-code="${item.code}" data-action="edit">${t('edit')}</button>
+                    <button class="btn btn-sm btn-danger ml-2" type="button" data-code="${item.code}" data-action="delete">${t('delete')}</button>
                 </td>
             </tr>
         `);
-        
-        // Click row to select
-        row.find('td:not(.action-buttons)').click(() => selectItem(item));
-        
-        // Edit button
-        row.find('.btn-edit').click((e) => {
-            e.stopPropagation();
+
+        row.find('[data-action="edit"]').on('click', function () {
             selectItem(item);
         });
-        
-        // Stock adjustment button
-        row.find('.btn-stock').click((e) => {
-            e.stopPropagation();
-            openStockAdjustment(item);
+
+        row.find('[data-action="delete"]').on('click', function () {
+            currentItemCode = item.code;
+            deleteItem();
         });
-        
-        // Quick delete button
-        row.find('.btn-delete-row').click((e) => {
-            e.stopPropagation();
-            quickDeleteItem(item.code);
-        });
-        
+
         tbody.append(row);
     });
-    
-    loadStatistics();
 }
 
-function getStockStatus(item) {
-    if (item.qtyOnHand === 0) return 'OUT';
-    if (item.qtyOnHand <= (item.minStockLevel || 10)) return 'LOW';
-    return 'OK';
+function populateCategoryOptions() {
+    const categories = [...new Set(allItems.map(item => item.category).filter(Boolean))];
+    const select = $('#filterCategory');
+    const current = select.val();
+
+    select.empty();
+    select.append(`<option value="">${t('pos_all_categories')}</option>`);
+
+    categories.forEach(function (category) {
+        select.append(`<option value="${category}">${category}</option>`);
+    });
+
+    if (current) {
+        select.val(current);
+    }
 }
 
-function selectItem(item) {
-    currentItemCode = item.code;
-    
-    $('#txtItemCode').val(item.code);
-    $('#txtDescription').val(item.description);
-    $('#txtCategory').val(item.category || '');
-    $('#txtUnitPrice').val(item.unitPrice);
-    $('#txtQtyOnHand').val(item.qtyOnHand);
-    $('#txtMinStock').val(item.minStockLevel || 10);
-    $('#txtBarcode').val(item.barcode || '');
-    $('#txtStatus').val(item.active ? 'true' : 'false');
-    
-    // Show update/delete buttons, hide save
-    $('#btnSave').hide();
-    $('#btnUpdate, #btnDelete').show();
-    
-    // Scroll to form
-    $('html, body').animate({
-        scrollTop: $('#itemForm').offset().top - 100
-    }, 500);
+function updateStatistics() {
+    const activeItems = allItems.filter(item => item.active || item.is_active);
+    const lowStock = allItems.filter(item => {
+        const stock = Number(item.stock ?? item.qtyOnHand ?? 0);
+        const min = Number(item.min_stock ?? item.minStockLevel ?? 10);
+        return (item.active || item.is_active) && stock > 0 && stock <= min;
+    }).length;
+    const outOfStock = allItems.filter(item => {
+        const stock = Number(item.stock ?? item.qtyOnHand ?? 0);
+        return (item.active || item.is_active) && stock === 0;
+    }).length;
+    const totalValue = allItems.reduce((sum, item) => {
+        const active = item.active || item.is_active;
+        if (!active) return sum;
+        const price = Number(item.price ?? item.unitPrice ?? 0);
+        const stock = Number(item.stock ?? item.qtyOnHand ?? 0);
+        return sum + (price * stock);
+    }, 0);
+
+    $('#totalItems').text(activeItems.length);
+    $('#lowStockItems').text(lowStock);
+    $('#outOfStockItems').text(outOfStock);
+    $('#totalValue').text('IQD ' + totalValue.toLocaleString('en-US'));
 }
 
-// ============================================================================
-// CRUD OPERATIONS
-// ============================================================================
+function floorPriceTo250() {
+    const rawValue = Number($('#txtPrice').val());
+
+    if (!Number.isFinite(rawValue) || rawValue < 0) {
+        $('#txtPrice').val(0);
+        return;
+    }
+
+    const floored = Math.floor(rawValue / CURRENCY_STEP) * CURRENCY_STEP;
+    $('#txtPrice').val(floored);
+    showNotification(t('items_price_floored').replace('{amount}', floored), 'info');
+}
+
+function normalizePriceValue(value) {
+    if (!Number.isFinite(Number(value))) {
+        return 0;
+    }
+
+    return Math.floor(Number(value) / CURRENCY_STEP) * CURRENCY_STEP;
+}
+
+function getFormData() {
+    const price = normalizePriceValue($('#txtPrice').val());
+    $('#txtPrice').val(price);
+
+    return {
+        code: $('#txtCode').val().trim(),
+        name: $('#txtName').val().trim(),
+        category: $('#txtCategory').val() || null,
+        price: price,
+        stock: Number($('#txtStock').val()),
+        min_stock: Number($('#txtMinStock').val()) || 0,
+        barcode: $('#txtBarcode').val() || null,
+        notes: $('#txtNotes').val() || null,
+        is_active: true,
+    };
+}
+
+function validateForm() {
+    const code = $('#txtCode').val().trim();
+    const name = $('#txtName').val().trim();
+    const price = Number($('#txtPrice').val());
+    const stock = Number($('#txtStock').val());
+
+    if (!code) {
+        showNotification(t('item_code_required'), 'warning');
+        $('#txtCode').focus();
+        return false;
+    }
+
+    if (!name) {
+        showNotification(t('item_name_required'), 'warning');
+        $('#txtName').focus();
+        return false;
+    }
+
+    if (!Number.isFinite(price) || price <= 0) {
+        showNotification(t('item_invalid_price'), 'warning');
+        $('#txtPrice').focus();
+        return false;
+    }
+
+    if (!Number.isFinite(stock) || stock < 0) {
+        showNotification(t('item_invalid_stock'), 'warning');
+        $('#txtStock').focus();
+        return false;
+    }
+
+    return true;
+}
 
 function saveItem() {
     if (!validateForm()) return;
-    
-    const itemData = getFormData();
-    
+
+    const payload = getFormData();
+
     $.ajax({
         url: BASE_URL,
-        method: "POST",
-        contentType: "application/json",
-        data: JSON.stringify(itemData),
-        success: function(response) {
-            showNotification("Item saved successfully!", "success");
+        method: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(payload),
+        success: function () {
+            showNotification(t('item_saved'), 'success');
             clearForm();
             loadAllItems();
         },
-        error: function(error) {
-            console.error("Error saving item:", error);
-            if (error.responseJSON && error.responseJSON.message) {
-                showNotification(error.responseJSON.message, "error");
-            } else {
-                showNotification("Error saving item. Item code may already exist.", "error");
-            }
+        error: function (error) {
+            console.error('Save error:', error);
+            const message = error.responseJSON?.message || t('item_save_failed');
+            showNotification(message, 'error');
         }
     });
 }
 
 function updateItem() {
     if (!currentItemCode) {
-        showNotification("No item selected", "warning");
+        showNotification(t('items_no_result'), 'warning');
         return;
     }
-    
+
     if (!validateForm()) return;
-    
-    const itemData = getFormData();
-    
+
+    const payload = getFormData();
+
     $.ajax({
         url: `${BASE_URL}/${currentItemCode}`,
-        method: "PUT",
-        contentType: "application/json",
-        data: JSON.stringify(itemData),
-        success: function(response) {
-            showNotification("Item updated successfully!", "success");
+        method: 'PUT',
+        contentType: 'application/json',
+        data: JSON.stringify(payload),
+        success: function () {
+            showNotification(t('item_updated'), 'success');
             clearForm();
             loadAllItems();
         },
-        error: function(error) {
-            console.error("Error updating item:", error);
-            showNotification("Error updating item", "error");
+        error: function (error) {
+            console.error('Update error:', error);
+            const message = error.responseJSON?.message || t('item_update_failed');
+            showNotification(message, 'error');
         }
     });
 }
 
 function deleteItem() {
     if (!currentItemCode) {
-        showNotification("No item selected", "warning");
+        showNotification(t('item_none_selected'), 'warning');
         return;
     }
-    
-    if (!confirm(`Are you sure you want to delete item ${currentItemCode}?`)) {
+
+    if (!confirm(t('confirm_delete_item').replace('{code}', currentItemCode))) {
         return;
     }
-    
+
     $.ajax({
         url: `${BASE_URL}/${currentItemCode}`,
-        method: "DELETE",
-        success: function() {
-            showNotification("Item deleted successfully!", "success");
+        method: 'DELETE',
+        success: function () {
+            showNotification(t('item_deleted'), 'success');
             clearForm();
             loadAllItems();
         },
-        error: function(error) {
-            console.error("Error deleting item:", error);
-            showNotification("Error deleting item", "error");
+        error: function (error) {
+            console.error('Delete error:', error);
+            showNotification(t('item_delete_failed'), 'error');
         }
     });
 }
 
-function quickDeleteItem(code) {
-    if (!confirm(`Delete item ${code}?`)) return;
-    
-    $.ajax({
-        url: `${BASE_URL}/${code}`,
-        method: "DELETE",
-        success: function() {
-            showNotification("Item deleted!", "success");
-            loadAllItems();
-        },
-        error: function(error) {
-            console.error("Error deleting item:", error);
-            showNotification("Error deleting item", "error");
-        }
-    });
-}
+function selectItem(item) {
+    currentItemCode = item.code;
 
-// ============================================================================
-// FORM MANAGEMENT
-// ============================================================================
+    $('#txtCode').val(item.code);
+    $('#txtName').val(item.name || item.description || '');
+    $('#txtCategory').val(item.category || '');
+    $('#txtPrice').val(item.price ?? item.unitPrice ?? 0);
+    $('#txtStock').val(item.stock ?? item.qtyOnHand ?? 0);
+    $('#txtMinStock').val(item.min_stock ?? item.minStockLevel ?? 0);
+    $('#txtBarcode').val(item.barcode || '');
+    $('#txtNotes').val(item.notes || '');
 
-function getFormData() {
-    return {
-        code: $('#txtItemCode').val(),
-        description: $('#txtDescription').val(),
-        category: $('#txtCategory').val(),
-        unitPrice: parseFloat($('#txtUnitPrice').val()),
-        qtyOnHand: parseInt($('#txtQtyOnHand').val()),
-        minStockLevel: parseInt($('#txtMinStock').val()) || 10,
-        barcode: $('#txtBarcode').val() || null,
-        imageUrl: null, // To be implemented
-        active: $('#txtStatus').val() === 'true'
-    };
-}
-
-function validateForm() {
-    const code = $('#txtItemCode').val();
-    const description = $('#txtDescription').val();
-    const category = $('#txtCategory').val();
-    const price = $('#txtUnitPrice').val();
-    const qty = $('#txtQtyOnHand').val();
-    
-    if (!code) {
-        showNotification("Item code is required", "warning");
-        $('#txtItemCode').focus();
-        return false;
-    }
-    
-    if (!description) {
-        showNotification("Product name is required", "warning");
-        $('#txtDescription').focus();
-        return false;
-    }
-    
-    if (!category) {
-        showNotification("Please select a category", "warning");
-        $('#txtCategory').focus();
-        return false;
-    }
-    
-    if (!price || parseFloat(price) <= 0) {
-        showNotification("Please enter a valid price", "warning");
-        $('#txtUnitPrice').focus();
-        return false;
-    }
-    
-    if (!qty || parseInt(qty) < 0) {
-        showNotification("Please enter a valid quantity", "warning");
-        $('#txtQtyOnHand').focus();
-        return false;
-    }
-    
-    return true;
+    $('#btnSave').hide();
+    $('#btnUpdate').show();
+    $('#btnDelete').show();
 }
 
 function clearForm() {
-    $('#itemForm')[0].reset();
     currentItemCode = null;
-    
+    $('#itemForm')[0].reset();
     $('#btnSave').show();
-    $('#btnUpdate, #btnDelete').hide();
-    $('#txtMinStock').val(10);
-    $('#txtStatus').val('true');
-    
+    $('#btnUpdate').hide();
+    $('#btnDelete').hide();
     generateItemCode();
 }
 
 function generateItemCode() {
     $.ajax({
         url: `${BASE_URL}/next-code`,
-        method: "GET",
-        success: function(code) {
-            $('#txtItemCode').val(code);
+        method: 'GET',
+        success: function (code) {
+            $('#txtCode').val(code);
         },
-        error: function() {
-            // Fallback: generate code based on existing items
-            const maxCode = allItems.reduce((max, item) => {
-                const num = parseInt(item.code.substring(1));
-                return num > max ? num : max;
-            }, 0);
-            $('#txtItemCode').val(`I${String(maxCode + 1).padStart(3, '0')}`);
+        error: function () {
+            const next = allItems.length ? allItems.reduce((max, item) => {
+                const num = Number(String(item.code || '').replace(/\D/g, '')) || 0;
+                return Math.max(max, num);
+            }, 0) + 1 : 1;
+            $('#txtCode').val(`P-${String(next).padStart(4, '0')}`);
         }
     });
 }
 
-// ============================================================================
-// SEARCH & FILTER
-// ============================================================================
-
 function searchItems() {
-    const searchTerm = $('#txtSearch').val().toLowerCase();
+    const search = $('#txtSearch').val().toLowerCase().trim();
     const category = $('#filterCategory').val();
     const stockFilter = $('#filterStock').val();
-    const status = $('#filterStatus').val();
-    
-    let filtered = allItems;
-    
-    // Search by name or code
-    if (searchTerm) {
-        filtered = filtered.filter(item =>
-            item.description.toLowerCase().includes(searchTerm) ||
-            item.code.toLowerCase().includes(searchTerm) ||
-            (item.barcode && item.barcode.toLowerCase().includes(searchTerm))
-        );
+
+    let filtered = [...allItems];
+
+    if (search) {
+        filtered = filtered.filter(item => {
+            const name = (item.name || item.description || '').toLowerCase();
+            const code = (item.code || '').toLowerCase();
+            const barcode = (item.barcode || '').toLowerCase();
+            return name.includes(search) || code.includes(search) || barcode.includes(search);
+        });
     }
-    
+
+    if (category) {
+        filtered = filtered.filter(item => (item.category || '') === category);
+    }
+
+    if (stockFilter === 'low') {
+        filtered = filtered.filter(item => {
+            const stock = Number(item.stock ?? item.qtyOnHand ?? 0);
+            const min = Number(item.min_stock ?? item.minStockLevel ?? 10);
+            return stock > 0 && stock <= min;
+        });
+    } else if (stockFilter === 'out') {
+        filtered = filtered.filter(item => Number(item.stock ?? item.qtyOnHand ?? 0) === 0);
+    } else if (stockFilter === 'ok') {
+        filtered = filtered.filter(item => Number(item.stock ?? item.qtyOnHand ?? 0) > 0);
+    }
+
+    displayItems(filtered);
+}
+
+function showNotification(message, type = 'info') {
+    const alertClass = {
+        success: 'alert-success',
+        error: 'alert-danger',
+        warning: 'alert-warning',
+        info: 'alert-info'
+    }[type] || 'alert-info';
+
+    const alert = $(`
+        <div class="alert ${alertClass} alert-dismissible fade show" style="position: fixed; top: 70px; right: 20px; z-index: 9999; min-width: 260px;">
+            ${message}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    `);
+
+    $('body').append(alert);
+    setTimeout(() => alert.alert('close'), 3000);
+}
+
     // Filter by category
     if (category) {
         filtered = filtered.filter(item => item.category === category);
     }
-    
+
     // Filter by stock level
     if (stockFilter === 'in-stock') {
         filtered = filtered.filter(item => item.qtyOnHand > (item.minStockLevel || 10));
     } else if (stockFilter === 'low-stock') {
-        filtered = filtered.filter(item => 
+        filtered = filtered.filter(item =>
             item.qtyOnHand > 0 && item.qtyOnHand <= (item.minStockLevel || 10)
         );
     } else if (stockFilter === 'out-of-stock') {
         filtered = filtered.filter(item => item.qtyOnHand === 0);
     }
-    
+
     // Filter by status
     if (status) {
         const isActive = status === 'true';
         filtered = filtered.filter(item => item.active === isActive);
     }
-    
+
     displayItems(filtered);
-}
 
 function resetFilters() {
     $('#txtSearch').val('');
@@ -471,20 +427,20 @@ function openStockAdjustment(item) {
     $('#adjustmentReason').val('purchase');
     $('#adjustmentNotes').val('');
     $('#newStock').text(item.qtyOnHand);
-    
+
     $('#stockAdjustModal').modal('show');
 }
 
 function calculateNewStock() {
     const item = allItems.find(i => i.code === currentItemCode);
     if (!item) return;
-    
+
     const currentStock = item.qtyOnHand;
     const type = $('#adjustmentType').val();
     const qty = parseInt($('#adjustmentQty').val()) || 0;
-    
+
     let newStock = currentStock;
-    
+
     switch(type) {
         case 'add':
             newStock = currentStock + qty;
@@ -496,7 +452,7 @@ function calculateNewStock() {
             newStock = qty;
             break;
     }
-    
+
     newStock = Math.max(0, newStock);
     $('#newStock').text(newStock);
 }
@@ -504,14 +460,14 @@ function calculateNewStock() {
 function confirmStockAdjustment() {
     const item = allItems.find(i => i.code === currentItemCode);
     if (!item) return;
-    
+
     const newStock = parseInt($('#newStock').text());
     const reason = $('#adjustmentReason').val();
     const notes = $('#adjustmentNotes').val();
-    
+
     // Update item stock
     item.qtyOnHand = newStock;
-    
+
     $.ajax({
         url: `${BASE_URL}/${currentItemCode}`,
         method: "PUT",
@@ -521,7 +477,7 @@ function confirmStockAdjustment() {
             showNotification(`Stock adjusted successfully! New stock: ${newStock}`, "success");
             $('#stockAdjustModal').modal('hide');
             loadAllItems();
-            
+
             // Log adjustment (in production, this would save to audit log)
             console.log(`Stock Adjustment: ${currentItemCode}, Reason: ${reason}, Notes: ${notes}`);
         },
@@ -548,12 +504,12 @@ function exportToCSV() {
         item.barcode || '',
         item.active ? 'Yes' : 'No'
     ]);
-    
+
     let csv = headers.join(',') + '\n';
     rows.forEach(row => {
         csv += row.map(cell => `"${cell}"`).join(',') + '\n';
     });
-    
+
     downloadCSV(csv, 'items_export.csv');
     showNotification("Items exported successfully!", "success");
 }
@@ -563,10 +519,10 @@ function downloadCSVTemplate() {
     const sample = [
         'I001', 'Sample Product', 'Electronics', '1000.00', '50', '10', '123456789', 'Yes'
     ];
-    
+
     let csv = headers.join(',') + '\n';
     csv += sample.map(cell => `"${cell}"`).join(',') + '\n';
-    
+
     downloadCSV(csv, 'items_template.csv');
     showNotification("Template downloaded!", "success");
 }
@@ -584,17 +540,17 @@ function downloadCSV(content, filename) {
 function previewCSVImport(event) {
     const file = event.target.files[0];
     if (!file) return;
-    
+
     const reader = new FileReader();
     reader.onload = function(e) {
         const csv = e.target.result;
         const lines = csv.split('\n');
         const headers = lines[0].split(',');
-        
+
         let preview = '<thead><tr>';
         headers.forEach(h => preview += `<th>${h}</th>`);
         preview += '</tr></thead><tbody>';
-        
+
         for (let i = 1; i < Math.min(6, lines.length); i++) {
             const cells = lines[i].split(',');
             preview += '<tr>';
@@ -602,7 +558,7 @@ function previewCSVImport(event) {
             preview += '</tr>';
         }
         preview += '</tbody>';
-        
+
         $('#previewTable').html(preview);
         $('#importPreview').show();
     };
@@ -629,9 +585,9 @@ function showNotification(message, type = 'info') {
         'warning': 'alert-warning',
         'info': 'alert-info'
     }[type] || 'alert-info';
-    
+
     const alert = $(`
-        <div class="alert ${alertClass} alert-dismissible fade show" 
+        <div class="alert ${alertClass} alert-dismissible fade show"
              style="position: fixed; top: 70px; right: 20px; z-index: 9999; min-width: 300px;">
             ${message}
             <button type="button" class="close" data-dismiss="alert">
@@ -639,9 +595,9 @@ function showNotification(message, type = 'info') {
             </button>
         </div>
     `);
-    
+
     $('body').append(alert);
-    
+
     setTimeout(() => {
         alert.alert('close');
     }, 3000);

@@ -33,6 +33,10 @@
             <input type="text" id="globalCashierName" class="settings-input" data-i18n="settings_cashier_placeholder" placeholder="بەڕێوەبەر">
         </div>
 
+        <button class="settings-save-btn" id="btnOpenSettingsPage" type="button">
+            ⚙️ <span>ڕێکخستنەکان</span>
+        </button>
+
         <button class="settings-save-btn" id="btnGlobalSaveSettings">
             💾 <span data-i18n="settings_save">پاشەکەوت</span>
         </button>
@@ -107,7 +111,12 @@
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label data-i18n="items_code">کۆدی کاڵا <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="txtCode" required>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="txtCode" required>
+                                        <div class="input-group-append">
+                                            <button class="btn btn-outline-secondary" type="button" id="btnGenerateCode" title="دروستکردنی کۆدی خۆکار">#</button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -141,7 +150,12 @@
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label data-i18n="items_price">نرخ (IQD) <span class="text-danger">*</span></label>
-                                    <input type="number" class="form-control" id="txtPrice" step="250" required>
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" id="txtPrice" step="250" min="0" required>
+                                        <div class="input-group-append">
+                                            <button class="btn btn-outline-secondary" type="button" id="btnFloorPrice" title="250 IQD Floor">250</button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-md-2">
