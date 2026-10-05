@@ -22,6 +22,13 @@ $(document).ready(function(){
     updateStats();
 });
 
+// Configure CSRF header for all AJAX requests
+$.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || ''
+    }
+});
+
 function setupPosListeners() {
     $('#productSearch').on('input', function(){
         const q = $(this).val().trim();
@@ -455,8 +462,16 @@ function saveOrder(order, isDebt){
             $('#btnCompleteSale, #btnSellAsDebt').prop('disabled',false).text(`✅ ${t('pos_complete_sale')}`);
         },
         error(err){
-            console.error(err);
-            showToast(t('pos_generic_error'), 'error');
+            console.error('Order save error:', err);
+            // Try to show server response message for debugging
+            if(err.responseJSON && err.responseJSON.message){
+                showToast(err.responseJSON.message, 'error');
+            } else if(err.responseText){
+                console.error('Response text:', err.responseText);
+                showToast(t('pos_generic_error') + ' - ' + (err.statusText || ''), 'error');
+            } else {
+                showToast(t('pos_generic_error'), 'error');
+            }
             $('#btnCompleteSale, #btnSellAsDebt').prop('disabled',false).text(`✅ ${t('pos_complete_sale')}`);
         }
     });

@@ -4,20 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Manage Employees - POS System</title>
+    <title data-i18n="employees_title">کارمەندان</title>
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/bootstrap-reboot.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/bootstrap-grid.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/manage-employees.css') }}">
     <!-- Global Navbar CSS -->
     <link rel="stylesheet" href="{{ asset('css/navbar-global.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/design-system.css') }}">
 </head>
 <body>
 
     <!-- ════════════════════════════════════════════════════════════════════
          GLOBAL NAVBAR
          ════════════════════════════════════════════════════════════════════ -->
-@include('owner.partials.global-partial')
+@include('owner.partials.navbar')
 
 
 <!-- ════════════════════════════════════════════════════════════════════
@@ -91,7 +92,7 @@
             <!-- Statistics Cards -->
             <div class="row mt-3">
                 <div class="col-md-3">
-                    <div class="card stat-card" style="border-left:4px solid #2E75B6;background:linear-gradient(135deg,#fff 0%,#f0f7ff 100%);box-shadow:0 4px 15px rgba(0,0,0,.1);border-radius:12px;">
+                    <div class="card stat-card" style="border-left:4px solid #1a2b4a;background:linear-gradient(135deg,#fff 0%,#f0f7ff 100%);box-shadow:0 4px 15px rgba(0,0,0,.1);border-radius:12px;">
                         <div class="card-body d-flex align-items-center gap-3">
                             <div style="font-size:48px;">👥</div>
                             <div>

@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>هەڵبژاردنی فرۆشگا - سیستەمی فرۆشتن</title>
+    <title data-i18n="store_select_title">هەڵبژاردنی فرۆشگا</title>
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/navbar-global.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/design-system.css') }}">
     <style>
         body {
-            background: linear-gradient(135deg, #007bff 0%, #1611bb 100%);
+            background: linear-gradient(135deg, #1a2b4a 0%, #0d1526 100%);
             min-height: 100vh;
             color: #2c3e50;
         }
@@ -73,7 +74,7 @@
             justify-content: center;
             font-size: 26px;
             flex-shrink: 0;
-            background: linear-gradient(135deg, #007bff 0%, #1611bb 100%);
+            background: linear-gradient(135deg, #1a2b4a 0%, #0d1526 100%);
             color: white;
         }
 
@@ -97,7 +98,7 @@
             width: 60px;
             height: 60px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #007bff 0%, #1611bb 100%);
+            background: linear-gradient(135deg, #1a2b4a 0%, #0d1526 100%);
             display: inline-flex;
             align-items: center;
             justify-content: center;

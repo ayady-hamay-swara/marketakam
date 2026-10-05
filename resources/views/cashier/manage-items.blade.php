@@ -3,15 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>بەڕێوەبردنی کاڵا</title>
+    <title data-i18n="items_title">بەڕێوەبردنی کاڵا</title>
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/navbar-global.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/design-system.css') }}">
     <link rel="stylesheet" href="{{ asset('css/manage-items.css') }}">
 </head>
 <body>
 
 <!-- Global Navbar -->
-@include('cashier.partials.nav')
+@include('cashier.partials.navbar')
 
 <!-- ════════════════════════════════════════════════════════════════════
      GLOBAL SETTINGS POPUP - SIMPLIFIED (No Currency)

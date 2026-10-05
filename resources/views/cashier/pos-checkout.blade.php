@@ -6,11 +6,12 @@
     <title data-i18n="pos_page_title">فرۆشتن - سیستەمی فرۆشگا</title>
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/navbar-global.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/design-system.css') }}">
     <link rel="stylesheet" href="{{ asset('css/pos-checkout.css') }}">
 </head>
 <body>
 
-@include('cashier.partials.nav')
+@include('cashier.partials.navbar')
 
 <!-- Settings & Calculator Popups (same as before) -->
 <div class="global-popup" id="globalSettingsPanel">

@@ -33,7 +33,7 @@ body {
    ============================================================================ */
 
 .welcome-banner {
-    background: linear-gradient(135deg, #2E75B6 0%, #1e5a8e 100%);
+    background: linear-gradient(135deg, #1a2b4a 0%, #0d1526 100%);
     padding: 40px;
     border-radius: 15px;
     color: white;
@@ -103,7 +103,7 @@ body {
 }
 
 .metric-orders {
-    border-left-color: #2E75B6;
+    border-left-color: #1a2b4a;
 }
 
 .metric-customers {
@@ -328,7 +328,7 @@ body {
 }
 
 .quick-action-btn:hover {
-    border-color: #2E75B6;
+    border-color: #1a2b4a;
     background: #f0f7ff;
     transform: translateY(-3px);
     box-shadow: 0 6px 15px rgba(46, 117, 182, 0.2);
@@ -378,7 +378,7 @@ body {
 .customer-rank {
     font-size: 24px;
     font-weight: bold;
-    color: #2E75B6;
+    color: #1a2b4a;
     min-width: 40px;
 }
 

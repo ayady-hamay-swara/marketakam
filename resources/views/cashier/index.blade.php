@@ -7,8 +7,9 @@
     <title>سەرەکی - سیستەمی فرۆشتن</title>
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/navbar-global.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/design-system.css') }}">
     <style>
-        body { background: linear-gradient(135deg, #007bff 0%, #1611bb 100%); min-height: 100vh; }
+        body { background: linear-gradient(135deg, #1a2b4a 0%, #0d1526 100%); min-height: 100vh; }
 
         .dashboard-wrapper { padding: 40px 20px; }
 

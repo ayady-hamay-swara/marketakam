@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>هەڵبژاردنی فرۆشگا - Marketakam</title>
+    <title data-i18n="store_select_title">هەڵبژاردنی فرۆشگا</title>
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
     <style>
         body {
-            background: linear-gradient(135deg, #f39c12 0%, #d35400 100%);
+            background: linear-gradient(135deg, #1a2b4a 0%, #0d1526 100%);
             min-height: 100vh;
             color: #2c3e50;
         }

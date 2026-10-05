@@ -6,6 +6,7 @@
     <title data-i18n="debts_title">بەڕێوەبردنی قەرز</title>
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/navbar-global.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/design-system.css') }}">
     <style>
         body { background: #f5f7fa; }
         .page-title { color: #e74c3c; font-weight: 800; font-size: 32px; margin-bottom: 20px; }
@@ -60,7 +61,7 @@
 <body>
 
 <!-- Navbar -->
-@include('cashier.partials.nav')
+@include('cashier.partials.navbar')
 
 <!-- Settings Popup -->
 <div class="global-popup" id="globalSettingsPanel">

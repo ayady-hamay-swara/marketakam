@@ -1,35 +1,35 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary global-navbar">
-    <a class="navbar-brand font-weight-bold" href="/home">
-        🏪 <span data-i18n="brand_name">سیستەمی فرۆشتن</span>
+<nav class="navbar navbar-expand-lg navbar-dark global-navbar">
+
+    {{-- Brand --}}
+    <a class="navbar-brand" href="/home">
+        <span class="navbar-brand-dot"></span>
+        <span>Marketakam</span>
     </a>
 
-    <div class="navbar-left-actions">
-        <button class="nav-icon-btn" id="btnGlobalSettings" title="ڕێکخستنەکان">
-            ⚙️
-        </button>
-    </div>
-
+    {{-- Hamburger --}}
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#globalNavbar">
         <span class="navbar-toggler-icon"></span>
     </button>
 
     <div class="collapse navbar-collapse" id="globalNavbar">
-        <ul class="navbar-nav mx-auto">
+
+        {{-- Divider between brand zone and nav links --}}
+        <span class="navbar-divider d-none d-lg-block"></span>
+
+        {{-- Main nav (manager-specific) --}}
+        <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <a class="nav-link {{ request()->is('home') ? 'active' : '' }}" href="/home" data-i18n="nav_home">سەرەکی</a>
+                <a class="nav-link" href="/home" data-i18n="nav_home">سەرەکی</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ request()->is('manage-items') ? 'active' : '' }}" href="/manage-items" data-i18n="nav_items">کاڵاکان</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link {{ request()->is('pos-checkout') ? 'active' : '' }}" href="/pos-checkout" data-i18n="nav_pos">فرۆشتن</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link {{ request()->is('search-orders') ? 'active' : '' }}" href="/search-orders" data-i18n="nav_search">قەرزەکان</a>
+                <a class="nav-link" href="/manager" data-i18n="nav_manager">بەڕێوەبەر</a>
             </li>
         </ul>
 
-        <ul class="navbar-nav ml-auto">
+        {{-- Right side: language + user --}}
+        <ul class="navbar-nav align-items-center" style="gap:6px;">
+
+            {{-- Language dropdown --}}
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="langDropdown"
                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -48,11 +48,14 @@
                 </div>
             </li>
 
+            {{-- User chip --}}
             <li class="nav-item">
-                <a class="nav-link text-warning" href="/profile" id="navbarUsernameDisplay" data-i18n="profile_nav">
-                    👤 <strong id="navbarUsername">بەڕێوەبەر</strong>
+                <a class="navbar-user-chip" href="/profile" id="navbarUsernameDisplay">
+                    <span class="navbar-user-avatar" id="navbarUserInitial">م</span>
+                    <span id="navbarUsername">بەڕێوەبەر</span>
                 </a>
             </li>
+
         </ul>
     </div>
 </nav>

@@ -18,12 +18,20 @@ const translations = {
         nav_home: 'سەرەکی',
         nav_items: 'کاڵاکان',
         nav_employees: 'کارمەندان',
+        nav_store_select: 'هەڵبژاردنی فرۆشگا',
+        nav_manager: 'بەڕێوەبەر',
         nav_pos: 'فرۆشتن',
         nav_search: 'قەرزەکان',
         nav_debts: 'قەرزەکان',
 
         // Brand
         brand_name: 'سیستەمی فرۆشتن',
+
+        // Page Titles
+        store_select_title: 'هەڵبژاردنی فرۆشگا',
+        manager_title: 'بەڕێوەبەر',
+        employees_title: 'کارمەندان',
+        dev_view_title: 'پیشاندانی گەشەپێدەر',
 
         // Items
         items_title: 'بەڕێوەبردنی کاڵا',
@@ -247,12 +255,20 @@ const translations = {
         nav_home: 'Home',
         nav_items: 'Items',
         nav_employees: 'Employees',
+        nav_store_select: 'Select Store',
+        nav_manager: 'Manager',
         nav_pos: 'POS',
         nav_search: 'Debts',
         nav_debts: 'Debts',
 
         // Brand
         brand_name: 'Sales System',
+
+        // Page Titles
+        store_select_title: 'Select Store',
+        manager_title: 'Manager',
+        employees_title: 'Employees',
+        dev_view_title: 'Developer View',
 
         // Items
         items_title: 'Inventory Management',
@@ -428,12 +444,20 @@ const translations = {
         nav_home: 'الرئيسية',
         nav_items: 'المنتجات',
         nav_employees: 'الموظفون',
+        nav_store_select: 'اختيار المتجر',
+        nav_manager: 'المدير',
         nav_pos: 'المبيعات',
         nav_search: 'الطلبات',
         nav_debts: 'الديون',
 
         // Brand
         brand_name: 'نظام المبيعات',
+
+        // Page Titles
+        store_select_title: 'اختيار المتجر',
+        manager_title: 'المدير',
+        employees_title: 'الموظفون',
+        dev_view_title: 'عرض المطور',
 
         // Items
         items_title: 'إدارة المخزون',

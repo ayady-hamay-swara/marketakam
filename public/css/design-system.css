@@ -1,0 +1,139 @@
+/* ════════════════════════════════════════════════════════════════════
+   MARKETAKAM DESIGN SYSTEM
+   Loaded after bootstrap + navbar-global on every app page.
+   One source of truth so every screen matches the navbar.
+   ════════════════════════════════════════════════════════════════════ */
+
+:root {
+    --navy:        #1a2b4a;
+    --navy-deep:   #0d1526;
+    --navy-soft:   #243d6a;
+    --accent:      #4d9fff;
+    --accent-soft: rgba(77,159,255,.14);
+
+    --surface:     #ffffff;
+    --page-bg:     #f2f5fa;
+    --line:        #e1e8f2;
+    --text:        #1a2b4a;
+    --text-muted:  #6b7a90;
+
+    --success:     #16a34a;
+    --warning:     #f59e0b;
+    --danger:      #dc2626;
+
+    --radius-sm:   8px;
+    --radius:      12px;
+    --radius-lg:   16px;
+    --shadow-sm:   0 1px 3px rgba(26,43,74,.08);
+    --shadow:      0 4px 16px rgba(26,43,74,.10);
+    --shadow-lg:   0 12px 36px rgba(26,43,74,.18);
+}
+
+/* ── BASE ── */
+body {
+    background: var(--page-bg);
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6,
+.page-title { color: var(--navy); font-weight: 800; letter-spacing: -.2px; }
+
+a { color: var(--navy-soft); }
+a:hover { color: var(--accent); }
+
+/* ── BUTTONS ── */
+.btn {
+    border-radius: var(--radius-sm);
+    font-weight: 700;
+    padding: .5rem 1rem;
+    transition: background .15s, border-color .15s, box-shadow .15s, transform .1s;
+}
+.btn:active { transform: translateY(1px); }
+.btn:focus, .btn.focus { box-shadow: 0 0 0 .2rem var(--accent-soft); }
+
+.btn-primary { background: var(--navy); border-color: var(--navy); color: #fff; }
+.btn-primary:hover,
+.btn-primary:not(:disabled):not(.disabled):active { background: var(--navy-soft); border-color: var(--navy-soft); }
+
+.btn-outline-primary { color: var(--navy); border-color: var(--navy); }
+.btn-outline-primary:hover { background: var(--navy); border-color: var(--navy); color: #fff; }
+
+.btn-success { background: var(--success); border-color: var(--success); }
+.btn-warning { background: var(--warning); border-color: var(--warning); color: #fff; }
+.btn-danger  { background: var(--danger);  border-color: var(--danger); }
+.btn-secondary { background: #64748b; border-color: #64748b; }
+
+/* ── CARDS ── */
+.card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+}
+.card-header {
+    background: var(--navy);
+    color: #fff;
+    font-weight: 700;
+    border-bottom: none;
+    border-radius: var(--radius) var(--radius) 0 0 !important;
+    padding: 12px 18px;
+}
+
+/* ── FORMS ── */
+.form-control, .custom-select {
+    border: 1.5px solid var(--line);
+    border-radius: var(--radius-sm);
+    color: var(--text);
+    background-color: #fff;
+}
+.form-control:focus, .custom-select:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 .2rem var(--accent-soft);
+}
+.form-control::placeholder { color: #9aa8bd; }
+label { font-weight: 600; font-size: 13px; color: var(--text-muted); }
+
+/* ── TABLES ── */
+.table thead th {
+    background: var(--navy);
+    color: #fff;
+    border: none;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .4px;
+}
+.table td, .table th { border-color: var(--line); vertical-align: middle; }
+.table-hover tbody tr:hover { background: var(--accent-soft); }
+
+/* ── MODALS ── */
+.modal-content {
+    border: none;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+}
+.modal-header {
+    background: var(--navy);
+    color: #fff;
+    border-bottom: none;
+}
+.modal-header .close { color: #fff; opacity: .8; text-shadow: none; }
+.modal-header .close:hover { opacity: 1; }
+.modal-footer { border-top: 1px solid var(--line); }
+
+/* ── BADGES ── */
+.badge { border-radius: 6px; font-weight: 700; padding: .35em .6em; }
+.badge-primary { background: var(--navy); }
+.badge-success { background: var(--success); }
+.badge-warning { background: var(--warning); color: #fff; }
+.badge-danger  { background: var(--danger); }
+
+/* ── ALERTS ── */
+.alert { border: none; border-radius: var(--radius-sm); font-weight: 600; }
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-thumb { background: #c3cee0; border-radius: 6px; }
+::-webkit-scrollbar-thumb:hover { background: #a8b6cd; }
