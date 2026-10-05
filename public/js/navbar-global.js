@@ -127,7 +127,7 @@
     function loadSettings() {
         try {
             const settings = JSON.parse(localStorage.getItem('posSettings') || '{}');
-            
+
             const storeName = document.getElementById('globalStoreName');
             const currency = document.getElementById('globalCurrency');
             const taxRate = document.getElementById('globalTaxRate');
@@ -164,13 +164,13 @@
         };
 
         localStorage.setItem('posSettings', JSON.stringify(settings));
-        
+
         // Update username display
         updateUsernameDisplay();
-        
+
         // Close popup
         closeAllPopups();
-        
+
         // Show success message
         showToast('Settings saved successfully!', 'success');
 
@@ -316,14 +316,17 @@
     // ═══════════════════════════════════════════════════════════
     function updateUsernameDisplay() {
         try {
-            const settings = JSON.parse(localStorage.getItem('posSettings') || '{}');
-            const username = settings.cashier || 'بەڕێوەبەر';
-
             const usernameEl = document.getElementById('navbarUsername');
+            const initialEl = document.getElementById('navbarUserInitial');
+            const settings = JSON.parse(localStorage.getItem('posSettings') || '{}');
+            const currentUserName = (window.CURRENT_USER_NAME || '').trim();
+            const savedCashier = (settings.cashier || '').trim();
+            const fallbackName = usernameEl?.dataset?.defaultName || usernameEl?.textContent || t('navbar_username') || 'بەڕێوەبەر';
+            const username = currentUserName || savedCashier || fallbackName;
+
             if (usernameEl) usernameEl.textContent = username;
 
             // Show first character as avatar initial
-            const initialEl = document.getElementById('navbarUserInitial');
             if (initialEl) initialEl.textContent = [...username][0] || '👤';
         } catch (e) {
             console.error('Error updating username:', e);
@@ -336,7 +339,7 @@
     function updateLanguageLabel() {
         const lang = localStorage.getItem('posLang') || 'en';
         const labels = { en: 'English', ku: 'کوردی', ar: 'العربية' };
-        
+
         const label = document.getElementById('currentLangLabel');
         if (label) label.textContent = labels[lang] || 'English';
     }

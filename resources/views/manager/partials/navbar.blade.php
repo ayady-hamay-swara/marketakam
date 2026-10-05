@@ -52,7 +52,7 @@
             <li class="nav-item">
                 <a class="navbar-user-chip" href="/profile" id="navbarUsernameDisplay">
                     <span class="navbar-user-avatar" id="navbarUserInitial">م</span>
-                    <span id="navbarUsername">بەڕێوەبەر</span>
+                    <span id="navbarUsername" data-i18n="navbar_username" data-default-name="{{ auth()->user()->name ?? auth()->user()->username ?? 'بەڕێوەبەر' }}">{{ auth()->user()->name ?? auth()->user()->username ?? 'بەڕێوەبەر' }}</span>
                 </a>
             </li>
 

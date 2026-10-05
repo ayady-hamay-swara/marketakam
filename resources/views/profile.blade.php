@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>پڕۆفایل - Marketakam</title>
+    <title data-i18n="profile_title">پڕۆفایل - Marketakam</title>
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/navbar-global.css') }}">
     <link rel="stylesheet" href="{{ asset('css/design-system.css') }}">
@@ -58,7 +58,7 @@
 
     <form method="POST" action="{{ route('logout') }}" class="mt-4 text-center">
         @csrf
-        <button type="submit" class="btn btn-danger btn-lg">چوونەدەرەوە</button>
+        <button type="submit" class="btn btn-danger btn-lg" data-i18n="logout">چوونەدەرەوە</button>
     </form>
 
 </div>

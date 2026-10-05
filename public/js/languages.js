@@ -23,6 +23,7 @@ const translations = {
         nav_pos: 'فرۆشتن',
         nav_search: 'قەرزەکان',
         nav_debts: 'قەرزەکان',
+        navbar_username: 'بەڕێوەبەر',
 
         // Brand
         brand_name: 'سیستەمی فرۆشتن',
@@ -229,7 +230,7 @@ const translations = {
         return_cancel_button: 'هەڵوەشاندنەوە',
         return_process_button: 'جێبەجێکردن',
 
-        // Login
+        // Login & logout
         login_title: 'چوونەژوورەوە',
         login_subtitle: 'بەخێربێیت بۆ سیستەمی فرۆشتنی Marketakam',
         login_username: 'ناوی بەکارهێنەر',
@@ -237,7 +238,9 @@ const translations = {
         login_remember: 'بیرهێنانەوە',
         login_button: 'چوونەژوورەوە',
         login_username_placeholder: 'ناوی بەکارهێنەر',
-        login_password_placeholder: 'تێپەڕەوشە'
+        login_password_placeholder: 'تێپەڕەوشە' ,
+        logout: 'چونەدەرەوە'
+
     },
 
     en: {
@@ -260,6 +263,7 @@ const translations = {
         nav_pos: 'POS',
         nav_search: 'Debts',
         nav_debts: 'Debts',
+        navbar_username: 'User',
 
         // Brand
         brand_name: 'Sales System',
@@ -426,7 +430,8 @@ const translations = {
         login_remember: 'Remember me',
         login_button: 'Sign In',
         login_username_placeholder: 'Username',
-        login_password_placeholder: 'Password'
+        login_password_placeholder: 'Password',
+        logout: 'Logout'
     },
 
     ar: {
@@ -449,6 +454,7 @@ const translations = {
         nav_pos: 'المبيعات',
         nav_search: 'الطلبات',
         nav_debts: 'الديون',
+        navbar_username: 'المستخدم',
 
         // Brand
         brand_name: 'نظام المبيعات',
@@ -615,7 +621,8 @@ const translations = {
         login_remember: 'تذكرني',
         login_button: 'تسجيل الدخول',
         login_username_placeholder: 'اسم المستخدم',
-        login_password_placeholder: 'كلمة المرور'
+        login_password_placeholder: 'كلمة المرور' ,
+        logout: 'تسجیل خروج'
     }
 };
 
