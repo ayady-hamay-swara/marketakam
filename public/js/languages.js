@@ -23,16 +23,9 @@ const translations = {
         nav_pos: 'فرۆشتن',
         nav_search: 'قەرزەکان',
         nav_debts: 'قەرزەکان',
-        navbar_username: 'بەڕێوەبەر',
 
         // Brand
         brand_name: 'سیستەمی فرۆشتن',
-
-        // Page Titles
-        store_select_title: 'هەڵبژاردنی فرۆشگا',
-        manager_title: 'بەڕێوەبەر',
-        employees_title: 'کارمەندان',
-        dev_view_title: 'پیشاندانی گەشەپێدەر',
 
         // Items
         items_title: 'بەڕێوەبردنی کاڵا',
@@ -156,6 +149,21 @@ const translations = {
         profile_title: 'پڕۆفایلی کەسی',
         profile_subtitle: 'زانیاری و دۆخی کەسی',
         profile_empty: 'هێشتا هیچ زانیارییەک لەسەر پڕۆفایلەکە دانەدرابوو.',
+        profile_my_profile: 'پرۆفایلەکەم',
+        profile_settings: 'ڕێکخستنەکان',
+        profile_switch_store: 'گۆڕینی فرۆشگا',
+        profile_logout: 'چوونەدەرەوە',
+        profile_username: 'ناوی بەکارهێنەر',
+        profile_email: 'ئیمەیڵ',
+        profile_role_label: 'ڕۆڵ',
+        profile_password: 'وشەی نهێنی',
+        profile_password_hint: 'بۆ گۆڕین بنووسە',
+        profile_save: 'پاشەکەوتکردن',
+        profile_language: 'زمان',
+        profile_role_owner: 'خاوەن',
+        profile_role_manager: 'بەڕێوەبەر',
+        profile_role_cashier: 'کاشێر',
+        profile_role_super_dev: 'گەشەپێدەر',
 
         // POS Checkout
         pos_transactions_label: 'وەسڵەکان',
@@ -230,7 +238,7 @@ const translations = {
         return_cancel_button: 'هەڵوەشاندنەوە',
         return_process_button: 'جێبەجێکردن',
 
-        // Login & logout
+        // Login
         login_title: 'چوونەژوورەوە',
         login_subtitle: 'بەخێربێیت بۆ سیستەمی فرۆشتنی Marketakam',
         login_username: 'ناوی بەکارهێنەر',
@@ -238,9 +246,7 @@ const translations = {
         login_remember: 'بیرهێنانەوە',
         login_button: 'چوونەژوورەوە',
         login_username_placeholder: 'ناوی بەکارهێنەر',
-        login_password_placeholder: 'تێپەڕەوشە' ,
-        logout: 'چونەدەرەوە'
-
+        login_password_placeholder: 'تێپەڕەوشە'
     },
 
     en: {
@@ -263,16 +269,9 @@ const translations = {
         nav_pos: 'POS',
         nav_search: 'Debts',
         nav_debts: 'Debts',
-        navbar_username: 'User',
 
         // Brand
         brand_name: 'Sales System',
-
-        // Page Titles
-        store_select_title: 'Select Store',
-        manager_title: 'Manager',
-        employees_title: 'Employees',
-        dev_view_title: 'Developer View',
 
         // Items
         items_title: 'Inventory Management',
@@ -366,6 +365,21 @@ const translations = {
         profile_title: 'Personal Profile',
         profile_subtitle: 'Your personal information and status',
         profile_empty: 'No profile details have been added yet.',
+        profile_my_profile: 'My Profile',
+        profile_settings: 'Settings',
+        profile_switch_store: 'Switch Store',
+        profile_logout: 'Log Out',
+        profile_username: 'Username',
+        profile_email: 'Email',
+        profile_role_label: 'Role',
+        profile_password: 'Password',
+        profile_password_hint: 'Type to change',
+        profile_save: 'Save Changes',
+        profile_language: 'Language',
+        profile_role_owner: 'Owner',
+        profile_role_manager: 'Manager',
+        profile_role_cashier: 'Cashier',
+        profile_role_super_dev: 'Developer',
 
         // POS Checkout
         pos_transactions_label: 'Transactions',
@@ -430,8 +444,7 @@ const translations = {
         login_remember: 'Remember me',
         login_button: 'Sign In',
         login_username_placeholder: 'Username',
-        login_password_placeholder: 'Password',
-        logout: 'Logout'
+        login_password_placeholder: 'Password'
     },
 
     ar: {
@@ -454,16 +467,9 @@ const translations = {
         nav_pos: 'المبيعات',
         nav_search: 'الطلبات',
         nav_debts: 'الديون',
-        navbar_username: 'المستخدم',
 
         // Brand
         brand_name: 'نظام المبيعات',
-
-        // Page Titles
-        store_select_title: 'اختيار المتجر',
-        manager_title: 'المدير',
-        employees_title: 'الموظفون',
-        dev_view_title: 'عرض المطور',
 
         // Items
         items_title: 'إدارة المخزون',
@@ -557,6 +563,21 @@ const translations = {
         profile_title: 'الملف الشخصي',
         profile_subtitle: 'معلوماتك والحالة الشخصية',
         profile_empty: 'لا توجد تفاصيل ملف شخصي بعد.',
+        profile_my_profile: 'ملفي الشخصي',
+        profile_settings: 'الإعدادات',
+        profile_switch_store: 'تبديل المتجر',
+        profile_logout: 'تسجيل الخروج',
+        profile_username: 'اسم المستخدم',
+        profile_email: 'البريد الإلكتروني',
+        profile_role_label: 'الدور',
+        profile_password: 'كلمة المرور',
+        profile_password_hint: 'اكتب للتغيير',
+        profile_save: 'حفظ التغييرات',
+        profile_language: 'اللغة',
+        profile_role_owner: 'المالك',
+        profile_role_manager: 'المدير',
+        profile_role_cashier: 'الكاشير',
+        profile_role_super_dev: 'مطوّر',
 
         // POS Checkout
         pos_transactions_label: 'الطلبات',
@@ -621,8 +642,7 @@ const translations = {
         login_remember: 'تذكرني',
         login_button: 'تسجيل الدخول',
         login_username_placeholder: 'اسم المستخدم',
-        login_password_placeholder: 'كلمة المرور' ,
-        logout: 'تسجیل خروج'
+        login_password_placeholder: 'كلمة المرور'
     }
 };
 
