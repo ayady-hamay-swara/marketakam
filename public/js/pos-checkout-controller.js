@@ -589,7 +589,7 @@ function showReceipt(order, change, paid, discPc, tax){
             <div class="receipt-row"><span>${t('pos_amount_received')} (${paymentMethod}):</span><span>${currencySymbol} ${fmt(paid)}</span></div>
             ${paymentMethod === 'CASH' ? `<div class="receipt-row"><span>${t('pos_change')}:</span><span>${currencySymbol} ${fmt(change)}</span></div>` : ''}
             <div class="receipt-divider"></div>
-            <div style="text-align:center"><small>Thank you for shopping! 🙏</small></div>
+            <div style="text-align:center"><small>${t('pos_thank_you')}</small></div>
         </div>
     `);
     $('#receiptModal').modal('show');
@@ -602,13 +602,13 @@ function cancelOrder(){
     showToast(t('msg_order_cancelled'), 'info');
 }
 
-function holdOrder(){ showToast('Hold feature coming soon!', 'info'); }
+function holdOrder(){ showToast(t('pos_hold_feature_soon'), 'info'); }
 
 function processReturn(){
     const n = $('#returnOrderNumber').val().trim(), r = $('#returnReason').val();
-    if(!n){ showToast('Enter order number', 'warning'); return; }
-    if(!r){ showToast('Select a reason', 'warning'); return; }
-    showToast('Return processed', 'success');
+    if(!n){ showToast(t('pos_enter_order_number'), 'warning'); return; }
+    if(!r){ showToast(t('pos_select_return_reason'), 'warning'); return; }
+    showToast(t('pos_return_processed'), 'success');
     $('#returnModal').modal('hide');
 }
 

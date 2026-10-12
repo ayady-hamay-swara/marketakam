@@ -433,50 +433,71 @@ function completeSaleAsDebt(){
 // SAVE ORDER (Common for both cash and debt)
 // ═══════════════════════════════════════════════════════
 function saveOrder(order, isDebt){
-    $('#btnCompleteSale, #btnSellAsDebt').prop('disabled',true).text(`⏳ ${t('loading')}`);
+    const $btnComplete = $('#btnCompleteSale');
+    const $btnDebt = $('#btnSellAsDebt');
+
+    $btnComplete.prop('disabled', true).text(`⏳ ${t('loading')}`);
+    $btnDebt.prop('disabled', true);
+
+    // Ensure buttons are re-enabled even if something goes wrong
+    const resetButtons = () => {
+        $btnComplete.prop('disabled', false).text(`✅ ${t('pos_complete_sale')}`);
+        $btnDebt.prop('disabled', false);
+    };
 
     $.ajax({
         url: ORDERS_URL,
         method: 'POST',
         contentType: 'application/json',
         data: JSON.stringify(order),
+        timeout: 30000, // 30 second timeout
         success(res){
-            // Update stats
-            const ps=parseFloat(localStorage.getItem('todaySales')||0);
-            const po=parseInt(localStorage.getItem('todayOrders')||0);
-            localStorage.setItem('todaySales', ps + order.totalAmount);
-            localStorage.setItem('todayOrders', po + 1);
-            updateStats();
+            try {
+                // Update stats
+                const ps = parseFloat(localStorage.getItem('todaySales') || 0);
+                const po = parseInt(localStorage.getItem('todayOrders') || 0);
+                localStorage.setItem('todaySales', ps + order.totalAmount);
+                localStorage.setItem('todayOrders', po + 1);
+                updateStats();
 
-                if(isDebt){
-                // Create debt record
-                createDebtRecord(selectedCustomerForDebt.id, res.id, order.totalAmount);
-                showToast(t('pos_debt_recorded_for').replace('{name}', selectedCustomerForDebt.name), 'success');
-            } else {
-                // Show receipt for cash
-                showReceipt(res, order);
+                if (isDebt) {
+                    // Create debt record
+                    createDebtRecord(selectedCustomerForDebt.id, res.id, order.totalAmount);
+                    showToast(t('pos_debt_recorded_for').replace('{name}', selectedCustomerForDebt.name), 'success');
+                } else {
+                    // Show receipt for cash
+                    showReceipt(res, order);
+                }
+
+                // Reset
+                newSale();
+            } catch (e) {
+                console.error('Error in success handler:', e);
+                showToast('Error processing response: ' + e.message, 'error');
+            } finally {
+                resetButtons();
             }
-
-            // Reset
-            newSale();
-            $('#btnCompleteSale, #btnSellAsDebt').prop('disabled',false).text(`✅ ${t('pos_complete_sale')}`);
         },
         error(err){
-            console.error('Order save error:', err);
-            // Try to show server response message for debugging
-            if(err.responseJSON && err.responseJSON.message){
-                showToast(err.responseJSON.message, 'error');
-            } else if(err.responseText){
-                console.error('Response text:', err.responseText);
-                showToast(t('pos_generic_error') + ' - ' + (err.statusText || ''), 'error');
-            } else {
-                showToast(t('pos_generic_error'), 'error');
+            try {
+                console.error('Order save error:', err);
+                // Try to show server response message for debugging
+                let errorMessage = t('pos_generic_error');
+                if (err.responseJSON && err.responseJSON.message) {
+                    errorMessage = err.responseJSON.message;
+                } else if (err.responseText) {
+                    console.error('Response text:', err.responseText);
+                    errorMessage = t('pos_generic_error') + ' - ' + (err.statusText || '');
+                } else if (err.statusText) {
+                    errorMessage = t('pos_generic_error') + ' - ' + err.statusText;
+                }
+                showToast(errorMessage, 'error');
+            } catch (e) {
+                console.error('Error in error handler:', e);
+                showToast('Error handling failed: ' + e.message, 'error');
+            } finally {
+                resetButtons();
             }
-            $('#btnCompleteSale, #btnSellAsDebt').prop('disabled',false).text(`✅ ${t('pos_complete_sale')}`);
-        }
-    });
-}
-
 function createDebtRecord(customerId, orderId, amount){
     const debt = {
         customerId: customerId,

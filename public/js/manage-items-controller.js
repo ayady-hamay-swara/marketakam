@@ -6,9 +6,18 @@ const BASE_URL = '/api/items';
 const CURRENCY_STEP = 250;
 let currentItemCode = null;
 let allItems = [];
+let allCategories = [];
+
+// Configure CSRF header for all AJAX requests
+$.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || ''
+    }
+});
 
 $(document).ready(function () {
     setupEventListeners();
+    loadCategories();
     loadAllItems();
     generateItemCode();
 });
@@ -20,6 +29,8 @@ function setupEventListeners() {
     $('#btnUpdate').on('click', updateItem);
     $('#btnDelete').on('click', deleteItem);
     $('#btnClear').on('click', clearForm);
+    $('#btnManageCategories').on('click', openCategoryModal);
+    $('#btnAddCategory').on('click', addCategory);
 
     if ($('#btnOpenSettingsPage').length) {
         $('#btnOpenSettingsPage').on('click', function () {
@@ -30,6 +41,81 @@ function setupEventListeners() {
     $('#txtSearch').on('input', searchItems);
     $('#filterCategory').on('change', searchItems);
     $('#filterStock').on('change', searchItems);
+}
+
+function normalizeCategoryName(category) {
+    if (category === null || category === undefined) {
+        return '';
+    }
+
+    return String(category).trim().replace(/\s+/g, ' ');
+}
+
+function renderCategoryManagerList() {
+    const list = $('#categoriesList');
+    list.empty();
+
+    if (!allCategories.length) {
+        list.html(`<div class="text-muted">${t('items_category_empty')}</div>`);
+        return;
+    }
+
+    allCategories.forEach(function (category) {
+        const row = $(`
+            <div class="d-flex justify-content-between align-items-center border rounded p-2 mb-2">
+                <span>${category}</span>
+                <button class="btn btn-sm btn-outline-danger" type="button" data-category="${category}">${t('items_category_remove')}</button>
+            </div>
+        `);
+
+        row.find('button').on('click', function () {
+            const itemToRemove = $(this).data('category');
+            allCategories = allCategories.filter(item => item !== itemToRemove);
+            populateCategoryOptions();
+            renderCategoryManagerList();
+        });
+
+        list.append(row);
+    });
+}
+
+function openCategoryModal() {
+    renderCategoryManagerList();
+    $('#categoryModal').modal('show');
+}
+
+function addCategory() {
+    const category = normalizeCategoryName($('#newCategoryName').val());
+
+    if (!category) {
+        showNotification(t('items_category_required'), 'warning');
+        return;
+    }
+
+    if (!allCategories.includes(category)) {
+        allCategories.push(category);
+    }
+
+    $('#newCategoryName').val('');
+    populateCategoryOptions();
+    renderCategoryManagerList();
+}
+
+function loadCategories() {
+    $.ajax({
+        url: '/api/categories',
+        method: 'GET',
+        success: function (categories) {
+            allCategories = (categories || []).map(normalizeCategoryName).filter(Boolean);
+            populateCategoryOptions();
+            renderCategoryManagerList();
+        },
+        error: function () {
+            allCategories = ['Pieces', 'Weight'];
+            populateCategoryOptions();
+            renderCategoryManagerList();
+        }
+    });
 }
 
 function loadAllItems() {
@@ -96,19 +182,33 @@ function displayItems(items) {
 }
 
 function populateCategoryOptions() {
-    const categories = [...new Set(allItems.map(item => item.category).filter(Boolean))];
-    const select = $('#filterCategory');
-    const current = select.val();
+    const categories = [...new Set([
+        ...allCategories,
+        ...allItems.map(item => normalizeCategoryName(item.category)).filter(Boolean),
+    ])];
 
-    select.empty();
-    select.append(`<option value="">${t('pos_all_categories')}</option>`);
+    const filterSelect = $('#filterCategory');
+    const itemSelect = $('#txtCategory');
+    const currentFilter = filterSelect.val();
+    const currentItem = itemSelect.val();
+
+    filterSelect.empty();
+    filterSelect.append(`<option value="">${t('pos_all_categories')}</option>`);
+
+    itemSelect.empty();
+    itemSelect.append(`<option value="">${t('items_category_placeholder')}</option>`);
 
     categories.forEach(function (category) {
-        select.append(`<option value="${category}">${category}</option>`);
+        filterSelect.append(`<option value="${category}">${category}</option>`);
+        itemSelect.append(`<option value="${category}">${category}</option>`);
     });
 
-    if (current) {
-        select.val(current);
+    if (currentFilter && categories.includes(currentFilter)) {
+        filterSelect.val(currentFilter);
+    }
+
+    if (currentItem && categories.includes(currentItem)) {
+        itemSelect.val(currentItem);
     }
 }
 
@@ -383,30 +483,6 @@ function showNotification(message, type = 'info') {
     setTimeout(() => alert.alert('close'), 3000);
 }
 
-    // Filter by category
-    if (category) {
-        filtered = filtered.filter(item => item.category === category);
-    }
-
-    // Filter by stock level
-    if (stockFilter === 'in-stock') {
-        filtered = filtered.filter(item => item.qtyOnHand > (item.minStockLevel || 10));
-    } else if (stockFilter === 'low-stock') {
-        filtered = filtered.filter(item =>
-            item.qtyOnHand > 0 && item.qtyOnHand <= (item.minStockLevel || 10)
-        );
-    } else if (stockFilter === 'out-of-stock') {
-        filtered = filtered.filter(item => item.qtyOnHand === 0);
-    }
-
-    // Filter by status
-    if (status) {
-        const isActive = status === 'true';
-        filtered = filtered.filter(item => item.active === isActive);
-    }
-
-    displayItems(filtered);
-
 function resetFilters() {
     $('#txtSearch').val('');
     $('#filterCategory').val('');
@@ -474,7 +550,7 @@ function confirmStockAdjustment() {
         contentType: "application/json",
         data: JSON.stringify(item),
         success: function() {
-            showNotification(`Stock adjusted successfully! New stock: ${newStock}`, "success");
+            showNotification(t('stock_adjust_success').replace('{count}', newStock), "success");
             $('#stockAdjustModal').modal('hide');
             loadAllItems();
 
@@ -483,7 +559,7 @@ function confirmStockAdjustment() {
         },
         error: function(error) {
             console.error("Error adjusting stock:", error);
-            showNotification("Error adjusting stock", "error");
+            showNotification(t('stock_adjust_error'), "error");
         }
     });
 }
@@ -511,7 +587,7 @@ function exportToCSV() {
     });
 
     downloadCSV(csv, 'items_export.csv');
-    showNotification("Items exported successfully!", "success");
+    showNotification(t('items_export_success'), "success");
 }
 
 function downloadCSVTemplate() {
@@ -524,7 +600,7 @@ function downloadCSVTemplate() {
     csv += sample.map(cell => `"${cell}"`).join(',') + '\n';
 
     downloadCSV(csv, 'items_template.csv');
-    showNotification("Template downloaded!", "success");
+    showNotification(t('items_template_downloaded'), "success");
 }
 
 function downloadCSV(content, filename) {
@@ -566,7 +642,7 @@ function previewCSVImport(event) {
 }
 
 function confirmBulkImport() {
-    showNotification("Bulk import functionality coming soon!", "info");
+    showNotification(t('items_bulk_import_soon'), 'info');
     // In production, this would parse CSV and create multiple items
 }
 
@@ -576,31 +652,6 @@ function confirmBulkImport() {
 
 function formatCurrency(amount) {
     return amount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
-
-function showNotification(message, type = 'info') {
-    const alertClass = {
-        'success': 'alert-success',
-        'error': 'alert-danger',
-        'warning': 'alert-warning',
-        'info': 'alert-info'
-    }[type] || 'alert-info';
-
-    const alert = $(`
-        <div class="alert ${alertClass} alert-dismissible fade show"
-             style="position: fixed; top: 70px; right: 20px; z-index: 9999; min-width: 300px;">
-            ${message}
-            <button type="button" class="close" data-dismiss="alert">
-                <span>&times;</span>
-            </button>
-        </div>
-    `);
-
-    $('body').append(alert);
-
-    setTimeout(() => {
-        alert.alert('close');
-    }, 3000);
 }
 
 console.log("Items Management Controller Loaded!");

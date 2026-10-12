@@ -6,6 +6,13 @@
 let debts = [];
 let currentDebtId = null;
 
+// Configure CSRF header for all AJAX requests
+$.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || ''
+    }
+});
+
 // Initialize
 $(document).ready(function() {
     loadDebts();

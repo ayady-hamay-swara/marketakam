@@ -104,7 +104,7 @@
         if (autoPrint) {
             autoPrint.addEventListener('change', function() {
                 const label = this.parentElement.querySelector('.toggle-text');
-                if (label) label.textContent = this.checked ? 'On' : 'Off';
+                if (label) label.textContent = this.checked ? t('toggle_on') : t('toggle_off');
             });
             autoPrint.dispatchEvent(new Event('change'));
         }
@@ -112,7 +112,7 @@
         if (sound) {
             sound.addEventListener('change', function() {
                 const label = this.parentElement.querySelector('.toggle-text');
-                if (label) label.textContent = this.checked ? 'On' : 'Off';
+                if (label) label.textContent = this.checked ? t('toggle_on') : t('toggle_off');
             });
             sound.dispatchEvent(new Event('change'));
         }
@@ -136,7 +136,7 @@
             const cashierName = document.getElementById('globalCashierName');
 
             if (storeName) storeName.value = settings.storeName || '';
-            if (currency) currency.value = settings.currency || 'Rs.';
+            if (currency) currency.value = settings.currency || 'IQD';
             if (taxRate) taxRate.value = settings.taxRate || 0;
             if (autoPrint) autoPrint.checked = !!settings.autoPrint;
             if (sound) sound.checked = settings.sound !== false;
@@ -155,12 +155,12 @@
         const cashierName = document.getElementById('globalCashierName');
 
         const settings = {
-            storeName: storeName ? storeName.value.trim() : 'POS System',
-            currency: currency ? currency.value : 'Rs.',
+            storeName: storeName ? storeName.value.trim() : t('settings_store_placeholder'),
+            currency: currency ? currency.value : 'IQD',
             taxRate: taxRate ? parseFloat(taxRate.value) || 0 : 0,
             autoPrint: autoPrint ? autoPrint.checked : false,
             sound: sound ? sound.checked : true,
-            cashier: cashierName ? cashierName.value.trim() : 'Admin'
+            cashier: cashierName ? cashierName.value.trim() : t('settings_cashier_placeholder')
         };
 
         localStorage.setItem('posSettings', JSON.stringify(settings));
@@ -172,7 +172,7 @@
         closeAllPopups();
 
         // Show success message
-        showToast('Settings saved successfully!', 'success');
+        showToast(t('settings_saved_successfully'), 'success');
 
         // Dispatch event for other scripts
         window.dispatchEvent(new CustomEvent('settingsSaved', { detail: settings }));

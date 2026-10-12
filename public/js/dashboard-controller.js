@@ -30,27 +30,27 @@ let allEmployees = [];
 
 $(document).ready(function() {
     console.log("Dashboard Initializing...");
-    
+
     // Update clock
     updateDateTime();
     setInterval(updateDateTime, 1000);
-    
+
     // Load all data
     loadDashboardData();
-    
+
     // Setup event listeners
     setupEventListeners();
-    
+
     // Initialize chart
     initializeSalesChart();
-    
+
     console.log("Dashboard Ready!");
 });
 
 function setupEventListeners() {
     // Chart period change
     $('#chartPeriod').change(updateSalesChart);
-    
+
     // Quick action buttons
     $('#btnGenerateReport').click(generateReport);
     $('#btnBackupData').click(backupData);
@@ -63,19 +63,19 @@ function setupEventListeners() {
 
 function updateDateTime() {
     const now = new Date();
-    
-    const dateOptions = { 
-        weekday: 'long', 
-        year: 'numeric', 
-        month: 'long', 
-        day: 'numeric' 
+
+    const dateOptions = {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
     };
-    const timeOptions = { 
-        hour: '2-digit', 
-        minute: '2-digit', 
-        second: '2-digit' 
+    const timeOptions = {
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
     };
-    
+
     $('#currentDate').text(now.toLocaleDateString('en-US', dateOptions));
     $('#currentTime').text(now.toLocaleTimeString('en-US', timeOptions));
 }
@@ -188,56 +188,56 @@ function loadEmployees() {
 function calculateMetrics() {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-    
+
     // Calculate today's sales
     const todayOrders = allOrders.filter(order => {
         const orderDate = new Date(order.date);
         return orderDate >= today && order.status === 'COMPLETED';
     });
-    
+
     const todaySales = todayOrders.reduce((sum, order) => {
         return sum + (order.totalAmount || 0);
     }, 0);
-    
+
     // Calculate monthly revenue
     const monthStart = new Date(today.getFullYear(), today.getMonth(), 1);
     const monthlyOrders = allOrders.filter(order => {
         const orderDate = new Date(order.date);
         return orderDate >= monthStart && order.status === 'COMPLETED';
     });
-    
+
     const monthlyRevenue = monthlyOrders.reduce((sum, order) => {
         return sum + (order.totalAmount || 0);
     }, 0);
-    
+
     // Stock calculations
-    const lowStockItems = allItems.filter(item => 
+    const lowStockItems = allItems.filter(item =>
         item.active && item.qtyOnHand <= (item.minStockLevel || 10)
     );
-    
-    const outOfStockItems = allItems.filter(item => 
+
+    const outOfStockItems = allItems.filter(item =>
         item.active && item.qtyOnHand === 0
     );
-    
+
     const activeEmployees = allEmployees.filter(emp => emp.active);
-    
+
     // Calculate inventory value
     const inventoryValue = allItems
         .filter(item => item.active)
         .reduce((sum, item) => sum + (item.unitPrice * item.qtyOnHand), 0);
-    
+
     // Update UI
     $('#todaySales').text(`Rs. ${formatCurrency(todaySales)}`);
     $('#todayOrders').text(todayOrders.length);
     $('#totalCustomers').text(allCustomers.length);
     $('#monthlyRevenue').text(`Rs. ${formatCurrency(monthlyRevenue)}`);
-    
+
     $('#totalItems').text(allItems.filter(i => i.active).length);
     $('#lowStockItems').text(lowStockItems.length);
     $('#outOfStockItems').text(outOfStockItems.length);
     $('#activeEmployees').text(activeEmployees.length);
     $('#inventoryValue').text(`Rs. ${formatCurrency(inventoryValue)}`);
-    
+
     // Calculate and display trends
     calculateTrends();
 }
@@ -245,36 +245,36 @@ function calculateMetrics() {
 function calculateTrends() {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-    
+
     const yesterday = new Date(today);
     yesterday.setDate(yesterday.getDate() - 1);
-    
+
     // Today's orders
     const todayOrders = allOrders.filter(order => {
         const orderDate = new Date(order.date);
         return orderDate >= today;
     });
-    
+
     // Yesterday's orders
     const yesterdayOrders = allOrders.filter(order => {
         const orderDate = new Date(order.date);
         return orderDate >= yesterday && orderDate < today;
     });
-    
+
     // Calculate sales change
     const todaySales = todayOrders.reduce((sum, o) => sum + (o.totalAmount || 0), 0);
     const yesterdaySales = yesterdayOrders.reduce((sum, o) => sum + (o.totalAmount || 0), 0);
-    
-    const salesChange = yesterdaySales > 0 
+
+    const salesChange = yesterdaySales > 0
         ? ((todaySales - yesterdaySales) / yesterdaySales * 100).toFixed(1)
         : 0;
-    
+
     // Update trend displays
     updateTrend('#salesChange', salesChange, 'from yesterday');
-    updateTrend('#ordersChange', 
-        yesterdayOrders.length > 0 
+    updateTrend('#ordersChange',
+        yesterdayOrders.length > 0
             ? ((todayOrders.length - yesterdayOrders.length) / yesterdayOrders.length * 100).toFixed(1)
-            : 0, 
+            : 0,
         'from yesterday'
     );
 }
@@ -282,10 +282,10 @@ function calculateTrends() {
 function updateTrend(selector, percent, label) {
     const element = $(selector);
     const isPositive = percent >= 0;
-    
+
     element.removeClass('positive negative neutral');
     element.addClass(isPositive ? 'positive' : 'negative');
-    
+
     const arrow = isPositive ? '↑' : '↓';
     element.html(`
         <span class="arrow">${arrow}</span> ${Math.abs(percent)}% ${label}
@@ -298,7 +298,7 @@ function updateTrend(selector, percent, label) {
 
 function initializeSalesChart() {
     const ctx = document.getElementById('salesChart').getContext('2d');
-    
+
     salesChart = new Chart(ctx, {
         type: 'line',
         data: {
@@ -367,7 +367,7 @@ function initializeSalesChart() {
 function updateSalesChart() {
     const days = parseInt($('#chartPeriod').val()) || 7;
     const salesData = calculateSalesData(days);
-    
+
     salesChart.data.labels = salesData.labels;
     salesChart.data.datasets[0].data = salesData.values;
     salesChart.update();
@@ -377,15 +377,15 @@ function calculateSalesData(days) {
     const labels = [];
     const values = [];
     const today = new Date();
-    
+
     for (let i = days - 1; i >= 0; i--) {
         const date = new Date(today);
         date.setDate(date.getDate() - i);
         date.setHours(0, 0, 0, 0);
-        
+
         const nextDay = new Date(date);
         nextDay.setDate(nextDay.getDate() + 1);
-        
+
         // Calculate sales for this day
         const daySales = allOrders
             .filter(order => {
@@ -393,16 +393,16 @@ function calculateSalesData(days) {
                 return orderDate >= date && orderDate < nextDay && order.status === 'COMPLETED';
             })
             .reduce((sum, order) => sum + (order.totalAmount || 0), 0);
-        
+
         // Format label
-        const label = i === 0 ? 'Today' : 
-                     i === 1 ? 'Yesterday' : 
+        const label = i === 0 ? 'Today' :
+                     i === 1 ? 'Yesterday' :
                      date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-        
+
         labels.push(label);
         values.push(daySales);
     }
-    
+
     return { labels, values };
 }
 
@@ -413,12 +413,12 @@ function calculateSalesData(days) {
 function displayRecentOrders() {
     const tbody = $('#recentOrdersBody');
     tbody.empty();
-    
+
     // Get last 5 orders
     const recentOrders = allOrders
         .sort((a, b) => new Date(b.date) - new Date(a.date))
         .slice(0, 5);
-    
+
     if (recentOrders.length === 0) {
         tbody.html(`
             <tr>
@@ -429,19 +429,19 @@ function displayRecentOrders() {
         `);
         return;
     }
-    
+
     recentOrders.forEach(order => {
         const customer = allCustomers.find(c => c.id === order.customerId);
         const customerName = customer ? customer.name : 'Walk-in';
         const orderTime = new Date(order.date);
         const timeAgo = getTimeAgo(orderTime);
-        
+
         const statusClass = {
             'COMPLETED': 'status-completed',
             'PENDING': 'status-pending',
             'CANCELLED': 'status-cancelled'
         }[order.status] || 'status-pending';
-        
+
         const row = $(`
             <tr>
                 <td><strong>#${order.id}</strong></td>
@@ -451,7 +451,7 @@ function displayRecentOrders() {
                 <td>${timeAgo}</td>
             </tr>
         `);
-        
+
         row.click(() => viewOrderDetails(order));
         tbody.append(row);
     });
@@ -464,12 +464,12 @@ function displayRecentOrders() {
 function displayLowStockAlerts() {
     const tbody = $('#lowStockBody');
     tbody.empty();
-    
+
     const lowStockItems = allItems
         .filter(item => item.active && item.qtyOnHand <= (item.minStockLevel || 10))
         .sort((a, b) => a.qtyOnHand - b.qtyOnHand)
         .slice(0, 5);
-    
+
     if (lowStockItems.length === 0) {
         tbody.html(`
             <tr>
@@ -480,11 +480,11 @@ function displayLowStockAlerts() {
         `);
         return;
     }
-    
+
     lowStockItems.forEach(item => {
         const stockClass = item.qtyOnHand === 0 ? 'stock-critical' : 'stock-warning';
         const stockText = item.qtyOnHand === 0 ? 'OUT OF STOCK' : item.qtyOnHand;
-        
+
         const row = $(`
             <tr>
                 <td><strong>${item.description}</strong></td>
@@ -498,7 +498,7 @@ function displayLowStockAlerts() {
                 </td>
             </tr>
         `);
-        
+
         tbody.append(row);
     });
 }
@@ -510,10 +510,10 @@ function displayLowStockAlerts() {
 function displayTopProducts() {
     const container = $('#topProductsList');
     container.empty();
-    
+
     // Calculate product sales
     const productSales = {};
-    
+
     allOrders.forEach(order => {
         if (order.items && order.status === 'COMPLETED') {
             order.items.forEach(item => {
@@ -529,12 +529,12 @@ function displayTopProducts() {
             });
         }
     });
-    
+
     // Get top 5 products
     const topProducts = Object.values(productSales)
         .sort((a, b) => b.revenue - a.revenue)
         .slice(0, 5);
-    
+
     if (topProducts.length === 0) {
         container.html(`
             <div class="text-center text-muted py-4">
@@ -543,12 +543,12 @@ function displayTopProducts() {
         `);
         return;
     }
-    
+
     topProducts.forEach((product, index) => {
         const item = allItems.find(i => i.code === product.code);
         const itemName = item ? item.description : product.code;
         const itemCategory = item ? (item.category || 'General') : 'Unknown';
-        
+
         const productItem = $(`
             <div class="top-product-item">
                 <div class="product-info">
@@ -564,7 +564,7 @@ function displayTopProducts() {
                 </div>
             </div>
         `);
-        
+
         container.append(productItem);
     });
 }
@@ -576,10 +576,10 @@ function displayTopProducts() {
 function displayTopCustomers() {
     const container = $('#topCustomersList');
     container.empty();
-    
+
     // Calculate customer purchases
     const customerPurchases = {};
-    
+
     allOrders.forEach(order => {
         if (order.customerId && order.status === 'COMPLETED') {
             if (!customerPurchases[order.customerId]) {
@@ -593,12 +593,12 @@ function displayTopCustomers() {
             customerPurchases[order.customerId].orderCount++;
         }
     });
-    
+
     // Get top 5 customers
     const topCustomers = Object.values(customerPurchases)
         .sort((a, b) => b.totalSpent - a.totalSpent)
         .slice(0, 5);
-    
+
     if (topCustomers.length === 0) {
         container.html(`
             <div class="text-center text-muted py-4">
@@ -607,12 +607,12 @@ function displayTopCustomers() {
         `);
         return;
     }
-    
+
     topCustomers.forEach((customerData, index) => {
         const customer = allCustomers.find(c => c.id === customerData.id);
         const customerName = customer ? customer.name : customerData.id;
         const customerEmail = customer ? (customer.email || 'No email') : '';
-        
+
         const customerItem = $(`
             <div class="top-customer-item">
                 <div class="customer-info">
@@ -628,7 +628,7 @@ function displayTopCustomers() {
                 </div>
             </div>
         `);
-        
+
         container.append(customerItem);
     });
 }
@@ -638,27 +638,27 @@ function displayTopCustomers() {
 // ============================================================================
 
 function generateReport() {
-    showNotification("Generating report...", "info");
-    
+    showNotification(t('report_generating'), 'info');
+
     // In production, this would generate a PDF or Excel report
     setTimeout(() => {
-        showNotification("Report generated successfully!", "success");
+        showNotification(t('report_generated'), 'success');
     }, 2000);
 }
 
 function backupData() {
-    if (confirm("Create backup of all data?")) {
-        showNotification("Creating backup...", "info");
-        
+    if (confirm(t('backup_confirm'))) {
+        showNotification(t('backup_creating'), 'info');
+
         // In production, this would trigger a database backup
         setTimeout(() => {
-            showNotification("Backup completed successfully!", "success");
+            showNotification(t('backup_completed'), 'success');
         }, 2000);
     }
 }
 
 function openSettings() {
-    showNotification("Settings page coming soon!", "info");
+    showNotification(t('settings_coming_soon'), 'info');
 }
 
 function viewOrderDetails(order) {
@@ -680,7 +680,7 @@ function getTimeAgo(date) {
     const minutes = Math.floor(diff / 60000);
     const hours = Math.floor(diff / 3600000);
     const days = Math.floor(diff / 86400000);
-    
+
     if (minutes < 1) return 'Just now';
     if (minutes < 60) return `${minutes}m ago`;
     if (hours < 24) return `${hours}h ago`;
@@ -694,9 +694,9 @@ function showNotification(message, type = 'info') {
         'warning': 'alert-warning',
         'info': 'alert-info'
     }[type] || 'alert-info';
-    
+
     const alert = $(`
-        <div class="alert ${alertClass} alert-dismissible fade show" 
+        <div class="alert ${alertClass} alert-dismissible fade show"
              style="position: fixed; top: 70px; right: 20px; z-index: 9999; min-width: 300px;">
             ${message}
             <button type="button" class="close" data-dismiss="alert">
@@ -704,9 +704,9 @@ function showNotification(message, type = 'info') {
             </button>
         </div>
     `);
-    
+
     $('body').append(alert);
-    
+
     setTimeout(() => {
         alert.alert('close');
     }, 3000);
@@ -719,11 +719,11 @@ function showNotification(message, type = 'info') {
 function generateMockOrders() {
     const orders = [];
     const today = new Date();
-    
+
     for (let i = 0; i < 30; i++) {
         const orderDate = new Date(today);
         orderDate.setDate(orderDate.getDate() - Math.floor(Math.random() * 30));
-        
+
         orders.push({
             id: 1000 + i,
             date: orderDate.toISOString(),
@@ -733,7 +733,7 @@ function generateMockOrders() {
             items: []
         });
     }
-    
+
     return orders;
 }
 

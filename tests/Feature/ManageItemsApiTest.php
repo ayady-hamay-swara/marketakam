@@ -51,4 +51,30 @@ class ManageItemsApiTest extends TestCase
         $listResponse = $this->getJson('/api/items');
         $listResponse->assertOk()->assertJsonFragment(['code' => 'P-9001']);
     }
+
+    public function test_categories_endpoint_exposes_default_category_options(): void
+    {
+        $store = Store::create([
+            'name' => 'Main Store',
+            'status' => 'active',
+        ]);
+
+        $user = User::unguarded(function () use ($store) {
+            return User::create([
+                'username' => 'cashier2',
+                'email' => 'cashier2@example.com',
+                'password' => bcrypt('secret123'),
+                'role' => 'cashier',
+                'current_store_id' => $store->id,
+            ]);
+        });
+
+        $this->actingAs($user);
+
+        $response = $this->getJson('/api/categories');
+
+        $response->assertOk()
+            ->assertJsonFragment(['Pieces'])
+            ->assertJsonFragment(['Weight']);
+    }
 }

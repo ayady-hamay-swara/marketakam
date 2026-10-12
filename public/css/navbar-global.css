@@ -210,13 +210,15 @@
     top: 64px;
     left: 20px;
     z-index: 1100;
-    background: white;
+    background: #f5f8ff;
+    border: 1px solid rgba(26, 43, 74, 0.12);
     border-radius: 16px;
-    box-shadow: 0 16px 48px rgba(0,0,0,.28);
+    box-shadow: 0 18px 48px rgba(10, 18, 35, 0.28);
     overflow: hidden;
     animation: popIn .18s ease;
     max-height: calc(100vh - 80px);
     overflow-y: auto;
+    color: #1a2b4a;
 }
 
 .global-popup.show { display: block; }
@@ -253,14 +255,14 @@
 /* ── SETTINGS POPUP ── */
 #globalSettingsPanel { width: 320px; }
 
-.settings-body { padding: 16px 20px 20px; }
+.settings-body { padding: 16px 20px 20px; background: #f6f9ff; }
 
 .settings-section { margin-bottom: 16px; }
 
 .settings-label {
     font-size: 11px;
     font-weight: 700;
-    color: #777;
+    color: #21314d;
     text-transform: uppercase;
     letter-spacing: .5px;
     margin-bottom: 6px;
@@ -270,30 +272,34 @@
     width: 100%;
     padding: 9px 12px;
     font-size: 14px;
-    border: 1.5px solid #d8e2f0;
+    border: 1.5px solid #cfe0ff;
     border-radius: 8px;
     outline: none;
-    transition: border-color .2s;
+    background: #ffffff;
+    color: #102038;
+    transition: border-color .2s, box-shadow .2s;
 }
 
-.settings-input:focus { border-color: #4d9fff; }
+.settings-input::placeholder { color: #7787a3; }
+.settings-input:focus { border-color: #4d9fff; box-shadow: 0 0 0 3px rgba(77,159,255,.12); }
 
 .settings-save-btn {
     width: 100%;
     padding: 11px;
     margin-top: 8px;
-    background: #1a2b4a;
+    background: linear-gradient(135deg, #1a2b4a 0%, #274170 100%);
     color: white;
     border: none;
     border-radius: 10px;
     font-size: 15px;
     font-weight: 700;
     cursor: pointer;
-    transition: background .2s, transform .15s;
+    transition: background .2s, transform .15s, box-shadow .2s;
+    box-shadow: 0 8px 18px rgba(26, 43, 74, 0.22);
 }
 
 .settings-save-btn:hover {
-    background: #243d6a;
+    background: linear-gradient(135deg, #223e67 0%, #1a2b4a 100%);
     transform: translateY(-1px);
 }
 
@@ -330,7 +336,7 @@
 .toggle-label input:checked ~ .toggle-track { background: #4d9fff; }
 .toggle-label input:checked ~ .toggle-track::after { transform: translateX(20px); }
 
-.toggle-text { font-size: 13px; font-weight: 600; color: #555; }
+.toggle-text { font-size: 13px; font-weight: 600; color: #1a2b4a; }
 
 /* ── CALCULATOR POPUP ── */
 #globalCalcPanel { width: 280px; }
