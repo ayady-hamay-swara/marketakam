@@ -67,8 +67,8 @@
 <!-- Settings Popup -->
 <div class="global-popup" id="globalSettingsPanel">
     <div class="popup-header">
-        <span>⚙️ <span data-i18n="settings_title">ڕێکخستنەکان</span></span>
-        <button class="popup-close" id="settingsCloseBtn">✕</button>
+        <span><span data-i18n="settings_title">ڕێکخستنەکان</span></span>
+        <button class="popup-close" id="settingsCloseBtn">×</button>
     </div>
     <div class="settings-body">
         <div class="settings-section">

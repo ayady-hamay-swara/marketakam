@@ -16,10 +16,12 @@ let selectedCustomerForDebt = null;
 // INIT
 // ═══════════════════════════════════════════════════════
 $(document).ready(function(){
+    console.log('Document ready - initializing POS');
     loadCategories();
     loadProducts();
     setupPosListeners();
     updateStats();
+    console.log('POS initialization complete');
 });
 
 // Configure CSRF header for all AJAX requests
@@ -32,6 +34,7 @@ $.ajaxSetup({
 function setupPosListeners() {
     $('#productSearch').on('input', function(){
         const q = $(this).val().trim();
+        console.log('Search input event:', q);
         if(q.length<1){ $('#productResults').hide(); return; }
         showSearchResults(q, $('#categoryFilter').val());
     });
@@ -87,9 +90,17 @@ function loadCategories(){
 }
 
 function loadProducts(){
+    console.log('Loading products from:', ITEMS_URL);
     $.ajax({ url:ITEMS_URL, method:'GET',
-        success(items){ allProducts=(items||[]); },
-        error(){ showToast(t('items_load_error'), 'error'); }
+        success(items){
+            console.log('Products loaded:', items);
+            allProducts=(items||[]);
+            console.log('allProducts set to:', allProducts);
+        },
+        error(xhr, status, error){
+            console.error('Failed to load products:', status, error, xhr.responseText);
+            showToast(t('items_load_error'), 'error');
+        }
     });
 }
 
@@ -107,10 +118,13 @@ function loadCustomers(){
 // SEARCH RESULTS
 // ═══════════════════════════════════════════════════════
 function showSearchResults(q, cat){
+    console.log('showSearchResults called with:', q, cat);
+    console.log('allProducts:', allProducts);
     let res = allProducts;
     const ql = q.toLowerCase();
     res = res.filter(p=>p.description.toLowerCase().includes(ql)||p.code.toLowerCase().includes(ql)||(p.barcode&&p.barcode.includes(q)));
     if(cat) res = res.filter(p=>p.category===cat);
+    console.log('Filtered results:', res);
 
     const box=$('#productResults'); box.empty();
     if(!res.length){
@@ -498,6 +512,10 @@ function saveOrder(order, isDebt){
             } finally {
                 resetButtons();
             }
+        }
+    });
+}
+
 function createDebtRecord(customerId, orderId, amount){
     const debt = {
         customerId: customerId,
@@ -575,9 +593,9 @@ function newSale(){
 
 function updateStats(){
     const s = parseFloat(localStorage.getItem('todaySales')||0);
-    const t = parseInt(localStorage.getItem('todayOrders')||0);
+    const orderCount = parseInt(localStorage.getItem('todayOrders')||0);
     $('#todaySales').text('IQD ' + fmt(s));
-    $('#todayTransactions').text(t);
+    $('#todayTransactions').text(orderCount);
 
     const settings = JSON.parse(localStorage.getItem('posSettings') || '{}');
     $('#cashierName').text(settings.cashier || t('settings_cashier_placeholder'));
@@ -602,8 +620,10 @@ function playBeep(){
 function showToast(msg,type='info'){
     const c={success:'#27ae60',error:'#e74c3c',warning:'#f39c12',info:'#3498db'};
     const ic={success:'✅',error:'❌',warning:'⚠️',info:'ℹ️'};
-    const t=$(`<div style="position:fixed;bottom:20px;right:20px;z-index:9999;background:${c[type]};color:white;padding:12px 20px;border-radius:10px;box-shadow:0 4px 15px rgba(0,0,0,.3);font-weight:600;font-size:14px;">${ic[type]} ${msg}</div>`);
-    $('body').append(t); setTimeout(()=>t.fadeOut(300,()=>t.remove()),2500);
+    const toastEl=$(`<div style="position:fixed;bottom:20px;right:20px;z-index:9999;background:${c[type]};color:white;padding:12px 20px;border-radius:10px;box-shadow:0 4px 15px rgba(0,0,0,.3);font-weight:600;font-size:14px;">${ic[type]} ${msg}</div>`);
+    $('body').append(toastEl); setTimeout(()=>toastEl.fadeOut(300,()=>toastEl.remove()),2500);
 }
 
 console.log('POS Controller with Debt Ready!');
+
+

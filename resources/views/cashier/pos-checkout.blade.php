@@ -17,8 +17,8 @@
 <!-- Settings & Calculator Popups (same as before) -->
 <div class="global-popup" id="globalSettingsPanel">
     <div class="popup-header">
-        <span>⚙️ ڕێکخستنەکان</span>
-        <button class="popup-close" id="settingsCloseBtn">✕</button>
+        <span>ڕێکخستنەکان</span>
+        <button class="popup-close" id="settingsCloseBtn">×</button>
     </div>
     <div class="settings-body">
         <div class="settings-section">
@@ -29,14 +29,14 @@
             <div class="settings-label" data-i18n="settings_cashier_name">ناوی بەکارهێنەر</div>
             <input type="text" id="globalCashierName" class="settings-input" data-i18n="settings_cashier_placeholder" placeholder="بەڕێوەبەر">
         </div>
-        <button class="settings-save-btn" id="btnGlobalSaveSettings">💾 <span data-i18n="settings_save">پاشەکەوت</span></button>
+        <button class="settings-save-btn" id="btnGlobalSaveSettings"><span data-i18n="settings_save">پاشەکەوت</span></button>
     </div>
 </div>
 
 <div class="global-popup" id="globalCalcPanel">
     <div class="popup-header">
-        <span>🧮 ژمێرەر</span>
-        <button class="popup-close" id="calcCloseBtn">✕</button>
+        <span>ژمێرەر</span>
+        <button class="popup-close" id="calcCloseBtn">×</button>
     </div>
     <div class="calc-wrap">
         <div class="calc-display">
@@ -95,7 +95,6 @@
             <!-- Search + Category -->
             <div class="search-row">
                 <div class="search-wrap">
-                    <span class="search-icon">🔍</span>
                     <input type="text" id="productSearch" class="search-input"
                            data-i18n="pos_search_placeholder" placeholder="گەڕان بە ناو، کۆد یان بارکۆد..." autofocus>
                     <div class="product-results" id="productResults" style="display:none;"></div>
@@ -108,8 +107,8 @@
             <!-- Cart Box -->
             <div class="cart-box">
                 <div class="cart-box-header">
-                    <span>🛒 <span data-i18n="pos_cart_items">کاڵاکانی سەبەتە</span> <span class="cart-count" id="cartCount">0 <span data-i18n="unit_label">دانە</span></span></span>
-                    <button class="btn-clear-cart" id="btnClearCart">🗑 <span data-i18n="pos_clear_cart">پاککردنەوە</span></button>
+                    <span><span data-i18n="pos_cart_items">کاڵاکانی سەبەتە</span> <span class="cart-count" id="cartCount">0 <span data-i18n="unit_label">دانە</span></span></span>
+                    <button class="btn-clear-cart" id="btnClearCart"><span data-i18n="pos_clear_cart">پاککردنەوە</span></button>
                 </div>
                 <div class="cart-table-head">
                     <span class="col-name" data-i18n="pos_col_item">کاڵا</span>
@@ -120,7 +119,6 @@
                 </div>
                 <div class="cart-table-body" id="cartItems">
                     <div class="cart-empty">
-                        <div style="font-size:48px;">🛒</div>
                         <p data-i18n="pos_cart_empty_title">سەبەتە بەتاڵە</p>
                         <small data-i18n="pos_cart_empty_desc">کاڵایەک بگەڕێ یان سکان بکە</small>
                     </div>
@@ -152,11 +150,11 @@
 
             <!-- Payment Method -->
             <div class="right-section payment-section">
-                <div class="right-section-title">💳 <span data-i18n="pos_payment_method_title">شێوازی پارەدان</span></div>
+                <div class="right-section-title"><span data-i18n="pos_payment_method_title">شێوازی پارەدان</span></div>
                 <div class="payment-btns">
-                    <button class="pay-btn active" data-method="CASH">💵 <span data-i18n="pos_pay_cash">کاش</span></button>
-                    <button class="pay-btn" data-method="CARD">💳 <span data-i18n="pos_pay_card">کارت</span></button>
-                    <button class="pay-btn" data-method="TRANSFER">🏦 <span data-i18n="pos_pay_transfer">گواستنەوە</span></button>
+                    <button class="pay-btn active" data-method="CASH"><span data-i18n="pos_pay_cash">کاش</span></button>
+                    <button class="pay-btn" data-method="CARD"><span data-i18n="pos_pay_card">کارت</span></button>
+                    <button class="pay-btn" data-method="TRANSFER"><span data-i18n="pos_pay_transfer">گواستنەوە</span></button>
                 </div>
                 <div id="cashSection" class="cash-section">
                     <label class="cash-label" data-i18n="pos_amount_received">بڕی وەرگیراو</label>
@@ -170,16 +168,16 @@
 
             <!-- Action Buttons (Updated with Debt button) -->
             <div class="right-section action-section">
-                <button class="btn-complete" id="btnCompleteSale">✅ <span data-i18n="pos_complete_sale">تەواوکردنی فرۆشتن</span></button>
+                <button class="btn-complete" id="btnCompleteSale"><span data-i18n="pos_complete_sale">تەواوکردنی فرۆشتن</span></button>
 
                 <!-- NEW: Sell as Debt Button -->
-                <button class="btn-debt" id="btnSellAsDebt">💳 <span data-i18n="pos_sell_as_debt">فرۆشتن بە قەرز</span></button>
+                <button class="btn-debt" id="btnSellAsDebt"><span data-i18n="pos_sell_as_debt">فرۆشتن بە قەرز</span></button>
 
                 <div class="btn-row-2">
-                    <button class="btn-hold" id="btnHold">⏸ <span data-i18n="pos_hold">ڕاگرتن</span></button>
-                    <button class="btn-cancel" id="btnCancel">✕ <span data-i18n="cancel">هەڵوەشاندنەوە</span></button>
+                    <button class="btn-hold" id="btnHold"><span data-i18n="pos_hold">ڕاگرتن</span></button>
+                    <button class="btn-cancel" id="btnCancel"><span data-i18n="cancel">هەڵوەشاندنەوە</span></button>
                 </div>
-                <button class="btn-return" id="btnReturn">↩ <span data-i18n="pos_return">گەڕاندنەوە</span></button>
+                <button class="btn-return" id="btnReturn"><span data-i18n="pos_return">گەڕاندنەوە</span></button>
             </div>
 
         </div>
@@ -191,13 +189,13 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
                 <div class="modal-header bg-success text-white">
-                <h5 class="modal-title" data-i18n="receipt_success_title">✅ فرۆشتن تەواو بوو!</h5>
+                <h5 class="modal-title" data-i18n="receipt_success_title">فرۆشتن تەواو بوو!</h5>
                 <button type="button" class="close text-white" data-dismiss="modal"><span>×</span></button>
             </div>
             <div class="modal-body" id="receiptContent"></div>
             <div class="modal-footer">
-                <button class="btn btn-primary" onclick="window.print()" data-i18n="receipt_print">🖨️ چاپ</button>
-                <button class="btn btn-success" data-dismiss="modal" id="btnNewSale" data-i18n="receipt_new_sale">➕ فرۆشتنی نوێ</button>
+                <button class="btn btn-primary" onclick="window.print()" data-i18n="receipt_print">چاپ</button>
+                <button class="btn btn-success" data-dismiss="modal" id="btnNewSale" data-i18n="receipt_new_sale">فرۆشتنی نوێ</button>
             </div>
         </div>
     </div>
@@ -208,7 +206,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header" style="background: linear-gradient(135deg, #e74c3c, #c0392b); color: white;">
-                <h5 class="modal-title" data-i18n="customer_select_modal_title">👤 هەڵبژاردنی کڕیار بۆ قەرز</h5>
+                <h5 class="modal-title" data-i18n="customer_select_modal_title">هەڵبژاردنی کڕیار بۆ قەرز</h5>
                 <button type="button" class="close text-white" data-dismiss="modal"><span>×</span></button>
             </div>
             <div class="modal-body">
@@ -216,7 +214,7 @@
                 <!-- Quick Add Customer -->
                 <div class="card mb-3" style="border: 2px solid #e74c3c;">
                     <div class="card-body">
-                        <h6 class="text-danger mb-3" data-i18n="quick_add_heading">➕ زیادکردنی کڕیاری نوێ (خێرا)</h6>
+                        <h6 class="text-danger mb-3" data-i18n="quick_add_heading">زیادکردنی کڕیاری نوێ (خێرا)</h6>
                         <div class="row">
                             <div class="col-md-6">
                                 <input type="text" class="form-control" id="quickCustomerName" data-i18n="quick_customer_name_placeholder" placeholder="ناوی کڕیار *">
@@ -240,7 +238,6 @@
                 <!-- Customers List -->
                 <div id="customersList" style="max-height: 300px; overflow-y: auto;">
                     <div class="text-center text-muted py-4">
-                        <div style="font-size: 48px;">👥</div>
                         <p data-i18n="customers_waiting">چاوەڕوان بە...</p>
                     </div>
                 </div>
@@ -255,7 +252,7 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header bg-warning">
-                <h5 class="modal-title" data-i18n="return_modal_title">↩ گەڕاندنەوە</h5>
+                <h5 class="modal-title" data-i18n="return_modal_title">گەڕاندنەوە</h5>
                 <button type="button" class="close" data-dismiss="modal"><span>×</span></button>
             </div>
             <div class="modal-body">

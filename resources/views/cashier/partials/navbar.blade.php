@@ -29,9 +29,7 @@
             <li class="nav-item">
                 <a class="nav-link" href="/manage-items" data-i18n="nav_items">کاڵاکان</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/manage-employees" data-i18n="nav_employees">کارمەندان</a>
-            </li>
+
             <li class="nav-item">
                 <a class="nav-link" href="/pos-checkout" data-i18n="nav_pos">🛒 فرۆشتن</a>
             </li>

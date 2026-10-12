@@ -117,8 +117,8 @@
      ════════════════════════════════════════════════════════════════════ -->
 <div class="global-popup" id="globalSettingsPanel">
     <div class="popup-header">
-        <span>⚙️ <span data-i18n="settings_title">ڕێکخستنەکان</span></span>
-        <button class="popup-close" id="settingsCloseBtn">✕</button>
+        <span><span data-i18n="settings_title">ڕێکخستنەکان</span></span>
+        <button class="popup-close" id="settingsCloseBtn">×</button>
     </div>
     <div class="settings-body">
 
@@ -133,7 +133,7 @@
         </div>
 
         <button class="settings-save-btn" id="btnGlobalSaveSettings">
-            💾 <span data-i18n="settings_save">پاشەکەوت</span>
+            <span data-i18n="settings_save">پاشەکەوت</span>
         </button>
     </div>
 </div>
@@ -150,7 +150,7 @@
 
     <!-- Welcome Card -->
     <div class="welcome-card">
-        <div class="welcome-title" data-i18n="dashboard_welcome">بەخێربێیت! 👋</div>
+        <div class="welcome-title" data-i18n="dashboard_welcome">بەخێربێیت!</div>
         <div class="welcome-subtitle" data-i18n="dashboard_subtitle">سیستەمی بەڕێوەبردنی فرۆشگا</div>
     </div>
 
@@ -177,25 +177,25 @@
     <!-- Quick Actions -->
     <div class="quick-actions">
         <a href="/pos-checkout" class="action-card">
-            <div class="action-icon">🛒</div>
+            <div class="action-icon"></div>
             <div class="action-title" data-i18n="dashboard_action_pos_title">فرۆشتن</div>
             <div class="action-desc" data-i18n="dashboard_action_pos_desc">دەستپێکردنی فرۆشتنی نوێ</div>
         </a>
 
         <a href="/manage-items" class="action-card">
-            <div class="action-icon">📦</div>
+            <div class="action-icon"></div>
             <div class="action-title" data-i18n="dashboard_action_items_title">بەڕێوەبردنی کاڵا</div>
             <div class="action-desc" data-i18n="dashboard_action_items_desc">زیادکردن و دەستکاریکردنی کاڵاکان</div>
         </a>
 
         <a href="/manage-employees" class="action-card">
-            <div class="action-icon">👥</div>
+            <div class="action-icon"></div>
             <div class="action-title" data-i18n="dashboard_action_employees_title">کارمەندان</div>
             <div class="action-desc" data-i18n="dashboard_action_employees_desc">بەڕێوەبردنی کارمەندان</div>
         </a>
 
         <a href="/search-orders" class="action-card">
-            <div class="action-icon">📋</div>
+            <div class="action-icon"></div>
             <div class="action-title" data-i18n="dashboard_action_search_title">گەڕان لە وەسڵەکان</div>
             <div class="action-desc" data-i18n="dashboard_action_search_desc">بینینی وەسڵە پێشووەکان</div>
         </a>
