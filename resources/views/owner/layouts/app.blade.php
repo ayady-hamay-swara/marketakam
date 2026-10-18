@@ -4,8 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title_default', 'Owner') - Marketakam</title>
+    @php
+        $store = \App\Models\Store::find(auth()->user()->current_store_id ?? 1);
+        $storeName = $store ? $store->name : 'Marketakam';
+    @endphp
+    <title>@yield('title_default', 'Owner') - {{ $storeName }}</title>
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/fonts.css') }}">
     <link rel="stylesheet" href="{{ asset('css/design-system.css') }}">
     <link rel="stylesheet" href="{{ asset('css/owner-layout.css') }}">
 </head>
@@ -25,15 +30,15 @@
 {{-- ═════════ SIDEBAR ═════════ --}}
 <aside class="ow-sidebar" id="owSidebar">
     <a href="{{ url('/owner/dashboard') }}" class="ow-brand">
-        <span class="ow-brand-mark">@include('owner.partials.icon', ['name' => 'bag', 'size' => 18])</span>
-        <span class="ow-brand-text">Marketakam</span>
+        <span class="ow-brand-mark">@include('partials.icon', ['name' => 'bag', 'size' => 18])</span>
+        <span class="ow-brand-text">{{ $storeName }}</span>
     </a>
 
     <ul class="ow-nav">
         @foreach($items as [$key, $href, $icon, $i18n, $label])
             <li>
                 <a href="{{ url($href) }}" class="side-link {{ $nav === $key ? 'active' : '' }}" title="{{ $label }}">
-                    @include('owner.partials.icon', ['name' => $icon])
+                    @include('partials.icon', ['name' => $icon])
                     <span class="side-label" data-i18n="{{ $i18n }}">{{ $label }}</span>
                 </a>
             </li>
@@ -43,7 +48,7 @@
 
         <li>
             <a href="{{ url('/owner/pos') }}" class="side-link cta" title="POS">
-                @include('owner.partials.icon', ['name' => 'cart'])
+                @include('partials.icon', ['name' => 'cart'])
                 <span class="side-label" data-i18n="owner_nav_pos">فرۆشتن (POS)</span>
             </a>
         </li>
@@ -51,16 +56,16 @@
 
     <div class="ow-side-foot">
         <a href="{{ url('/owner/store-select') }}" class="ow-store-chip" title="Store">
-            @include('owner.partials.icon', ['name' => 'swap'])
+            @include('partials.icon', ['name' => 'swap'])
             <div>
                 <small data-i18n="owner_current_store">فرۆشگای ئێستا</small>
-                <b id="owStoreLabel" >مارکێتی ئاراس</b>
+                <b id="owStoreLabel" >{{ $storeName }}</b>
             </div>
         </a>
         <form method="POST" action="{{ route('logout') }}">
             @csrf
             <button type="submit" class="side-link" title="Log out">
-                @include('owner.partials.icon', ['name' => 'logout'])
+                @include('partials.icon', ['name' => 'logout'])
                 <span class="side-label" data-i18n="profile_logout">چوونەدەرەوە</span>
             </button>
         </form>
@@ -71,17 +76,17 @@
 {{-- ═════════ MAIN ═════════ --}}
 <div class="ow-main">
     <header class="ow-topbar">
-        <button class="ow-icon-btn ow-menu-btn" id="owMenuBtn" aria-label="Menu">@include('owner.partials.icon', ['name' => 'menu'])</button>
-        <button class="ow-icon-btn ow-collapse-btn" id="owCollapseBtn" aria-label="Collapse">@include('owner.partials.icon', ['name' => 'chevrons'])</button>
+        <button class="ow-icon-btn ow-menu-btn" id="owMenuBtn" aria-label="Menu">@include('partials.icon', ['name' => 'menu'])</button>
+        <button class="ow-icon-btn ow-collapse-btn" id="owCollapseBtn" aria-label="Collapse">@include('partials.icon', ['name' => 'chevrons'])</button>
         <h1 class="ow-title" data-i18n="@yield('title_key')">@yield('title_default')</h1>
 
         <div class="ow-top-actions">
             {{-- Language --}}
             <div class="ow-dd">
                 <button class="ow-lang-btn" id="owLangBtn" type="button">
-                    @include('owner.partials.icon', ['name' => 'globe', 'size' => 17])
+                    @include('partials.icon', ['name' => 'globe', 'size' => 17])
                     <span class="cur" id="currentLangLabel">کوردی</span>
-                    @include('owner.partials.icon', ['name' => 'chev-down', 'size' => 14])
+                    @include('partials.icon', ['name' => 'chev-down', 'size' => 14])
                 </button>
                 <div class="ow-menu" id="owLangMenu">
                     <button class="opt" type="button" data-lang="ku">کوردی</button>
@@ -92,7 +97,7 @@
 
             {{-- Settings --}}
             <div class="ow-dd">
-                <button class="ow-icon-btn" id="owSettingsBtn" type="button" aria-label="Settings">@include('owner.partials.icon', ['name' => 'sliders'])</button>
+                <button class="ow-icon-btn" id="owSettingsBtn" type="button" aria-label="Settings">@include('partials.icon', ['name' => 'sliders'])</button>
                 <div class="ow-menu ow-pop" id="owSettingsMenu">
                     <h6 data-i18n="profile_settings">ڕێکخستنەکان</h6>
                     <div class="form-group">

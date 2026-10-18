@@ -7,6 +7,7 @@
     <title data-i18n="settings_title">ڕێکخستنەکان</title>
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/navbar-global.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/fonts.css') }}">
     <link rel="stylesheet" href="{{ asset('css/design-system.css') }}">
     <style>
         body {
@@ -16,8 +17,8 @@
             max-width: 720px;
             margin: 40px auto;
             background: white;
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            border-radius: var(--r-3);
+            box-shadow: var(--shadow);
             padding: 28px;
         }
         .sample-row {

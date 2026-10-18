@@ -327,7 +327,7 @@
             if (usernameEl) usernameEl.textContent = username;
 
             // Show first character as avatar initial
-            if (initialEl) initialEl.textContent = [...username][0] || '👤';
+            if (initialEl) initialEl.textContent = [...username][0] || '?';
         } catch (e) {
             console.error('Error updating username:', e);
         }
@@ -348,43 +348,8 @@
     // TOAST NOTIFICATION
     // ═══════════════════════════════════════════════════════════
     function showToast(message, type = 'info') {
-        const colors = {
-            success: '#27ae60',
-            error: '#e74c3c',
-            warning: '#f39c12',
-            info: '#3498db'
-        };
-        const icons = {
-            success: '✅',
-            error: '❌',
-            warning: '⚠️',
-            info: 'ℹ️'
-        };
-
-        const toast = document.createElement('div');
-        toast.style.cssText = `
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 9999;
-            background: ${colors[type]};
-            color: white;
-            padding: 12px 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,.25);
-            font-weight: 600;
-            font-size: 14px;
-        `;
-        toast.textContent = `${icons[type]} ${message}`;
-
-        document.body.appendChild(toast);
-
-        setTimeout(() => {
-            toast.style.transition = 'opacity .3s';
-            toast.style.opacity = '0';
-            setTimeout(() => toast.remove(), 300);
-        }, 2500);
-    }
+    return window.mkToast(message, type);
+}
 
     // Make functions globally available
     window.showToast = showToast;

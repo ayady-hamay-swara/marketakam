@@ -6,7 +6,7 @@
 /* Page Title */
 .page-title {
     color: #1a2b4a;
-    font-weight: bold;
+    font-weight: 600;
     margin-bottom: 20px;
 }
 
@@ -16,27 +16,26 @@
 
 .stat-card {
     border: none;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    border-radius: var(--r-3);
+    box-shadow: var(--shadow);
     transition: all 0.3s ease;
     overflow: hidden;
-    border-left: 4px solid transparent;
+    
 }
 
 .stat-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    
+    box-shadow: var(--shadow);
 }
 
 .stat-card .card-body {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 16px;
     padding: 20px;
 }
 
 .stat-icon {
-    font-size: 48px;
     line-height: 1;
 }
 
@@ -46,42 +45,42 @@
 
 .stat-info h5 {
     font-size: 14px;
-    color: #6c757d;
+    color: var(--text-muted);
     margin-bottom: 8px;
-    font-weight: 600;
+    font-weight: 500;
 }
 
 .stat-info h2 {
     font-size: 32px;
-    font-weight: bold;
-    margin-bottom: 5px;
-    color: #2c3e50;
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: var(--navy);
 }
 
 .stat-info small {
     font-size: 12px;
-    color: #6c757d;
+    color: var(--text-muted);
 }
 
 /* Color-coded stat cards */
 .stat-total {
     border-left-color: #1a2b4a;
-    background: linear-gradient(135deg, #ffffff 0%, #f0f7ff 100%);
+    background: #f0f7ff;
 }
 
 .stat-completed {
-    border-left-color: #28a745;
-    background: linear-gradient(135deg, #ffffff 0%, #e6f7e6 100%);
+    border-left-color: var(--success);
+    background: #e6f7e6;
 }
 
 .stat-pending {
-    border-left-color: #ffc107;
-    background: linear-gradient(135deg, #ffffff 0%, #fff9e6 100%);
+    border-left-color: var(--warning);
+    background: #fff9e6;
 }
 
 .stat-revenue {
-    border-left-color: #17a2b8;
-    background: linear-gradient(135deg, #ffffff 0%, #e6f7f9 100%);
+    border-left-color: var(--accent-ink);
+    background: #e6f7f9;
 }
 
 /* ============================================================================
@@ -89,34 +88,34 @@
    ============================================================================ */
 
 .search-card {
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    border-radius: 12px;
+    box-shadow: var(--shadow);
+    border-radius: var(--r-3);
     border: none;
     animation: fadeIn 0.5s ease-in-out;
 }
 
 .search-card .card-header {
-    border-radius: 12px 12px 0 0 !important;
-    font-weight: bold;
+    border-radius: var(--r-3) var(--r-3) 0 0 !important;
+    font-weight: 600;
 }
 
 .form-group label {
-    font-weight: 600;
+    font-weight: 500;
     color: #333;
-    margin-bottom: 5px;
-    font-size: 13px;
+    margin-bottom: 4px;
+    font-size: 14px;
 }
 
 .form-control {
-    border-radius: 6px;
-    border: 2px solid #e0e0e0;
+    border-radius: var(--r-1);
+    border: 2px solid var(--line);
     transition: all 0.3s ease;
     font-size: 14px;
 }
 
 .form-control:focus {
     border-color: #1a2b4a;
-    box-shadow: 0 0 0 0.2rem rgba(46, 117, 182, 0.25);
+    box-shadow: 0 0 0 0.2rem rgba(26, 43, 74, 0.25);
 }
 
 /* ============================================================================
@@ -124,14 +123,14 @@
    ============================================================================ */
 
 .results-card {
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    border-radius: 12px;
+    box-shadow: var(--shadow);
+    border-radius: var(--r-3);
     border: none;
-    margin-bottom: 30px;
+    margin-bottom: 32px;
 }
 
 .results-card .card-header {
-    border-radius: 12px 12px 0 0 !important;
+    border-radius: var(--r-3) var(--r-3) 0 0 !important;
 }
 
 /* ============================================================================
@@ -146,9 +145,9 @@
     background-color: #343a40;
     color: white;
     border: none;
-    padding: 15px;
-    font-weight: 600;
-    font-size: 13px;
+    padding: 16px;
+    font-weight: 500;
+    font-size: 14px;
     vertical-align: middle;
     white-space: nowrap;
 }
@@ -159,14 +158,14 @@
 }
 
 .table tbody tr:hover {
-    background-color: #f8f9fa;
+    background-color: var(--tint);
     transform: scale(1.01);
 }
 
 .table tbody td {
     vertical-align: middle;
-    padding: 15px;
-    border-top: 1px solid #e0e0e0;
+    padding: 16px;
+    border-top: 1px solid var(--line);
     font-size: 14px;
 }
 
@@ -175,10 +174,10 @@
    ============================================================================ */
 
 .status-badge {
-    padding: 5px 12px;
-    border-radius: 12px;
-    font-size: 11px;
-    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: var(--r-3);
+    font-size: 12px;
+    font-weight: 500;
     text-transform: uppercase;
     display: inline-block;
 }
@@ -189,8 +188,8 @@
 }
 
 .status-pending {
-    background-color: #fff3cd;
-    color: #856404;
+    background-color: var(--warning-soft);
+    color: var(--warning-ink);
 }
 
 .status-cancelled {
@@ -203,11 +202,11 @@
    ============================================================================ */
 
 .payment-badge {
-    padding: 4px 10px;
-    border-radius: 12px;
-    font-size: 11px;
-    font-weight: 600;
-    background-color: #e9ecef;
+    padding: 4px 12px;
+    border-radius: var(--r-3);
+    font-size: 12px;
+    font-weight: 500;
+    background-color: var(--line);
     color: #495057;
 }
 
@@ -222,8 +221,8 @@
 }
 
 .payment-transfer {
-    background-color: #fff3cd;
-    color: #856404;
+    background-color: var(--warning-soft);
+    color: var(--warning-ink);
 }
 
 /* ============================================================================
@@ -231,7 +230,7 @@
    ============================================================================ */
 
 .modal-header {
-    background: linear-gradient(135deg, #1a2b4a 0%, #0d1526 100%);
+    background: #1a2b4a;
     color: white;
 }
 
@@ -245,38 +244,38 @@
 }
 
 .info-group {
-    margin-bottom: 15px;
+    margin-bottom: 16px;
 }
 
 .info-group label {
     display: block;
-    font-weight: 600;
-    color: #6c757d;
+    font-weight: 500;
+    color: var(--text-muted);
     font-size: 12px;
-    margin-bottom: 3px;
+    margin-bottom: 4px;
     text-transform: uppercase;
 }
 
 .info-group span {
     display: block;
     font-size: 14px;
-    color: #2c3e50;
-    font-weight: 500;
+    color: var(--navy);
+    font-weight: 400;
 }
 
 /* Order Summary in Modal */
 .order-summary-detail {
-    background: #f8f9fa;
-    padding: 15px;
-    border-radius: 8px;
-    margin-top: 15px;
+    background: var(--tint);
+    padding: 16px;
+    border-radius: var(--r-2);
+    margin-top: 16px;
 }
 
 .summary-row {
     display: flex;
     justify-content: space-between;
     padding: 8px 0;
-    border-bottom: 1px solid #dee2e6;
+    border-bottom: 1px solid var(--line);
 }
 
 .summary-row:last-child {
@@ -284,11 +283,11 @@
 }
 
 .summary-row.total-row {
-    font-size: 18px;
+    font-size: 20px;
     color: #1a2b4a;
-    padding-top: 15px;
+    padding-top: 16px;
     border-top: 2px solid #1a2b4a;
-    margin-top: 10px;
+    margin-top: 12px;
 }
 
 /* ============================================================================
@@ -296,25 +295,25 @@
    ============================================================================ */
 
 .btn {
-    border-radius: 6px;
+    border-radius: var(--r-1);
     padding: 8px 16px;
-    font-weight: 600;
+    font-weight: 500;
     transition: all 0.3s ease;
     border: none;
 }
 
 .btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    
+    box-shadow: var(--shadow);
 }
 
 .btn-sm {
-    padding: 4px 10px;
+    padding: 4px 12px;
     font-size: 12px;
 }
 
 .btn-group-sm .btn {
-    padding: 6px 12px;
+    padding: 8px 12px;
     font-size: 12px;
 }
 
@@ -347,34 +346,34 @@
 .receipt-header {
     text-align: center;
     border-bottom: 2px solid #333;
-    padding-bottom: 10px;
-    margin-bottom: 15px;
+    padding-bottom: 12px;
+    margin-bottom: 16px;
 }
 
 .receipt-items {
-    margin: 15px 0;
+    margin: 16px 0;
 }
 
 .receipt-item {
     display: flex;
     justify-content: space-between;
     margin-bottom: 8px;
-    font-size: 13px;
+    font-size: 14px;
 }
 
 .receipt-total {
     border-top: 2px solid #333;
-    padding-top: 10px;
-    margin-top: 10px;
+    padding-top: 12px;
+    margin-top: 12px;
     font-size: 16px;
-    font-weight: bold;
+    font-weight: 600;
 }
 
 .receipt-footer {
     text-align: center;
     border-top: 2px dashed #333;
-    padding-top: 10px;
-    margin-top: 15px;
+    padding-top: 12px;
+    margin-top: 16px;
     font-size: 12px;
 }
 
@@ -418,13 +417,13 @@
     }
     
     .stat-icon {
-        font-size: 36px;
+        font-size: 40px;
     }
 }
 
 @media (max-width: 768px) {
     .btn-group-sm .btn {
-        margin-bottom: 5px;
+        margin-bottom: 4px;
     }
     
     .table {
@@ -437,7 +436,7 @@
     }
     
     .stat-card {
-        margin-bottom: 15px;
+        margin-bottom: 16px;
     }
 }
 
@@ -477,18 +476,17 @@
 .empty-state {
     text-align: center;
     padding: 60px 20px;
-    color: #6c757d;
+    color: var(--text-muted);
 }
 
 .empty-state-icon {
-    font-size: 64px;
     opacity: 0.3;
     margin-bottom: 20px;
 }
 
 .empty-state h5 {
     color: #495057;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
 }
 
 /* ============================================================================
@@ -501,12 +499,12 @@
 
 .table-responsive::-webkit-scrollbar-track {
     background: #f1f1f1;
-    border-radius: 10px;
+    border-radius: var(--r-2);
 }
 
 .table-responsive::-webkit-scrollbar-thumb {
     background: #888;
-    border-radius: 10px;
+    border-radius: var(--r-2);
 }
 
 .table-responsive::-webkit-scrollbar-thumb:hover {
@@ -548,18 +546,18 @@
    ============================================================================ */
 
 .amount-large {
-    color: #28a745;
-    font-weight: 600;
+    color: var(--success);
+    font-weight: 500;
 }
 
 .amount-medium {
     color: #1a2b4a;
-    font-weight: 600;
+    font-weight: 500;
 }
 
 .amount-small {
-    color: #6c757d;
-    font-weight: 500;
+    color: var(--text-muted);
+    font-weight: 400;
 }
 
 /* ============================================================================
@@ -567,13 +565,13 @@
    ============================================================================ */
 
 .order-date {
-    font-weight: 500;
-    color: #2c3e50;
+    font-weight: 400;
+    color: var(--navy);
 }
 
 .order-time {
     font-size: 12px;
-    color: #6c757d;
+    color: var(--text-muted);
 }
 
 /* ============================================================================
@@ -581,6 +579,6 @@
    ============================================================================ */
 
 #resultCount {
-    font-weight: bold;
-    color: #ffc107;
+    font-weight: 600;
+    color: var(--warning);
 }

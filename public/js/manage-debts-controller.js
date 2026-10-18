@@ -13,11 +13,32 @@ $.ajaxSetup({
     }
 });
 
+function normalizeDebt(debt = {}) {
+    const totalAmount = Number(debt.total_amount ?? debt.totalAmount ?? 0);
+    const paidAmount = Number(debt.paid_amount ?? debt.paidAmount ?? 0);
+    const remainingAmount = Number(debt.remaining_amount ?? debt.remainingAmount ?? Math.max(0, totalAmount - paidAmount));
+    const resolvedStatus = String(debt.status || (remainingAmount <= 0 ? 'paid' : (paidAmount > 0 ? 'partial' : 'unpaid'))).toLowerCase();
+
+    return {
+        ...debt,
+        id: debt.id,
+        name: debt.customer_name || debt.name || (debt.customer && debt.customer.name) || 'Unknown',
+        phone: debt.customer_phone || debt.phone || (debt.customer && debt.customer.phone) || '-',
+        totalAmount,
+        paidAmount,
+        remainingAmount,
+        status: resolvedStatus,
+        notes: debt.notes || '-',
+        date: debt.date || debt.created_at || '',
+    };
+}
+
 // Initialize
 $(document).ready(function() {
     loadDebts();
     setupListeners();
     setTodayDate();
+    window.addEventListener('languageChanged', () => renderDebts());
 });
 
 function setupListeners() {
@@ -43,7 +64,7 @@ function loadDebts() {
         url: '/api/debts',
         method: 'GET',
         success(res) {
-            debts = res || [];
+            debts = (res || []).map(normalizeDebt);
             renderDebts();
             updateStats();
         },
@@ -122,15 +143,15 @@ function confirmDelete() {
 
 // Select debt for editing
 function selectDebt(id) {
-    const debt = debts.find(d => d.id === id);
+    const debt = normalizeDebt(debts.find(d => d.id === id));
     if (!debt) return;
 
     currentDebtId = debt.id;
     $('#txtCustomerName').val(debt.name);
-    $('#txtPhone').val(debt.phone);
+    $('#txtPhone').val(debt.phone === '-' ? '' : debt.phone);
     $('#txtAmount').val(debt.totalAmount).prop('disabled', true);
     $('#txtDate').val(debt.date);
-    $('#txtNotes').val(debt.notes);
+    $('#txtNotes').val(debt.notes === '-' ? '' : debt.notes);
 
     $('#btnSave').hide();
     $('#btnUpdate').show();
@@ -151,7 +172,7 @@ function clearForm() {
 // Open payment modal
 let currentPaymentDebt = null;
 function openPaymentModal(id) {
-    const debt = debts.find(d => d.id === id);
+    const debt = normalizeDebt(debts.find(d => d.id === id));
     if (!debt) return;
 
     currentPaymentDebt = debt;
@@ -202,7 +223,7 @@ function renderDebts() {
         tbody.html(`
             <tr>
                 <td colspan="10" class="text-center py-5">
-                    <div style="font-size:48px;">💳</div>
+                    ${illus('card')}
                     <p class="text-muted">${t('debts_empty')}</p>
                 </td>
             </tr>
@@ -211,26 +232,27 @@ function renderDebts() {
     }
 
     debts.forEach((debt, index) => {
+        const normalizedDebt = normalizeDebt(debt);
         const statusBadge = {
             unpaid: `<span class="badge badge-unpaid">${t('debts_status_unpaid')}</span>`,
             partial: `<span class="badge badge-partial">${t('debts_status_partial')}</span>`,
             paid: `<span class="badge badge-paid">${t('debts_status_paid')}</span>`
-        }[debt.status];
+        }[normalizedDebt.status] || `<span class="badge badge-unpaid">${t('debts_status_unpaid')}</span>`;
 
         const row = `
-            <tr style="cursor:pointer;" onclick="selectDebt(${debt.id})">
+            <tr style="cursor:pointer;" onclick="selectDebt(${normalizedDebt.id})">
                 <td><strong>${index + 1}</strong></td>
-                <td><strong>${debt.name}</strong></td>
-                <td>${debt.phone || '-'}</td>
-                <td class="amount-unpaid">IQD ${fmt(debt.totalAmount)}</td>
-                <td class="amount-paid">IQD ${fmt(debt.paidAmount)}</td>
-                <td><strong>IQD ${fmt(debt.remainingAmount)}</strong></td>
+                <td><strong>${normalizedDebt.name}</strong></td>
+                <td>${normalizedDebt.phone || '-'}</td>
+                <td class="amount-unpaid">IQD ${fmt(normalizedDebt.totalAmount)}</td>
+                <td class="amount-paid">IQD ${fmt(normalizedDebt.paidAmount)}</td>
+                <td><strong>IQD ${fmt(normalizedDebt.remainingAmount)}</strong></td>
                 <td>${statusBadge}</td>
-                <td>${formatDate(debt.date)}</td>
-                <td>${debt.notes || '-'}</td>
+                <td>${formatDate(normalizedDebt.date)}</td>
+                <td>${normalizedDebt.notes || '-'}</td>
                 <td onclick="event.stopPropagation()">
-                    ${debt.status !== 'paid' ? `<button class="btn btn-success btn-sm" onclick="openPaymentModal(${debt.id})">💰 ${t('debts_payment_title')}</button>` : ''}
-                    <button class="btn btn-danger btn-sm" onclick="deleteDebt(${debt.id})">🗑️ ${t('delete')}</button>
+                    ${normalizedDebt.status !== 'paid' ? `<button class="btn btn-success btn-sm" onclick="openPaymentModal(${normalizedDebt.id})">${icon('dollar',14)} ${t('debts_payment_title')}</button>` : ''}
+                    <button class="btn btn-danger btn-sm" onclick="deleteDebt(${normalizedDebt.id})">${icon('trash',14)} ${t('delete')}</button>
                 </td>
             </tr>
         `;
@@ -286,9 +308,10 @@ function sortDebts() {
 
 // Update statistics
 function updateStats() {
-    const totalDebt = debts.reduce((sum, d) => sum + d.totalAmount, 0);
-    const totalPaid = debts.reduce((sum, d) => sum + d.paidAmount, 0);
-    const uniqueCustomers = [...new Set(debts.map(d => d.name))].length;
+    const normalized = debts.map(normalizeDebt);
+    const totalDebt = normalized.reduce((sum, d) => sum + Number(d.totalAmount || 0), 0);
+    const totalPaid = normalized.reduce((sum, d) => sum + Number(d.paidAmount || 0), 0);
+    const uniqueCustomers = [...new Set(normalized.map(d => d.name))].length;
 
     $('#totalDebt').text('IQD ' + fmt(totalDebt));
     $('#totalPaid').text('IQD ' + fmt(totalPaid));
@@ -330,17 +353,7 @@ function formatDate(dateStr) {
 }
 
 function showToast(msg, type = 'info') {
-    const colors = { success: '#27ae60', error: '#e74c3c', warning: '#f39c12', info: '#3498db' };
-    const icons = { success: '✅', error: '❌', warning: '⚠️', info: 'ℹ️' };
-    const toast = $(`
-        <div style="position:fixed;bottom:20px;right:20px;z-index:9999;background:${colors[type]};
-             color:white;padding:12px 20px;border-radius:10px;box-shadow:0 4px 15px rgba(0,0,0,.3);
-             font-weight:600;font-size:14px;">
-            ${icons[type]} ${msg}
-        </div>
-    `);
-    $('body').append(toast);
-    setTimeout(() => toast.fadeOut(300, () => toast.remove()), 2500);
+    return window.mkToast(msg, type);
 }
 
 console.log('Debts Controller Ready!');

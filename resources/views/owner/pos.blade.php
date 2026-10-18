@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>POS - Marketakam</title>
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/fonts.css') }}">
     <link rel="stylesheet" href="{{ asset('css/design-system.css') }}">
     <link rel="stylesheet" href="{{ asset('css/owner-pos.css') }}">
 </head>
@@ -17,11 +18,11 @@
         <div class="pos-top">
             {{-- The only way out: back to the owner dashboard --}}
             <a href="{{ url('/owner/dashboard') }}" class="pos-exit" id="posExit">
-                @include('owner.partials.icon', ['name' => 'arrow-left', 'size' => 18])
+                @include('partials.icon', ['name' => 'arrow-left', 'size' => 18])
                 <span data-i18n="owner_exit_pos">گەڕانەوە بۆ داشبۆرد</span>
             </a>
             <div class="pos-search">
-                @include('owner.partials.icon', ['name' => 'search', 'size' => 18])
+                @include('partials.icon', ['name' => 'search', 'size' => 18])
                 <input type="text" class="form-control" id="posSearch" data-i18n="pos_search_placeholder" placeholder="گەڕان بە ناو، کۆد یان بارکۆد..." autofocus>
             </div>
         </div>
@@ -37,25 +38,25 @@
         <div class="pos-grid" id="posGrid">
             @php
             $products = [
-                [1,'ئاوی خواردنەوە 0.5L','🥤',250,'drinks'],
-                [2,'پێپسی 330ml','🥫',500,'drinks'],
-                [3,'شیری تازە 1L','🥛',1750,'drinks'],
-                [4,'ئاوی پرتەقاڵ','🍊',1000,'drinks'],
-                [5,'پەتاتە چیپس','🥔',750,'snacks'],
-                [6,'بسکویتی شیرین','🍪',500,'snacks'],
-                [7,'شۆکۆلاتە','🍫',1250,'snacks'],
-                [8,'نانی ڕۆژانە','🥖',500,'snacks'],
-                [9,'شلەی ئاو (شوشتن)','🧴',3500,'household'],
-                [10,'دەستمال','🧻',1500,'household'],
-                [11,'سابوونی دەست','🧼',1250,'hygiene'],
-                [12,'شامپۆ','🧴',4500,'hygiene'],
+                [1,'ئاوی خواردنەوە 0.5L',250,'drinks'],
+                [2,'پێپسی 330ml',500,'drinks'],
+                [3,'شیری تازە 1L',1750,'drinks'],
+                [4,'ئاوی پرتەقاڵ',1000,'drinks'],
+                [5,'پەتاتە چیپس',750,'snacks'],
+                [6,'بسکویتی شیرین',500,'snacks'],
+                [7,'شۆکۆلاتە',1250,'snacks'],
+                [8,'نانی ڕۆژانە',500,'snacks'],
+                [9,'شلەی ئاو (شوشتن)',3500,'household'],
+                [10,'دەستمال',1500,'household'],
+                [11,'سابوونی دەست',1250,'hygiene'],
+                [12,'شامپۆ',4500,'hygiene'],
             ];
             @endphp
             @foreach($products as $p)
-            <button type="button" class="pp" data-id="{{ $p[0] }}" data-name="{{ $p[1] }}" data-price="{{ $p[3] }}" data-cat="{{ $p[4] }}">
-                <span class="pp-ico">{{ $p[2] }}</span>
+            <button type="button" class="pp" data-id="{{ $p[0] }}" data-name="{{ $p[1] }}" data-price="{{ $p[2] }}" data-cat="{{ $p[3] }}">
+                <span class="pp-mono mono-{{ $p[3] }}">{{ mb_substr($p[1], 0, 1) }}</span>
                 <span class="pp-name">{{ $p[1] }}</span>
-                <span class="pp-price">IQD {{ number_format($p[3]) }}</span>
+                <span class="pp-price">IQD {{ number_format($p[2]) }}</span>
             </button>
             @endforeach
         </div>
@@ -64,13 +65,13 @@
     {{-- ═════════ CART ═════════ --}}
     <aside class="pos-cart">
         <div class="pc-head">
-            <h2>@include('owner.partials.icon', ['name' => 'cart', 'size' => 20])<span data-i18n="pos_cart_items">کاڵاکانی سەبەتە</span> <span class="pc-count" id="cartCount">0</span></h2>
-            <button type="button" class="pc-clear" id="btnClear">@include('owner.partials.icon', ['name' => 'trash', 'size' => 15])<span data-i18n="pos_clear_cart">پاککردنەوە</span></button>
+            <h2>@include('partials.icon', ['name' => 'cart', 'size' => 20])<span data-i18n="pos_cart_items">کاڵاکانی سەبەتە</span> <span class="pc-count" id="cartCount">0</span></h2>
+            <button type="button" class="pc-clear" id="btnClear">@include('partials.icon', ['name' => 'trash', 'size' => 15])<span data-i18n="pos_clear_cart">پاککردنەوە</span></button>
         </div>
 
         <div class="pc-body">
             <div class="pc-empty" id="cartEmpty">
-                <div class="big">🛒</div>
+                @include('partials.illustration', ['name' => 'cart', 'width' => 120])
                 <b data-i18n="pos_cart_empty_title">سەبەتە بەتاڵە</b>
                 <small data-i18n="pos_cart_empty_desc">کاڵایەک بگەڕێ یان سکان بکە</small>
             </div>
@@ -94,15 +95,15 @@
             </div>
 
             <div class="pc-pay" id="payMethods">
-                <button type="button" class="on" data-m="cash">@include('owner.partials.icon', ['name' => 'dollar', 'size' => 18])<span data-i18n="pos_pay_cash">کاش</span></button>
-                <button type="button" data-m="card">@include('owner.partials.icon', ['name' => 'card', 'size' => 18])<span data-i18n="pos_pay_card">کارت</span></button>
-                <button type="button" data-m="transfer">@include('owner.partials.icon', ['name' => 'swap', 'size' => 18])<span data-i18n="pos_pay_transfer">گواستنەوە</span></button>
+                <button type="button" class="on" data-m="cash">@include('partials.icon', ['name' => 'dollar', 'size' => 18])<span data-i18n="pos_pay_cash">کاش</span></button>
+                <button type="button" data-m="card">@include('partials.icon', ['name' => 'card', 'size' => 18])<span data-i18n="pos_pay_card">کارت</span></button>
+                <button type="button" data-m="transfer">@include('partials.icon', ['name' => 'swap', 'size' => 18])<span data-i18n="pos_pay_transfer">گواستنەوە</span></button>
             </div>
 
             <div class="pc-actions">
-                <button type="button" class="pc-complete" id="btnComplete" disabled>@include('owner.partials.icon', ['name' => 'check', 'size' => 22])<span data-i18n="pos_complete_sale">تەواوکردنی فرۆشتن</span></button>
-                <button type="button" class="pc-secondary" id="btnDebt" disabled>@include('owner.partials.icon', ['name' => 'card', 'size' => 17])<span data-i18n="pos_sell_as_debt">فرۆشتن بە قەرز</span></button>
-                <button type="button" class="pc-secondary" id="btnHold" disabled>@include('owner.partials.icon', ['name' => 'pause', 'size' => 17])<span data-i18n="pos_hold">ڕاگرتن</span></button>
+                <button type="button" class="pc-complete" id="btnComplete" disabled>@include('partials.icon', ['name' => 'check', 'size' => 22])<span data-i18n="pos_complete_sale">تەواوکردنی فرۆشتن</span></button>
+                <button type="button" class="pc-secondary" id="btnDebt" disabled>@include('partials.icon', ['name' => 'card', 'size' => 17])<span data-i18n="pos_sell_as_debt">فرۆشتن بە قەرز</span></button>
+                <button type="button" class="pc-secondary" id="btnHold" disabled>@include('partials.icon', ['name' => 'pause', 'size' => 17])<span data-i18n="pos_hold">ڕاگرتن</span></button>
             </div>
         </div>
     </aside>

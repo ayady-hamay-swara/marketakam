@@ -1,68 +1,17 @@
-<!DOCTYPE html>
-<html lang="ku" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-i18n="dev_view_title">پیشاندانی گەشەپێدەر</title>
-    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
-    <style>
-        body {
-            background: linear-gradient(135deg, #1a2b4a 0%, #0d1526 100%);
-            min-height: 100vh;
-            color: #ecf0f1;
-        }
-        .wrapper {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 40px 20px;
-        }
-        .card {
-            background: rgba(15, 23, 42, 0.8);
-            border: 1px solid rgba(255,255,255,0.12);
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.35);
-            padding: 40px;
-            max-width: 700px;
-            width: 100%;
-            text-align: center;
-        }
-        .title {
-            font-size: 34px;
-            font-weight: 800;
-            margin-bottom: 12px;
-        }
-        .subtitle {
-            color: #cbd5e1;
-            margin-bottom: 30px;
-        }
-        .actions {
-            display: flex;
-            justify-content: center;
-            gap: 16px;
-            flex-wrap: wrap;
-        }
-        .btn {
-            min-width: 180px;
-        }
-    </style>
-</head>
-<body>
-    <div class="wrapper">
-        <div class="card">
-            <h1 class="title">Dev View</h1>
-            <p class="subtitle">ئێوە بە ئەندامێتی Supper Dev تۆماربووە، دەتوانن بەخێر بێن بۆ سیستەم یان بگەڕێنەوە بۆ ماڵەوە.</p>
+@extends('layouts.gate')
+@section('title_key', 'dev_view_title')
+@section('title_default', 'Dev View')
 
-            <div class="actions">
-                <a href="{{ url('/home') }}" class="btn btn-primary btn-lg">چوونە ژوورەوە بۆ ماڵەوە</a>
+@section('content')
+    <h2 class="gate-title">Dev View</h2>
+    <p class="gate-sub">ئێوە بە ئەندامێتی Supper Dev تۆماربووە، دەتوانن بەخێر بێن بۆ سیستەم یان بگەڕێنەوە بۆ ماڵەوە.</p>
 
-                <form method="POST" action="{{ route('logout') }}" class="d-inline-block">
-                    @csrf
-                    <button type="submit" class="btn btn-danger btn-lg">چوونەدەرەوە</button>
-                </form>
-            </div>
-        </div>
+    <div class="gate-actions">
+        <a href="{{ url('/home') }}" class="btn btn-primary">چوونە ژوورەوە بۆ ماڵەوە</a>
+
+        <form method="POST" action="{{ route('logout') }}">
+            @csrf
+            <button type="submit" class="btn btn-secondary">چوونەدەرەوە</button>
+        </form>
     </div>
-</body>
-</html>
+@endsection

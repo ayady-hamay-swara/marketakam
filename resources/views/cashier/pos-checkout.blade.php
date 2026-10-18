@@ -7,6 +7,7 @@
     <title data-i18n="pos_page_title">فرۆشتن - سیستەمی فرۆشگا</title>
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/navbar-global.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/fonts.css') }}">
     <link rel="stylesheet" href="{{ asset('css/design-system.css') }}">
     <link rel="stylesheet" href="{{ asset('css/pos-checkout.css') }}">
 </head>
@@ -188,9 +189,9 @@
 <div class="modal fade" id="receiptModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-                <div class="modal-header bg-success text-white">
+                <div class="modal-header">
                 <h5 class="modal-title" data-i18n="receipt_success_title">فرۆشتن تەواو بوو!</h5>
-                <button type="button" class="close text-white" data-dismiss="modal"><span>×</span></button>
+                <button type="button" class="close" data-dismiss="modal"><span>×</span></button>
             </div>
             <div class="modal-body" id="receiptContent"></div>
             <div class="modal-footer">
@@ -205,14 +206,14 @@
 <div class="modal fade" id="customerSelectModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
-            <div class="modal-header" style="background: linear-gradient(135deg, #e74c3c, #c0392b); color: white;">
+            <div class="modal-header">
                 <h5 class="modal-title" data-i18n="customer_select_modal_title">هەڵبژاردنی کڕیار بۆ قەرز</h5>
-                <button type="button" class="close text-white" data-dismiss="modal"><span>×</span></button>
+                <button type="button" class="close" data-dismiss="modal"><span>×</span></button>
             </div>
             <div class="modal-body">
 
                 <!-- Quick Add Customer -->
-                <div class="card mb-3" style="border: 2px solid #e74c3c;">
+                <div class="card mb-3" style="border: 2px solid var(--danger);">
                     <div class="card-body">
                         <h6 class="text-danger mb-3" data-i18n="quick_add_heading">زیادکردنی کڕیاری نوێ (خێرا)</h6>
                         <div class="row">
@@ -251,7 +252,7 @@
 <div class="modal fade" id="returnModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <div class="modal-header bg-warning">
+            <div class="modal-header">
                 <h5 class="modal-title" data-i18n="return_modal_title">گەڕاندنەوە</h5>
                 <button type="button" class="close" data-dismiss="modal"><span>×</span></button>
             </div>
@@ -283,6 +284,7 @@
     </div>
 </div>
 
+<script src="{{ asset('js/icons.js') }}"></script>
 <script src="{{ asset('js/languages.js') }}"></script>
 <script src="{{ asset('js/navbar-global.js') }}"></script>
 <script src="{{ asset('js/jquery-3.4.1.min.js') }}"></script>
@@ -292,31 +294,18 @@
 <style>
 /* Additional styles for debt button */
 .btn-debt {
-    width: 100%;
-    padding: 14px;
-    font-size: 16px;
-    font-weight: 800;
-    border: none;
-    border-radius: 12px;
-    background: linear-gradient(135deg, #e74c3c, #c0392b);
-    color: white;
-    cursor: pointer;
-    letter-spacing: .3px;
-    box-shadow: 0 4px 15px rgba(231,76,60,.4);
-    transition: all .2s;
-    margin-bottom: 8px;
+    width: 100%; padding: 12px; font-size: 14px; font-weight: 600;
+    border: 1px solid var(--line); border-radius: var(--r-2);
+    background: #fff; color: var(--navy); cursor: pointer;
+    transition: background .15s, border-color .15s; margin-bottom: 8px;
 }
-
-.btn-debt:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 7px 20px rgba(231,76,60,.5);
-}
+.btn-debt:hover { background: var(--tint); border-color: var(--accent); }
 
 /* Customer list styles */
 .customer-item {
-    padding: 12px 15px;
+    padding: 12px 16px;
     border: 2px solid #ecf0f1;
-    border-radius: 10px;
+    border-radius: var(--r-2);
     margin-bottom: 8px;
     cursor: pointer;
     transition: all .2s;
@@ -326,35 +315,35 @@
 }
 
 .customer-item:hover {
-    border-color: #e74c3c;
+    border-color: var(--danger);
     background: #fff5f5;
     transform: translateX(-3px);
 }
 
 .customer-item.selected {
-    border-color: #e74c3c;
+    border-color: var(--danger);
     background: #ffe6e6;
 }
 
 .customer-name {
-    font-weight: 700;
-    font-size: 15px;
-    color: #2c3e50;
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--navy);
 }
 
 .customer-phone {
-    font-size: 13px;
-    color: #7f8c8d;
+    font-size: 14px;
+    color: var(--text-muted);
     margin-top: 2px;
 }
 
 .customer-debt-badge {
-    background: #e74c3c;
+    background: var(--danger);
     color: white;
-    padding: 4px 10px;
-    border-radius: 12px;
+    padding: 4px 12px;
+    border-radius: var(--r-3);
     font-size: 12px;
-    font-weight: 700;
+    font-weight: 600;
 }
 </style>
 

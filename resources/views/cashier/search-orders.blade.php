@@ -7,56 +7,52 @@
     <title data-i18n="debts_title">بەڕێوەبردنی قەرز</title>
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/navbar-global.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/fonts.css') }}">
     <link rel="stylesheet" href="{{ asset('css/design-system.css') }}">
     <style>
-        body { background: #f5f7fa; }
-        .page-title { color: #e74c3c; font-weight: 800; font-size: 32px; margin-bottom: 20px; }
+        body { background: var(--tint); }
+        .page-title { color: var(--danger); font-weight: 700; font-size: 32px; margin-bottom: 20px; }
 
         /* Stats Cards */
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 30px; }
-        .stat-card { background: white; border-radius: 16px; padding: 25px; box-shadow: 0 4px 15px rgba(0,0,0,.1); display: flex; align-items: center; gap: 20px; }
-        .stat-icon { font-size: 48px; }
-        .stat-info h3 { font-size: 28px; font-weight: 800; margin: 0; }
-        .stat-info p { font-size: 14px; color: #7f8c8d; margin: 5px 0 0 0; }
-        .stat-card.red .stat-info h3 { color: #e74c3c; }
-        .stat-card.green .stat-info h3 { color: #27ae60; }
-        .stat-card.blue .stat-info h3 { color: #3498db; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 32px; }
+        .stat-card { background: white; border-radius: var(--r-3); padding: 24px; box-shadow: var(--shadow); display: flex; align-items: center; gap: 20px; }
+                .stat-info h3 { font-size: 32px; font-weight: 700; margin: 0; }
+        .stat-info p { font-size: 14px; color: var(--text-muted); margin: 4px 0 0 0; }
+        .stat-card.red .stat-info h3 { color: var(--danger); }
+        .stat-card.green .stat-info h3 { color: var(--success); }
+        .stat-card.blue .stat-info h3 { color: var(--accent-ink); }
 
         /* Form Card */
-        .card { border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,.1); border: none; margin-bottom: 20px; }
-        .card-header { background: linear-gradient(135deg, #e74c3c, #c0392b); color: white; border-radius: 16px 16px 0 0 !important; padding: 15px 20px; font-weight: 700; }
-        .form-label { font-weight: 700; font-size: 14px; color: #2c3e50; margin-bottom: 5px; }
-        .form-control, .form-select { border-radius: 8px; border: 2px solid #d0d9e8; padding: 10px; }
-        .form-control:focus, .form-select:focus { border-color: #e74c3c; box-shadow: 0 0 0 3px rgba(231,76,60,.1); }
+        .card { border-radius: var(--r-3); box-shadow: var(--shadow); border: none; margin-bottom: 20px; }
+        .form-label { font-weight: 600; font-size: 14px; color: var(--navy); margin-bottom: 4px; }
+        .form-control, .form-select { border-radius: var(--r-2); border: 2px solid var(--line); padding: 12px; }
+        .form-control:focus, .form-select:focus { border-color: var(--danger); box-shadow: 0 0 0 3px rgba(231,76,60,.1); }
 
         /* Buttons */
-        .btn { border-radius: 10px; font-weight: 700; padding: 10px 20px; }
-        .btn-danger { background: linear-gradient(135deg, #e74c3c, #c0392b); border: none; }
-        .btn-success { background: linear-gradient(135deg, #27ae60, #229954); border: none; }
-        .btn-warning { background: linear-gradient(135deg, #f39c12, #e67e22); border: none; }
+        .btn { border-radius: var(--r-2); font-weight: 600; padding: 12px 20px; }
 
         /* Table */
         .table { margin: 0; }
-        .table thead th { background: #2c3e50; color: white; font-weight: 700; font-size: 13px; border: none; padding: 12px; white-space: nowrap; }
+        .table thead th { background: var(--navy); color: white; font-weight: 600; font-size: 14px; border: none; padding: 12px; white-space: nowrap; }
         .table tbody td { padding: 12px; vertical-align: middle; border-color: #ecf0f1; }
         .table tbody tr { transition: background .15s; }
         .table tbody tr:hover { background: #fff5f5; }
 
         /* Status Badges */
-        .badge { padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; }
-        .badge-unpaid { background: #e74c3c; color: white; }
-        .badge-partial { background: #f39c12; color: white; }
-        .badge-paid { background: #27ae60; color: white; }
+        .badge { padding: 8px 12px; border-radius: var(--r-3); font-size: 12px; font-weight: 600; }
+        .badge-unpaid { background: var(--danger); color: white; }
+        .badge-partial { background: var(--warning); color: white; }
+        .badge-paid { background: var(--success); color: white; }
 
         /* Amount Display */
-        .amount-unpaid { color: #e74c3c; font-weight: 800; font-size: 16px; }
-        .amount-paid { color: #27ae60; font-weight: 800; }
+        .amount-unpaid { color: var(--danger); font-weight: 700; font-size: 16px; }
+        .amount-paid { color: var(--success); font-weight: 700; }
 
         /* Action Buttons */
-        .btn-sm { padding: 5px 10px; font-size: 12px; }
+        .btn-sm { padding: 4px 12px; font-size: 12px; }
 
         /* Search Section */
-        .search-card { background: white; border-radius: 12px; padding: 15px; box-shadow: 0 2px 8px rgba(0,0,0,.08); margin-bottom: 20px; }
+        .search-card { background: white; border-radius: var(--r-3); padding: 16px; box-shadow: var(--shadow-sm); margin-bottom: 20px; }
     </style>
 </head>
 <body>
@@ -79,14 +75,14 @@
             <div class="settings-label" data-i18n="settings_cashier_name">ناوی بەکارهێنەر</div>
             <input type="text" id="globalCashierName" class="settings-input" data-i18n="settings_cashier_placeholder" placeholder="بەڕێوەبەر">
         </div>
-        <button class="settings-save-btn" id="btnGlobalSaveSettings">💾 <span data-i18n="settings_save">پاشەکەوت</span></button>
+        <button class="settings-save-btn" id="btnGlobalSaveSettings">@include('partials.icon', ['name' => 'save', 'size' => 16]) <span data-i18n="settings_save">پاشەکەوت</span></button>
     </div>
 </div>
 
 <!-- Calculator Popup -->
 <div class="global-popup" id="globalCalcPanel">
     <div class="popup-header">
-        <span>🧮 <span data-i18n="calc_title">ژمێرەر</span></span>
+        <span>@include('partials.icon', ['name' => 'calculator', 'size' => 16]) <span data-i18n="calc_title">ژمێرەر</span></span>
         <button class="popup-close" id="calcCloseBtn">✕</button>
     </div>
     <div class="calc-wrap">
@@ -124,26 +120,26 @@
 <div class="container-fluid mt-4">
 
     <!-- Page Title -->
-    <h2 class="page-title">💳 <span data-i18n="debts_title">بەڕێوەبردنی قەرزەکان</span></h2>
+    <h2 class="page-title">@include('partials.icon', ['name' => 'card', 'size' => 24]) <span data-i18n="debts_title">بەڕێوەبردنی قەرزەکان</span></h2>
 
     <!-- Stats Cards -->
     <div class="stats-grid">
         <div class="stat-card red">
-            <div class="stat-icon">💸</div>
+            <div class="stat-icon">@include('partials.icon', ['name' => 'trend-down', 'size' => 28])</div>
             <div class="stat-info">
                 <h3 id="totalDebt">IQD 0</h3>
                 <p data-i18n="debts_total">کۆی قەرز</p>
             </div>
         </div>
         <div class="stat-card green">
-            <div class="stat-icon">✅</div>
+            <div class="stat-icon">@include('partials.icon', ['name' => 'check', 'size' => 28])</div>
             <div class="stat-info">
                 <h3 id="totalPaid">IQD 0</h3>
                 <p data-i18n="debts_total_paid">واردبووی گشتی</p>
             </div>
         </div>
         <div class="stat-card blue">
-            <div class="stat-icon">👥</div>
+            <div class="stat-icon">@include('partials.icon', ['name' => 'users', 'size' => 28])</div>
             <div class="stat-info">
                 <h3 id="totalCustomers">0</h3>
                 <p data-i18n="debts_total_customers">ژمارەی قەرزاران</p>
@@ -154,7 +150,7 @@
     <!-- Add Debt Form -->
     <div class="card">
         <div class="card-header">
-            <h5 class="mb-0">➕ <span data-i18n="debts_add">زیادکردنی قەرزی نوێ</span></h5>
+            <h5 class="mb-0">@include('partials.icon', ['name' => 'plus', 'size' => 18]) <span data-i18n="debts_add">زیادکردنی قەرزی نوێ</span></h5>
         </div>
         <div class="card-body">
             <form id="debtForm">
@@ -191,9 +187,9 @@
                     </div>
                 </div>
                 <div class="d-flex gap-2">
-                    <button type="button" class="btn btn-danger" id="btnSave">💾 <span data-i18n="save">پاشەکەوت</span></button>
-                    <button type="button" class="btn btn-primary" id="btnUpdate" style="display:none;">✏️ <span data-i18n="debts_update">نوێکردنەوە</span></button>
-                    <button type="button" class="btn btn-secondary" id="btnClear">🔄 <span data-i18n="clear">پاككردنەوە</span></button>
+                    <button type="button" class="btn btn-danger" id="btnSave">@include('partials.icon', ['name' => 'save', 'size' => 16]) <span data-i18n="save">پاشەکەوت</span></button>
+                    <button type="button" class="btn btn-primary" id="btnUpdate" style="display:none;">@include('partials.icon', ['name' => 'edit', 'size' => 16]) <span data-i18n="debts_update">نوێکردنەوە</span></button>
+                    <button type="button" class="btn btn-secondary" id="btnClear">@include('partials.icon', ['name' => 'refresh', 'size' => 16]) <span data-i18n="clear">پاككردنەوە</span></button>
                 </div>
             </form>
         </div>
@@ -222,7 +218,7 @@
                 </select>
             </div>
             <div class="col-md-2">
-                <button class="btn btn-warning w-100" id="btnExport">📊 <span data-i18n="debts_export">دەرهێنان</span></button>
+                <button class="btn btn-warning w-100" id="btnExport">@include('partials.icon', ['name' => 'bar', 'size' => 16]) <span data-i18n="debts_export">دەرهێنان</span></button>
             </div>
         </div>
     </div>
@@ -249,7 +245,7 @@
                     <tbody id="debtsTableBody">
                         <tr>
                             <td colspan="10" class="text-center py-5">
-                                <div style="font-size:48px;">💳</div>
+                                @include('partials.illustration', ['name' => 'card'])
                                 <p class="text-muted" data-i18n="debts_empty">هیچ قەرزێک تۆمار نەکراوە</p>
                             </td>
                         </tr>
@@ -265,9 +261,9 @@
 <div class="modal fade" id="paymentModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <div class="modal-header bg-success text-white">
-                <h5 class="modal-title">💰 <span data-i18n="debts_payment_title">واردکردنی پارە</span></h5>
-                <button type="button" class="close text-white" data-dismiss="modal"><span>×</span></button>
+            <div class="modal-header">
+                <h5 class="modal-title">@include('partials.icon', ['name' => 'dollar', 'size' => 18]) <span data-i18n="debts_payment_title">واردکردنی پارە</span></h5>
+                <button type="button" class="close" data-dismiss="modal"><span>×</span></button>
             </div>
             <div class="modal-body">
                 <div class="mb-3">
@@ -285,7 +281,7 @@
             </div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" data-dismiss="modal" data-i18n="cancel">هەڵوەشاندنەوە</button>
-                <button class="btn btn-success" id="btnConfirmPayment">✅ <span data-i18n="debts_confirm">واردکردن</span></button>
+                <button class="btn btn-success" id="btnConfirmPayment">@include('partials.icon', ['name' => 'check', 'size' => 16]) <span data-i18n="debts_confirm">واردکردن</span></button>
             </div>
         </div>
     </div>
@@ -295,9 +291,9 @@
 <div class="modal fade" id="deleteModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <div class="modal-header bg-danger text-white">
-                <h5 class="modal-title">⚠️ <span data-i18n="debts_confirm">دڵنیابوونەوە</span></h5>
-                <button type="button" class="close text-white" data-dismiss="modal"><span>×</span></button>
+            <div class="modal-header">
+                <h5 class="modal-title">@include('partials.icon', ['name' => 'alert', 'size' => 18]) <span data-i18n="debts_confirm">دڵنیابوونەوە</span></h5>
+                <button type="button" class="close" data-dismiss="modal"><span>×</span></button>
             </div>
             <div class="modal-body">
                 <p data-i18n="debts_confirm_delete">دڵنیایت لە سڕینەوەی ئەم قەرزە؟</p>
@@ -305,12 +301,13 @@
             </div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" data-dismiss="modal" data-i18n="cancel">هەڵوەشاندنەوە</button>
-                <button class="btn btn-danger" id="btnConfirmDelete">🗑️ <span data-i18n="delete">سڕینەوە</span></button>
+                <button class="btn btn-danger" id="btnConfirmDelete">@include('partials.icon', ['name' => 'trash', 'size' => 16]) <span data-i18n="delete">سڕینەوە</span></button>
             </div>
         </div>
     </div>
 </div>
 
+<script src="{{ asset('js/icons.js') }}"></script>
 <script src="{{ asset('js/languages.js') }}"></script>
 <script src="{{ asset('js/navbar-global.js') }}"></script>
 <script src="{{ asset('js/jquery-3.4.1.min.js') }}"></script>

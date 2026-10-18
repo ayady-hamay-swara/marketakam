@@ -22,8 +22,8 @@ let currentUserPosition = null;
 
 const ACCESS_CONFIG = {
     OWNER: {
-        label: "👑 Owner",
-        color: "#6f42c1",
+        label: "Owner",
+        color: "#243d6a",
         canView: true,
         canAdd: true,
         canEdit: true,
@@ -31,7 +31,7 @@ const ACCESS_CONFIG = {
         description: "Full Access - Can do everything"
     },
     MANAGER: {
-        label: "💼 Manager",
+        label: "Manager",
         color: "#2E75B6",
         canView: true,
         canAdd: true,
@@ -40,7 +40,7 @@ const ACCESS_CONFIG = {
         description: "Can add and edit employees, cannot delete"
     },
     ASSISTANT_MANAGER: {
-        label: "📋 Assistant Manager",
+        label: "Assistant Manager",
         color: "#17a2b8",
         canView: true,
         canAdd: false,
@@ -49,7 +49,7 @@ const ACCESS_CONFIG = {
         description: "Read-only access to employees"
     },
     CASHIER: {
-        label: "🧾 Cashier",
+        label: "Cashier",
         color: "#dc3545",
         canView: false,
         canAdd: false,
@@ -61,10 +61,10 @@ const ACCESS_CONFIG = {
 
 // Position display names for table
 const POSITION_LABELS = {
-    OWNER: '<span class="badge" style="background:#6f42c1;color:white;padding:5px 10px;border-radius:12px;">👑 Owner</span>',
-    MANAGER: '<span class="badge" style="background:#2E75B6;color:white;padding:5px 10px;border-radius:12px;">💼 Manager</span>',
-    ASSISTANT_MANAGER: '<span class="badge" style="background:#17a2b8;color:white;padding:5px 10px;border-radius:12px;">📋 Ass. Manager</span>',
-    CASHIER: '<span class="badge" style="background:#6c757d;color:white;padding:5px 10px;border-radius:12px;">🧾 Cashier</span>'
+    OWNER: '<span class="role-badge role-owner">' + icon('award', 12) + ' Owner</span>',
+    MANAGER: '<span class="role-badge role-manager">' + icon('briefcase', 12) + ' Manager</span>',
+    ASSISTANT_MANAGER: '<span class="role-badge role-manager">' + icon('briefcase', 12) + ' Manager</span>',
+    CASHIER: '<span class="role-badge role-cashier">' + icon('file', 12) + ' Cashier</span>'
 };
 
 // ============================================================================
@@ -119,9 +119,9 @@ function checkPageAccess() {
     $('#mainContent').show();
 
     // Update header badges
-    $('#currentUserBadge').text(`👤 ${currentUserName}`);
+    $('#currentUserBadge').html(icon('user', 14)).append(document.createTextNode(' ' + currentUserName));
     $('#accessLevelBadge')
-        .text(`🔓 ${access.label}`)
+        .html(icon('unlock', 14) + ' ' + $('<span>').text(access.label).html())
         .css('background-color', access.color);
 
     console.log(`Access granted for: ${currentUserPosition}`);
@@ -141,7 +141,7 @@ function applyAccessRestrictions() {
         // Show read-only notice
         $('#employeeForm').prepend(`
             <div class="alert alert-info">
-                <strong>👁️ Read-Only Mode</strong> — 
+                <strong>${icon('eye', 14)} Read-Only Mode</strong> — 
                 You can view employee records but cannot make changes.
             </div>
         `);
@@ -198,11 +198,11 @@ function displayEmployees(employees) {
             '<span class="text-muted">Not set</span>';
 
         const editBtn = access && access.canEdit ?
-            `<button class="btn btn-sm btn-primary" onclick="selectEmployee('${emp.id}')">✏️ Edit</button>` :
-            `<button class="btn btn-sm btn-secondary" onclick="selectEmployee('${emp.id}')">👁️ View</button>`;
+            `<button class="btn btn-sm btn-primary" onclick="selectEmployee('${emp.id}')">${icon('edit', 14)} Edit</button>` :
+            `<button class="btn btn-sm btn-secondary" onclick="selectEmployee('${emp.id}')">${icon('eye', 14)} View</button>`;
 
         const deleteBtn = access && access.canDelete ?
-            `<button class="btn btn-sm btn-danger ml-1" onclick="quickDelete('${emp.id}')">🗑️</button>` : '';
+            `<button class="btn btn-sm btn-danger ml-1" onclick="quickDelete('${emp.id}')" aria-label="Delete">${icon('trash', 14)}</button>` : '';
 
         const row = `
             <tr style="cursor:pointer; transition:all .2s;" onmouseover="this.style.background='#f8f9fa'"
@@ -261,7 +261,7 @@ function setupEventListeners() {
         const input = $('#txtPassword');
         const type = input.attr('type') === 'password' ? 'text' : 'password';
         input.attr('type', type);
-        $(this).text(type === 'password' ? '👁️' : '🙈');
+        $(this).html(icon(type === 'password' ? 'eye' : 'eye-off', 16));
     });
 
     // Position change - show access level preview

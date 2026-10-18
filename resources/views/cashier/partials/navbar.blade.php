@@ -1,14 +1,18 @@
 <nav class="navbar navbar-expand-lg navbar-dark global-navbar">
 
     {{-- Brand --}}
+    @php
+        $store = \App\Models\Store::find(auth()->user()->current_store_id ?? 1);
+        $storeName = $store ? $store->name : 'Marketakam';
+    @endphp
     <a class="navbar-brand" href="/home">
         <span class="navbar-brand-dot"></span>
-        <span>Marketakam</span>
+        <span>{{ $storeName }}</span>
     </a>
 
     {{-- Settings icon (always visible) --}}
     <div class="navbar-left-actions">
-        <button class="nav-icon-btn" id="btnGlobalSettings" title="ڕێکخستنەکان">⚙️</button>
+        <button class="nav-icon-btn" id="btnGlobalSettings" title="ڕێکخستنەکان">@include('partials.icon', ['name' => 'sliders', 'size' => 18])</button>
     </div>
 
     {{-- Hamburger --}}
@@ -31,7 +35,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="/pos-checkout" data-i18n="nav_pos">🛒 فرۆشتن</a>
+                <a class="nav-link" href="/pos-checkout">@include('partials.icon', ['name' => 'cart', 'size' => 16]) <span data-i18n="nav_pos">فرۆشتن</span></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/search-orders" data-i18n="nav_search">وەسڵەکان</a>
@@ -39,23 +43,23 @@
         </ul>
 
         {{-- Right side: language + user --}}
-        <ul class="navbar-nav align-items-center" style="gap:6px;">
+        <ul class="navbar-nav align-items-center" style="gap:8px;">
 
             {{-- Language dropdown --}}
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="langDropdown"
                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    🌐 <span id="currentLangLabel">کوردی</span>
+                    @include('partials.icon', ['name' => 'globe', 'size' => 16]) <span id="currentLangLabel">کوردی</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="langDropdown">
                     <a class="dropdown-item" href="#" onclick="setLanguage('ku'); return false;">
-                        🟥🟩⚪ کوردی
+                        کوردی
                     </a>
                     <a class="dropdown-item" href="#" onclick="setLanguage('en'); return false;">
-                        🇬🇧 English
+                        English
                     </a>
                     <a class="dropdown-item" href="#" onclick="setLanguage('ar'); return false;">
-                        🇸🇦 العربية
+                        العربية
                     </a>
                 </div>
             </li>
@@ -64,7 +68,7 @@
             <li class="nav-item">
                 <a class="navbar-user-chip" href="/profile" id="navbarUsernameDisplay">
                     <span class="navbar-user-avatar" id="navbarUserInitial">م</span>
-                    <span id="navbarUsername" data-i18n="navbar_username" data-default-name="{{ auth()->user()->name ?? auth()->user()->username ?? 'بەڕێوەبەر' }}">{{ auth()->user()->name ?? auth()->user()->username ?? 'بەڕێوەبەر' }}</span>
+                    <span id="navbarUsername" data-default-name="{{ auth()->user()->name ?? auth()->user()->username ?? 'بەڕێوەبەر' }}">{{ auth()->user()->name ?? auth()->user()->username ?? 'بەڕێوەبەر' }}</span>
                 </a>
             </li>
 

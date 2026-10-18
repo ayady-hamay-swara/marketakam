@@ -7,6 +7,7 @@
     <title data-i18n="items_title">بەڕێوەبردنی کاڵا</title>
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/navbar-global.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/fonts.css') }}">
     <link rel="stylesheet" href="{{ asset('css/design-system.css') }}">
     <link rel="stylesheet" href="{{ asset('css/manage-items.css') }}">
 </head>
@@ -20,7 +21,7 @@
      ════════════════════════════════════════════════════════════════════ -->
 <div class="global-popup" id="globalSettingsPanel">
     <div class="popup-header">
-        <span>⚙️ <span data-i18n="settings_title">ڕێکخستنەکان</span></span>
+        <span>@include('partials.icon', ['name' => 'sliders', 'size' => 16]) <span data-i18n="settings_title">ڕێکخستنەکان</span></span>
         <button class="popup-close" id="settingsCloseBtn">✕</button>
     </div>
     <div class="settings-body">
@@ -36,11 +37,11 @@
         </div>
 
         <button class="settings-save-btn" id="btnOpenSettingsPage" type="button">
-            ⚙️ <span>ڕێکخستنەکان</span>
+            @include('partials.icon', ['name' => 'sliders', 'size' => 16]) <span>ڕێکخستنەکان</span>
         </button>
 
         <button class="settings-save-btn" id="btnGlobalSaveSettings">
-            💾 <span data-i18n="settings_save">پاشەکەوت</span>
+            @include('partials.icon', ['name' => 'save', 'size' => 16]) <span data-i18n="settings_save">پاشەکەوت</span>
         </button>
     </div>
 </div>
@@ -56,7 +57,7 @@
     <!-- Page Title -->
     <div class="row">
         <div class="col-12">
-            <h2 class="page-title">📦 <span data-i18n="items_title">بەڕێوەبردنی کاڵا</span></h2>
+            <h2 class="page-title">@include('partials.icon', ['name' => 'package', 'size' => 24]) <span data-i18n="items_title">بەڕێوەبردنی کاڵا</span></h2>
         </div>
     </div>
 
@@ -64,7 +65,7 @@
     <div class="row mt-3">
         <div class="col-md-3">
             <div class="stat-card">
-                <div class="stat-icon">📦</div>
+                <div class="stat-icon">@include('partials.icon', ['name' => 'package', 'size' => 28])</div>
                 <div class="stat-info">
                     <h3 id="totalItems">0</h3>
                     <p data-i18n="items_total">کۆی کاڵاکان</p>
@@ -73,7 +74,7 @@
         </div>
         <div class="col-md-3">
             <div class="stat-card">
-                <div class="stat-icon">⚠️</div>
+                <div class="stat-icon">@include('partials.icon', ['name' => 'alert', 'size' => 28])</div>
                 <div class="stat-info">
                     <h3 id="lowStockItems">0</h3>
                     <p data-i18n="items_low_stock">کۆگای کەم</p>
@@ -82,7 +83,7 @@
         </div>
         <div class="col-md-3">
             <div class="stat-card">
-                <div class="stat-icon">❌</div>
+                <div class="stat-icon">@include('partials.icon', ['name' => 'x', 'size' => 28])</div>
                 <div class="stat-info">
                     <h3 id="outOfStockItems">0</h3>
                     <p data-i18n="items_out_stock">کۆگا نییە</p>
@@ -91,7 +92,7 @@
         </div>
         <div class="col-md-3">
             <div class="stat-card">
-                <div class="stat-icon">💰</div>
+                <div class="stat-icon">@include('partials.icon', ['name' => 'dollar', 'size' => 28])</div>
                 <div class="stat-info">
                     <h3 id="totalValue">IQD 0</h3>
                     <p data-i18n="items_total_value">کۆی نرخ</p>
@@ -135,7 +136,7 @@
                                             <option value="" data-i18n="items_category_placeholder">هەڵبژێرە...</option>
                                         </select>
                                         <div class="input-group-append">
-                                            <button class="btn btn-outline-secondary" type="button" id="btnManageCategories">⚙️</button>
+                                            <button class="btn btn-outline-secondary" type="button" id="btnManageCategories">@include('partials.icon', ['name' => 'sliders', 'size' => 16])</button>
                                         </div>
                                     </div>
                                 </div>
@@ -261,7 +262,7 @@
                 <div class="form-group">
                     <input type="text" class="form-control" id="newCategoryName" placeholder="ناوی جۆری نوێ...">
                 </div>
-                <button class="btn btn-success btn-sm" id="btnAddCategory">➕ زیادکردن</button>
+                <button class="btn btn-success btn-sm" id="btnAddCategory">@include('partials.icon', ['name' => 'plus', 'size' => 16]) زیادکردن</button>
 
                 <div class="mt-3">
                     <div id="categoriesList"></div>
@@ -271,6 +272,7 @@
     </div>
 </div>
 
+<script src="{{ asset('js/icons.js') }}"></script>
 <script src="{{ asset('js/languages.js') }}"></script>
 <script src="{{ asset('js/navbar-global.js') }}"></script>
 <script src="{{ asset('js/jquery-3.4.1.min.js') }}"></script>

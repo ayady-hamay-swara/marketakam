@@ -1,0 +1,63 @@
+/* ════════════════════════════════════════════════════════════════════
+   GATE SCREENS (login, store select, dev view)
+   Split layout: textured brand panel + plain form column. No floating card.
+   ════════════════════════════════════════════════════════════════════ */
+body.gate { background: #fff; min-height: 100vh; margin: 0; padding: 0 !important; }
+.gate-shell { display: grid; grid-template-columns: minmax(320px, 5fr) 7fr; min-height: 100vh; }
+
+/* brand panel */
+.gate-brand {
+    background: var(--navy) url('../img/contours.svg') center / cover no-repeat;
+    color: #fff; padding: var(--sp-6);
+    display: flex; flex-direction: column; justify-content: space-between; min-width: 0;
+}
+.gate-logo { display: flex; align-items: center; gap: var(--sp-3); font-size: var(--fs-md); font-weight: var(--fw-bold); }
+.gate-logo .mark { width: 32px; height: 32px; border-radius: var(--r-2); background: var(--accent); color: var(--navy-deep); display: flex; align-items: center; justify-content: center; }
+.gate-pitch h1 { color: #fff; font-size: var(--fs-2xl); line-height: 1.25; margin-bottom: var(--sp-3); max-width: 16ch; }
+.gate-pitch p { color: rgba(255,255,255,.75); font-size: var(--fs-md); margin: 0; max-width: 36ch; }
+.gate-foot { font-size: var(--fs-xs); color: rgba(255,255,255,.55); }
+
+/* form column */
+.gate-main { display: flex; flex-direction: column; padding: var(--sp-5) var(--sp-6); min-width: 0; }
+.gate-top { display: flex; justify-content: flex-end; }
+.gate-lang { display: flex; gap: var(--sp-1); }
+.gate-lang button { background: none; border: none; color: var(--text-muted); font-size: var(--fs-sm); font-weight: var(--fw-medium); padding: var(--sp-1) var(--sp-2); border-radius: var(--r-1); cursor: pointer; }
+.gate-lang button:hover { color: var(--navy); }
+.gate-lang button.on { color: var(--navy); font-weight: var(--fw-bold); background: var(--tint); }
+.gate-body { flex: 1; width: 100%; max-width: 400px; margin: 0 auto; display: flex; flex-direction: column; justify-content: center; padding: var(--sp-5) 0; }
+.gate-body.wide { max-width: 520px; }
+
+.gate-title { font-size: var(--fs-xl); margin-bottom: var(--sp-1); }
+.gate-sub { color: var(--text-muted); margin-bottom: var(--sp-5); }
+.gate-section { margin-top: var(--sp-5); padding-top: var(--sp-5); border-top: 1px solid var(--line); }
+.gate-section h2 { font-size: var(--fs-xs); text-transform: uppercase; letter-spacing: .5px; color: var(--text-muted); font-weight: var(--fw-semibold); margin-bottom: var(--sp-3); }
+.gate-actions { display: flex; flex-wrap: wrap; gap: var(--sp-3); margin-top: var(--sp-4); }
+.gate-quiet { background: none; border: none; color: var(--text-muted); font-weight: var(--fw-medium); padding: 0; cursor: pointer; }
+.gate-quiet:hover { color: var(--navy); }
+.btn-login { width: 100%; margin-top: var(--sp-3); padding: var(--sp-3); }
+
+/* rows: stores, options — hairlines, not cards */
+.gate-row { display: flex; align-items: center; gap: var(--sp-4); width: 100%; padding: var(--sp-3) var(--sp-2); margin: 0; border: none; border-bottom: 1px solid var(--line); background: none; text-align: start; color: var(--navy); text-decoration: none; cursor: pointer; }
+.gate-row:hover { background: var(--tint); color: var(--navy); text-decoration: none; }
+.gate-row .mark { width: 40px; height: 40px; border-radius: var(--r-2); background: var(--tint); border: 1px solid var(--line); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.gate-row .nm { font-weight: var(--fw-semibold); }
+.gate-row .meta { font-size: var(--fs-xs); color: var(--text-muted); }
+.gate-row .go { margin-inline-start: auto; color: var(--text-muted); display: flex; align-items: center; gap: var(--sp-2); font-size: var(--fs-sm); font-weight: var(--fw-medium); }
+html[dir="rtl"] .flip-rtl { transform: scaleX(-1); }
+
+/* plan picker */
+.plans { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-3); margin: var(--sp-2) 0 var(--sp-4); }
+.plan { position: relative; margin: 0; padding: var(--sp-3) var(--sp-4); border: 1px solid var(--line); border-radius: var(--r-2); cursor: pointer; }
+.plan input { position: absolute; opacity: 0; }
+.plan b { display: block; color: var(--navy); font-weight: var(--fw-semibold); }
+.plan small { color: var(--text-muted); font-weight: var(--fw-medium); }
+.plan:hover { border-color: var(--accent); }
+.plan:has(input:checked) { border-color: var(--navy); background: var(--tint); }
+
+@media (max-width: 860px) {
+    .gate-shell { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
+    .gate-brand { padding: var(--sp-4) var(--sp-5); flex-direction: row; align-items: center; }
+    .gate-pitch, .gate-foot { display: none; }
+    .gate-main { padding: var(--sp-4) var(--sp-5); }
+    .plans { grid-template-columns: 1fr; }
+}

@@ -7,20 +7,21 @@
     <title data-i18n="profile_title">پرۆفایل - Marketakam</title>
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/navbar-global.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/fonts.css') }}">
     <link rel="stylesheet" href="{{ asset('css/design-system.css') }}">
     <style>
-        body { background: linear-gradient(135deg, var(--navy) 0%, var(--navy-deep) 100%); min-height: 100vh; }
+        body { background: var(--navy); min-height: 100vh; }
 
         .pf-wrap {
             max-width: 980px;
             margin: 0 auto;
-            padding: 36px 18px 60px;
+            padding: 36px 20px 60px;
             display: grid;
             grid-template-columns: 290px 1fr;
-            gap: 22px;
+            gap: 24px;
             align-items: start;
         }
-        .pf-side { display: flex; flex-direction: column; gap: 22px; }
+        .pf-side { display: flex; flex-direction: column; gap: 24px; }
 
         .pf-card {
             background: var(--surface);
@@ -33,12 +34,12 @@
         .pf-avatar {
             width: 52px; height: 52px; flex-shrink: 0;
             border-radius: 50%;
-            background: linear-gradient(135deg, var(--accent), var(--navy-soft));
-            color: #fff; font-weight: 800; font-size: 20px;
+            background: var(--accent);
+            color: #fff; font-weight: 700; font-size: 20px;
             display: flex; align-items: center; justify-content: center;
             position: relative;
         }
-        .pf-avatar.lg { width: 68px; height: 68px; font-size: 26px; }
+        .pf-avatar.lg { width: 68px; height: 68px; font-size: 24px; }
         .pf-edit-fab {
             position: absolute; bottom: -2px; inset-inline-end: -2px;
             width: 26px; height: 26px; border-radius: 50%;
@@ -51,23 +52,23 @@
         .pf-edit-fab:hover { background: var(--accent-soft); transform: scale(1.08); }
         .pf-edit-fab.on { background: var(--accent); border-color: var(--accent); }
 
-        .pf-head { display: flex; align-items: center; gap: 14px; padding-bottom: 16px; border-bottom: 1px solid var(--line); }
-        .pf-head-name { font-size: 15px; font-weight: 800; color: var(--navy); line-height: 1.3; }
-        .pf-head-sub  { font-size: 12.5px; color: var(--text-muted); word-break: break-all; }
+        .pf-head { display: flex; align-items: center; gap: 16px; padding-bottom: 16px; border-bottom: 1px solid var(--line); }
+        .pf-head-name { font-size: 14px; font-weight: 700; color: var(--navy); line-height: 1.3; }
+        .pf-head-sub  { font-size: 12px; color: var(--text-muted); word-break: break-all; }
 
         /* ── Menu rows ── */
-        .pf-menu { list-style: none; margin: 14px 0 0; padding: 0; }
+        .pf-menu { list-style: none; margin: 16px 0 0; padding: 0; }
         .pf-menu-item, .pf-menu form button {
             display: flex; align-items: center; gap: 12px; width: 100%;
-            padding: 11px 12px; border: none; background: transparent;
-            border-radius: 10px; color: var(--navy);
-            font-size: 14px; font-weight: 600; text-align: start;
+            padding: 12px 12px; border: none; background: transparent;
+            border-radius: var(--r-2); color: var(--navy);
+            font-size: 14px; font-weight: 500; text-align: start;
             text-decoration: none; cursor: pointer;
             transition: background .15s;
         }
         .pf-menu-item:hover, .pf-menu form button:hover { background: var(--page-bg); color: var(--navy); text-decoration: none; }
         .pf-menu-item.active { background: var(--accent-soft); }
-        .pf-menu-item .ico { width: 22px; text-align: center; font-size: 17px; }
+        .pf-menu-item .ico { width: 22px; text-align: center; font-size: 16px; }
         .pf-menu-item .chev { margin-inline-start: auto; color: #9aa8bd; transition: transform .2s; }
         html[dir="rtl"] .pf-menu-item .chev { transform: scaleX(-1); }
         .pf-menu-item.open .chev { transform: rotate(90deg) !important; }
@@ -79,42 +80,42 @@
         @keyframes pfIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
 
         .pf-card-title { display: flex; justify-content: space-between; align-items: center;
-            font-size: 16px; font-weight: 800; color: var(--navy);
-            padding-bottom: 12px; border-bottom: 1px solid var(--line); margin-bottom: 6px; }
-        .pf-x { background: none; border: none; font-size: 18px; color: var(--navy); cursor: pointer; line-height: 1; padding: 4px 8px; border-radius: 8px; }
+            font-size: 16px; font-weight: 700; color: var(--navy);
+            padding-bottom: 12px; border-bottom: 1px solid var(--line); margin-bottom: 8px; }
+        .pf-x { background: none; border: none; font-size: 20px; color: var(--navy); cursor: pointer; line-height: 1; padding: 4px 8px; border-radius: var(--r-2); }
         .pf-x:hover { background: var(--page-bg); }
 
-        .pf-set-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 2px; position: relative; font-size: 14px; font-weight: 600; color: var(--navy); }
+        .pf-set-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 2px; position: relative; font-size: 14px; font-weight: 500; color: var(--navy); }
         .pf-pill {
-            display: inline-flex; align-items: center; gap: 6px;
-            padding: 5px 10px; border: 1px solid var(--line); border-radius: 8px;
-            background: #fff; font-size: 13px; font-weight: 600; color: var(--text-muted); cursor: pointer;
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 4px 12px; border: 1px solid var(--line); border-radius: var(--r-2);
+            background: #fff; font-size: 14px; font-weight: 500; color: var(--text-muted); cursor: pointer;
         }
         .pf-pill:hover { border-color: var(--accent); }
         .pf-pop {
             display: none; position: absolute; top: 100%; inset-inline-end: 0; z-index: 5;
-            background: #fff; border-radius: 12px; box-shadow: var(--shadow-lg);
-            padding: 6px; min-width: 130px;
+            background: #fff; border-radius: var(--r-3); box-shadow: var(--shadow-lg);
+            padding: 8px; min-width: 130px;
         }
         .pf-pop.show { display: block; }
         .pf-pop button {
             display: block; width: 100%; text-align: start; background: none; border: none;
-            padding: 8px 12px; border-radius: 8px; font-size: 13px; font-weight: 600; color: var(--navy); cursor: pointer;
+            padding: 8px 12px; border-radius: var(--r-2); font-size: 14px; font-weight: 500; color: var(--navy); cursor: pointer;
         }
         .pf-pop button:hover, .pf-pop button.sel { background: var(--accent-soft); }
 
         /* ── Detail card ── */
-        .pf-detail-head { display: flex; align-items: center; gap: 16px; padding-bottom: 18px; border-bottom: 1px solid var(--line); }
+        .pf-detail-head { display: flex; align-items: center; gap: 16px; padding-bottom: 20px; border-bottom: 1px solid var(--line); }
         .pf-detail-head .grow { flex: 1; min-width: 0; }
-        .pf-detail-name { font-size: 18px; font-weight: 800; color: var(--navy); }
-        .pf-detail-sub  { font-size: 13px; color: var(--text-muted); word-break: break-all; }
+        .pf-detail-name { font-size: 20px; font-weight: 700; color: var(--navy); }
+        .pf-detail-sub  { font-size: 14px; color: var(--text-muted); word-break: break-all; }
 
         .pf-row { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 16px 0; border-bottom: 1px solid #eef2f8; }
         .pf-row:last-of-type { border-bottom: none; }
-        .pf-row label { margin: 0; font-size: 14.5px; font-weight: 600; color: var(--navy); flex-shrink: 0; }
+        .pf-row label { margin: 0; font-size: 14px; font-weight: 500; color: var(--navy); flex-shrink: 0; }
         .pf-field {
             border: none; background: transparent; text-align: end; width: 100%; max-width: 260px;
-            font-size: 14px; color: var(--text-muted); padding: 6px 8px; border-radius: 8px; outline: none;
+            font-size: 14px; color: var(--text-muted); padding: 8px 8px; border-radius: var(--r-2); outline: none;
             transition: background .15s, box-shadow .15s, color .15s;
         }
         .pf-field[readonly] { cursor: default; }
@@ -122,26 +123,24 @@
         .editing .pf-field:not([readonly]) { background: var(--page-bg); color: var(--navy); box-shadow: inset 0 0 0 1.5px var(--line); }
         .editing .pf-field:not([readonly]):focus { box-shadow: inset 0 0 0 1.5px var(--accent), 0 0 0 .2rem var(--accent-soft); }
 
-        .pf-role-badge { display: inline-block; padding: 4px 12px; border-radius: 20px; background: var(--accent-soft); color: var(--navy); font-size: 12.5px; font-weight: 800; }
+        .pf-role-badge { display: inline-block; padding: 4px 12px; border-radius: var(--r-3); background: var(--accent-soft); color: var(--navy); font-size: 12px; font-weight: 700; }
 
-        .pf-save { margin-top: 10px; padding: 10px 22px; border: none; border-radius: 8px; background: var(--accent); color: #fff; font-weight: 800; font-size: 14px; cursor: pointer; transition: background .15s, opacity .15s; }
+        .pf-save { margin-top: 12px; padding: 12px 24px; border: none; border-radius: var(--r-2); background: var(--accent); color: #fff; font-weight: 700; font-size: 14px; cursor: pointer; transition: background .15s, opacity .15s; }
         .pf-save:hover:not(:disabled) { background: #2f86f0; }
         .pf-save:disabled { opacity: .4; cursor: not-allowed; }
 
-        .pf-alert { padding: 10px 14px; border-radius: 10px; font-size: 13.5px; font-weight: 600; margin-bottom: 14px; }
+        .pf-alert { padding: 12px 16px; border-radius: var(--r-2); font-size: 14px; font-weight: 500; margin-bottom: 16px; }
         .pf-alert.ok  { background: #dcfce7; color: #166534; }
         .pf-alert.err { background: #fee2e2; color: #991b1b; }
 
         @media (max-width: 800px) {
-            .pf-wrap { grid-template-columns: 1fr; padding-top: 22px; }
+            .pf-wrap { grid-template-columns: 1fr; padding-top: 24px; }
             .pf-main { order: -1; }
             .pf-field { max-width: 180px; }
         }
     </style>
 </head>
 <body>
-
-@include('partials.navbar')
 
 @php
     $user     = auth()->user();
@@ -151,6 +150,8 @@
     $roleKeys = ['owner'=>'profile_role_owner','manager'=>'profile_role_manager','cashier'=>'profile_role_cashier','super-dev'=>'profile_role_super_dev','super_dev'=>'profile_role_super_dev'];
     $roleKey  = $roleKeys[$role] ?? null;
 @endphp
+
+@include('cashier.partials.navbar')
 
 <div class="pf-wrap">
 
@@ -168,18 +169,18 @@
 
             <ul class="pf-menu">
                 <li><a href="#pfDetail" class="pf-menu-item active">
-                    <span class="ico">👤</span><span data-i18n="profile_my_profile">پرۆفایلەکەم</span><span class="chev">›</span></a></li>
+                    @include('partials.icon', ['name' => 'user', 'size' => 20])<span data-i18n="profile_my_profile">پرۆفایلەکەم</span><span class="chev">›</span></a></li>
                 <li><button type="button" class="pf-menu-item" id="pfSettingsToggle">
-                    <span class="ico">⚙️</span><span data-i18n="profile_settings">ڕێکخستنەکان</span><span class="chev">›</span></button></li>
+                    @include('partials.icon', ['name' => 'sliders', 'size' => 20])<span data-i18n="profile_settings">ڕێکخستنەکان</span><span class="chev">›</span></button></li>
                 @if($role === 'owner')
                 <li><a href="{{ url('/store-select') }}" class="pf-menu-item">
-                    <span class="ico">🏪</span><span data-i18n="profile_switch_store">گۆڕینی فرۆشگا</span><span class="chev">›</span></a></li>
+                    @include('partials.icon', ['name' => 'bag', 'size' => 20])<span data-i18n="profile_switch_store">گۆڕینی فرۆشگا</span><span class="chev">›</span></a></li>
                 @endif
                 <li>
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
                         <button type="submit" class="danger">
-                            <span class="ico">🚪</span><span data-i18n="profile_logout">چوونەدەرەوە</span></button>
+                            @include('partials.icon', ['name' => 'logout', 'size' => 20])<span data-i18n="profile_logout">چوونەدەرەوە</span></button>
                     </form>
                 </li>
             </ul>
@@ -215,7 +216,7 @@
             <div class="pf-detail-head">
                 <div class="pf-avatar lg">
                     <span>{{ mb_strtoupper(mb_substr($username ?: '?', 0, 1)) }}</span>
-                    <button type="button" class="pf-edit-fab" id="pfEditToggle" data-i18n-title="profile_edit" title="Edit">✏️</button>
+                    <button type="button" class="pf-edit-fab" id="pfEditToggle" title="Edit">@include('partials.icon', ['name' => 'edit', 'size' => 14])</button>
                 </div>
                 <div class="grow">
                     <div class="pf-detail-name pf-js-name">{{ $username ?: '—' }}</div>
@@ -226,12 +227,12 @@
 
             <div class="pf-row">
                 <label for="pfUsername" data-i18n="profile_username">ناوی بەکارهێنەر</label>
-                <input class="pf-field" id="pfUsername" name="username" value="{{ old('username', $username) }}" placeholder="{{ $username }}" readonly required>
+                <input class="pf-field" id="pfUsername" name="username" value="{{ old('username', $username) }}" placeholder="{{ $username }}" required>
             </div>
 
             <div class="pf-row">
                 <label for="pfEmail" data-i18n="profile_email">ئیمەیڵ</label>
-                <input class="pf-field" id="pfEmail" name="email" type="email" value="{{ old('email', $email) }}" placeholder="{{ $email ?: 'name@email.com' }}" readonly>
+                <input class="pf-field" id="pfEmail" name="email" type="email" value="{{ old('email', $email) }}" placeholder="{{ $email ?: 'name@email.com' }}">
             </div>
 
             <div class="pf-row">
@@ -245,14 +246,15 @@
 
             <div class="pf-row">
                 <label for="pfPassword" data-i18n="profile_password">وشەی نهێنی</label>
-                <input class="pf-field" id="pfPassword" name="password" type="password" data-i18n="profile_password_hint" placeholder="بۆ گۆڕین بنووسە" autocomplete="new-password" readonly>
+                <input class="pf-field" id="pfPassword" name="password" type="password" data-i18n="profile_password_hint" placeholder="بۆ گۆڕین بنووسە" autocomplete="new-password">
             </div>
 
-            <button type="submit" class="pf-save" id="pfSave" disabled data-i18n="profile_save">پاشەکەوتکردن</button>
+            <button type="submit" class="pf-save" id="pfSave" data-i18n="profile_save">پاشەکەوتکردن</button>
         </form>
     </div>
 </div>
 
+<script src="{{ asset('js/icons.js') }}"></script>
 <script src="{{ asset('js/languages.js') }}"></script>
 <script src="{{ asset('js/navbar-global.js') }}"></script>
 <script src="{{ asset('js/jquery-3.4.1.min.js') }}"></script>

@@ -27,7 +27,8 @@ Homestead.yaml
 Thumbs.db
 /app
 /config
-/database
+ERdiagram.png
+store_managment_system.svg
 /routes
 /storage
 .npmrc

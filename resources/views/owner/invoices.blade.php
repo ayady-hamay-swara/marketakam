@@ -6,12 +6,12 @@
 @section('content')
 <div class="ow-toolbar">
     <p class="sub" data-i18n="owner_inv_sub">هەموو وەسڵەکانی فرۆشگا</p>
-    <a href="{{ url('/owner/pos') }}" class="btn btn-primary">@include('owner.partials.icon', ['name' => 'plus', 'size' => 17])<span data-i18n="owner_new_sale">فرۆشتنی نوێ</span></a>
+    <a href="{{ url('/owner/pos') }}" class="btn btn-primary">@include('partials.icon', ['name' => 'plus', 'size' => 16])<span data-i18n="owner_new_sale">فرۆشتنی نوێ</span></a>
 </div>
 
 <div class="ow-filters">
     <div class="ow-search">
-        @include('owner.partials.icon', ['name' => 'search', 'size' => 18])
+        @include('partials.icon', ['name' => 'search', 'size' => 18])
         <input type="text" class="form-control" data-i18n="owner_search_ph" placeholder="گەڕان بە ژمارە یان ناو...">
     </div>
     <select class="form-control">
@@ -28,8 +28,7 @@
     </select>
 </div>
 
-<div class="ow-card">
-    <div class="ow-table-wrap">
+<div class="ow-table-wrap">
         <table class="ow-table">
             <thead><tr>
                 <th data-i18n="owner_col_invoice">ژمارە</th><th data-i18n="owner_col_date">بەروار</th><th data-i18n="owner_col_customer">کڕیار</th>
@@ -59,12 +58,11 @@
                     <td data-i18n="{{ $r[5] }}">{{ $r[6] }}</td>
                     <td class="num">IQD {{ $r[7] }}</td>
                     <td><span class="ow-badge {{ $badge[$r[8]][0] }}" data-i18n="{{ $badge[$r[8]][1] }}">{{ $badge[$r[8]][2] }}</span></td>
-                    <td><button class="ow-icon-btn" style="width:34px;height:34px" type="button" aria-label="View">@include('owner.partials.icon', ['name' => 'eye', 'size' => 16])</button></td>
+                    <td><button class="ow-icon-btn" style="width:32px;height:32px" type="button" aria-label="View">@include('partials.icon', ['name' => 'eye', 'size' => 16])</button></td>
                 </tr>
                 @endforeach
             </tbody>
         </table>
-    </div>
-    <div class="ow-pager"><button class="on">1</button><button>2</button><button>3</button><button>8</button></div>
 </div>
+<div class="ow-pager"><button class="on">1</button><button>2</button><button>3</button><button>8</button></div>
 @endsection

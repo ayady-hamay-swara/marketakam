@@ -27,23 +27,23 @@
         </ul>
 
         {{-- Right side: language + user --}}
-        <ul class="navbar-nav align-items-center" style="gap:6px;">
+        <ul class="navbar-nav align-items-center" style="gap:8px;">
 
             {{-- Language dropdown --}}
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="langDropdown"
                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    🌐 <span id="currentLangLabel">کوردی</span>
+                    @include('partials.icon', ['name' => 'globe', 'size' => 16]) <span id="currentLangLabel">کوردی</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="langDropdown">
                     <a class="dropdown-item" href="#" onclick="setLanguage('ku'); return false;">
-                        🟥🟩⚪ کوردی
+                        کوردی
                     </a>
                     <a class="dropdown-item" href="#" onclick="setLanguage('en'); return false;">
-                        🇬🇧 English
+                        English
                     </a>
                     <a class="dropdown-item" href="#" onclick="setLanguage('ar'); return false;">
-                        🇸🇦 العربية
+                        العربية
                     </a>
                 </div>
             </li>
@@ -52,7 +52,7 @@
             <li class="nav-item">
                 <a class="navbar-user-chip" href="/profile" id="navbarUsernameDisplay">
                     <span class="navbar-user-avatar" id="navbarUserInitial">م</span>
-                    <span id="navbarUsername" data-i18n="navbar_username" data-default-name="{{ auth()->user()->name ?? auth()->user()->username ?? 'بەڕێوەبەر' }}">{{ auth()->user()->name ?? auth()->user()->username ?? 'بەڕێوەبەر' }}</span>
+                    <span id="navbarUsername" data-default-name="{{ auth()->user()->name ?? auth()->user()->username ?? 'بەڕێوەبەر' }}">{{ auth()->user()->name ?? auth()->user()->username ?? 'بەڕێوەبەر' }}</span>
                 </a>
             </li>
 

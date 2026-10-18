@@ -1,0 +1,137 @@
+erDiagram
+    STORES ||--o{ USERS : owns
+    STORES ||--o{ EMPLOYEES : has
+    STORES ||--o{ CUSTOMERS : serves
+    STORES ||--o{ PRODUCTS : stocks
+    STORES ||--o{ ORDERS : records
+    STORES ||--o{ DEBTS : tracks
+    STORES ||--o{ SETTINGS : configures
+
+    USERS {
+        bigint id PK
+        bigint current_store_id
+        string username
+        string email
+        timestamp email_verified_at
+        string password
+        string role
+        string remember_token
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    EMPLOYEES {
+        bigint id PK
+        bigint store_id FK
+        string employee_code
+        string name
+        string position
+        string email
+        string phone
+        string address
+        decimal salary
+        date hire_date
+        boolean is_active
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    CUSTOMERS {
+        bigint id PK
+        bigint store_id FK
+        string name
+        string phone
+        string email
+        string address
+        boolean is_active
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    PRODUCTS {
+        bigint id PK
+        bigint store_id FK
+        string code
+        string name
+        string barcode
+        string category
+        decimal price
+        int stock
+        int min_stock
+        text notes
+        boolean is_active
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    ORDERS {
+        bigint id PK
+        bigint store_id FK
+        string order_number
+        bigint customer_id FK
+        bigint employee_id FK
+        decimal subtotal
+        decimal discount_percent
+        decimal discount_amount
+        decimal total
+        string payment_method
+        string status
+        string sale_type
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    ORDER_ITEMS {
+        bigint id PK
+        bigint order_id FK
+        bigint product_id FK
+        int quantity
+        decimal unit_price
+        decimal total
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    DEBTS {
+        bigint id PK
+        bigint store_id FK
+        bigint customer_id FK
+        decimal total_amount
+        decimal paid_amount
+        decimal remaining_amount
+        string status
+        text notes
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    DEBT_PAYMENTS {
+        bigint id PK
+        bigint store_id FK
+        bigint debt_id FK
+        bigint customer_id FK
+        decimal amount
+        string payment_method
+        timestamp paid_at
+        text note
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    SETTINGS {
+        bigint id PK
+        bigint store_id
+        string key
+        text value
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    USERS ||--o{ STORES : "current store / ownership"
+    CUSTOMERS ||--o{ ORDERS : places
+    EMPLOYEES ||--o{ ORDERS : sells
+    ORDERS ||--o{ ORDER_ITEMS : contains
+    PRODUCTS ||--o{ ORDER_ITEMS : sold_in
+    CUSTOMERS ||--o{ DEBTS : owes
+    DEBTS ||--o{ DEBT_PAYMENTS : paid_via
+    CUSTOMERS ||--o{ DEBT_PAYMENTS : makes_payment

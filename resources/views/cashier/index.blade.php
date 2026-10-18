@@ -10,102 +10,41 @@
     <link rel="stylesheet" href="{{ asset('css/navbar-global.css') }}">
     <link rel="stylesheet" href="{{ asset('css/design-system.css') }}">
     <style>
-        body { background: linear-gradient(135deg, #1a2b4a 0%, #0d1526 100%); min-height: 100vh; }
+        /* White page. Structure comes from hairlines and type, not from floating cards. */
+        body { background: #fff; min-height: 100vh; }
+        .dashboard-wrapper { padding: 48px 20px 64px; max-width: 960px; }
 
-        .dashboard-wrapper { padding: 40px 20px; }
+        .welcome-card { text-align: start; padding: 0 0 24px; margin-bottom: 24px; border-bottom: 1px solid var(--line, #e1e8f2); }
+        .welcome-title { font-size: 32px; font-weight: 700; color: var(--navy, #1a2b4a); margin-bottom: 4px; }
+        .welcome-subtitle { font-size: 16px; color: var(--text-muted, #5f6f86); }
 
-        .welcome-card {
-            background: white;
-            border-radius: 20px;
-            padding: 40px;
-            text-align: center;
-            box-shadow: 0 20px 60px rgba(0,0,0,.3);
-            margin-bottom: 40px;
-        }
+        /* four figures in one band */
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); border-block: 1px solid var(--line, #e1e8f2); margin-bottom: 32px; }
+        .stat-box { padding: 16px 24px; text-align: start; border-inline-start: 1px solid var(--line, #e1e8f2); }
+        .stat-box:first-child { border-inline-start: none; padding-inline-start: 0; }
+        .stat-value { font-size: 24px; font-weight: 700; color: var(--navy, #1a2b4a); font-variant-numeric: tabular-nums; }
+        .stat-label { font-size: 14px; color: var(--text-muted, #5f6f86); margin-top: 4px; }
+        .stat-label i { margin-inline-end: 6px; color: var(--accent-ink, #1d6fe0); }
 
-        .welcome-title {
-            font-size: 48px;
-            font-weight: 800;
-            color: #2c3e50;
-            margin-bottom: 10px;
-        }
-
-        .welcome-subtitle {
-            font-size: 20px;
-            color: #7f8c8d;
-        }
-
-        .quick-actions {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-top: 30px;
-        }
-
+        /* destinations as a list */
+        .quick-actions { display: block; }
         .action-card {
-            background: white;
-            border-radius: 16px;
-            padding: 30px;
-            text-align: center;
-            cursor: pointer;
-            transition: all .3s;
-            box-shadow: 0 10px 30px rgba(0,0,0,.2);
-            text-decoration: none;
-            color: inherit;
-            display: block;
+            display: grid; grid-template-columns: 40px 1fr 18px; grid-template-areas: "icon title go" "icon desc go";
+            column-gap: 16px; align-items: center; padding: 16px 8px;
+            border-bottom: 1px solid var(--line, #e1e8f2); color: var(--navy, #1a2b4a); text-decoration: none;
         }
-
-        .action-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0,0,0,.3);
-            text-decoration: none;
-            color: inherit;
+        .action-card:hover { background: var(--tint, #f6f8fc); color: var(--navy, #1a2b4a); text-decoration: none; }
+        .action-card::after {
+            content: ''; grid-area: go; width: 18px; height: 18px; background: var(--text-muted, #5f6f86);
+            -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='9 18 15 12 9 6'/%3E%3C/svg%3E") center / contain no-repeat;
+                    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='9 18 15 12 9 6'/%3E%3C/svg%3E") center / contain no-repeat;
         }
-
-        .action-icon {
-            font-size: 64px;
-            margin-bottom: 15px;
-        }
-
-        .action-title {
-            font-size: 22px;
-            font-weight: 700;
-            color: #2c3e50;
-            margin-bottom: 8px;
-        }
-
-        .action-desc {
-            font-size: 14px;
-            color: #7f8c8d;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-top: 30px;
-        }
-
-        .stat-box {
-            background: rgba(255,255,255,.95);
-            border-radius: 16px;
-            padding: 25px;
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,.2);
-        }
-
-        .stat-value {
-            font-size: 36px;
-            font-weight: 800;
-            color: #667eea;
-        }
-
-        .stat-label {
-            font-size: 14px;
-            color: #7f8c8d;
-            margin-top: 5px;
-        }
+        html[dir="rtl"] .action-card::after { transform: scaleX(-1); }
+        .action-icon { grid-area: icon; width: 40px; height: 40px; margin: 0; border-radius: 8px; background: var(--tint, #f6f8fc); border: 1px solid var(--line, #e1e8f2); display: flex; align-items: center; justify-content: center; font-size: 18px; color: var(--navy, #1a2b4a); }
+        .action-title { grid-area: title; font-size: 16px; font-weight: 600; color: var(--navy, #1a2b4a); }
+        .action-desc { grid-area: desc; font-size: 14px; color: var(--text-muted, #5f6f86); }
     </style>
+    <script src="https://kit.fontawesome.com/dee4ca4318.js" crossorigin="anonymous"></script>
 </head>
 <body>
 
@@ -158,44 +97,44 @@
     <div class="stats-grid">
         <div class="stat-box">
             <div class="stat-value" id="statTodaySales">IQD {{ number_format((float) ($today_sales ?? 0), 0, '.', ',') }}</div>
-            <div class="stat-label" data-i18n="dashboard_today_sales">فرۆشی ئەمڕۆ</div>
+            <div class="stat-label"><i class="fas fa-money-bill-wave" aria-hidden="true"></i> <span data-i18n="dashboard_today_sales">فرۆشی ئەمڕۆ</span></div>
         </div>
         <div class="stat-box">
             <div class="stat-value" id="statOrders">{{ (int) ($orders_count ?? 0) }}</div>
-            <div class="stat-label" data-i18n="dashboard_orders_count">ژمارەی وەسڵەکان</div>
+            <div class="stat-label"><i class="fas fa-receipt" aria-hidden="true"></i> <span data-i18n="dashboard_orders_count">ژمارەی وەسڵەکان</span></div>
         </div>
         <div class="stat-box">
             <div class="stat-value" id="statItems">{{ (int) ($items_count ?? 0) }}</div>
-            <div class="stat-label" data-i18n="items_total">کۆی کاڵاکان</div>
+            <div class="stat-label"><i class="fas fa-box" aria-hidden="true"></i> <span data-i18n="items_total">کۆی کاڵاکان</span></div>
         </div>
         <div class="stat-box">
             <div class="stat-value" id="statLowStock">{{ (int) ($low_stock_count ?? 0) }}</div>
-            <div class="stat-label" data-i18n="dashboard_low_stock">کاڵای کۆگای کەم</div>
+            <div class="stat-label"><i class="fas fa-exclamation-triangle" aria-hidden="true"></i> <span data-i18n="dashboard_low_stock">کاڵای کۆگای کەم</span></div>
         </div>
     </div>
 
     <!-- Quick Actions -->
     <div class="quick-actions">
         <a href="/pos-checkout" class="action-card">
-            <div class="action-icon"></div>
+            <div class="action-icon"><i class="fas fa-cash-register" aria-hidden="true"></i></div>
             <div class="action-title" data-i18n="dashboard_action_pos_title">فرۆشتن</div>
             <div class="action-desc" data-i18n="dashboard_action_pos_desc">دەستپێکردنی فرۆشتنی نوێ</div>
         </a>
 
         <a href="/manage-items" class="action-card">
-            <div class="action-icon"></div>
+            <div class="action-icon"><i class="fas fa-boxes" aria-hidden="true"></i></div>
             <div class="action-title" data-i18n="dashboard_action_items_title">بەڕێوەبردنی کاڵا</div>
             <div class="action-desc" data-i18n="dashboard_action_items_desc">زیادکردن و دەستکاریکردنی کاڵاکان</div>
         </a>
 
         <a href="/manage-employees" class="action-card">
-            <div class="action-icon"></div>
+            <div class="action-icon"><i class="fas fa-users" aria-hidden="true"></i></div>
             <div class="action-title" data-i18n="dashboard_action_employees_title">کارمەندان</div>
             <div class="action-desc" data-i18n="dashboard_action_employees_desc">بەڕێوەبردنی کارمەندان</div>
         </a>
 
         <a href="/search-orders" class="action-card">
-            <div class="action-icon"></div>
+            <div class="action-icon"><i class="fas fa-file-invoice" aria-hidden="true"></i></div>
             <div class="action-title" data-i18n="dashboard_action_search_title">گەڕان لە وەسڵەکان</div>
             <div class="action-desc" data-i18n="dashboard_action_search_desc">بینینی وەسڵە پێشووەکان</div>
         </a>

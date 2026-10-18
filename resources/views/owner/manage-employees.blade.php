@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="{{ asset('css/manage-employees.css') }}">
     <!-- Global Navbar CSS -->
     <link rel="stylesheet" href="{{ asset('css/navbar-global.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/fonts.css') }}">
     <link rel="stylesheet" href="{{ asset('css/design-system.css') }}">
 </head>
 <body>
@@ -26,7 +27,7 @@
      ════════════════════════════════════════════════════════════════════ -->
 <div class="global-popup" id="globalSettingsPanel">
     <div class="popup-header">
-        <span>⚙️ <span data-i18n="settings_title">ڕێکخستنەکان</span></span>
+        <span>@include('partials.icon', ['name' => 'sliders', 'size' => 16]) <span data-i18n="settings_title">ڕێکخستنەکان</span></span>
         <button class="popup-close" id="settingsCloseBtn">✕</button>
     </div>
     <div class="settings-body">
@@ -42,7 +43,7 @@
         </div>
 
         <button class="settings-save-btn" id="btnGlobalSaveSettings">
-            💾 <span data-i18n="settings_save">پاشەکەوت</span>
+            @include('partials.icon', ['name' => 'save', 'size' => 16]) <span data-i18n="settings_save">پاشەکەوت</span>
         </button>
     </div>
 </div>
@@ -61,7 +62,7 @@
     <!-- ACCESS DENIED OVERLAY -->
     <div id="accessDeniedOverlay" style="display:none;">
         <div style="text-align:center; padding: 100px 20px;">
-            <div style="font-size: 80px;">⛔</div>
+            <div class="text-muted">@include('partials.icon', ['name' => 'ban', 'size' => 64])</div>
             <h1 class="text-danger mt-3">Access Denied</h1>
             <p class="lead">You do not have permission to view this page.</p>
             <div class="alert alert-warning d-inline-block">
@@ -80,10 +81,10 @@
             <!-- Page Title -->
             <div class="row">
                 <div class="col-12 d-flex justify-content-between align-items-center">
-                    <h2 class="page-title">👥 <span data-i18n="employees_title">Employee Management</span></h2>
+                    <h2 class="page-title">@include('partials.icon', ['name' => 'users', 'size' => 24]) <span data-i18n="employees_title">Employee Management</span></h2>
                     <div>
-                        <span class="badge badge-info p-2" id="currentUserBadge">👤 Loading...</span>
-                        <span class="badge badge-success p-2 ml-2" id="accessLevelBadge">🔓 Access Level: --</span>
+                        <span class="badge badge-info p-2" id="currentUserBadge">@include('partials.icon', ['name' => 'user', 'size' => 16]) Loading...</span>
+                        <span class="badge badge-success p-2 ml-2" id="accessLevelBadge">@include('partials.icon', ['name' => 'unlock', 'size' => 16]) Access Level: --</span>
                     </div>
                 </div>
             </div>
@@ -92,9 +93,9 @@
             <!-- Statistics Cards -->
             <div class="row mt-3">
                 <div class="col-md-3">
-                    <div class="card stat-card" style="border-left:4px solid #1a2b4a;background:linear-gradient(135deg,#fff 0%,#f0f7ff 100%);box-shadow:0 4px 15px rgba(0,0,0,.1);border-radius:12px;">
+                    <div class="card stat-card">
                         <div class="card-body d-flex align-items-center gap-3">
-                            <div style="font-size:48px;">👥</div>
+                            <div>@include('partials.icon', ['name' => 'users', 'size' => 36])</div>
                             <div>
                                 <h6 class="text-muted mb-1" data-i18n="employees_total">Total Employees</h6>
                                 <h2 id="totalEmployees" class="mb-0">0</h2>
@@ -103,9 +104,9 @@
                     </div>
                 </div>
                 <div class="col-md-3">
-                    <div class="card stat-card" style="border-left:4px solid #28a745;background:linear-gradient(135deg,#fff 0%,#e6f7e6 100%);box-shadow:0 4px 15px rgba(0,0,0,.1);border-radius:12px;">
+                    <div class="card stat-card">
                         <div class="card-body d-flex align-items-center gap-3">
-                            <div style="font-size:48px;">✅</div>
+                            <div>@include('partials.icon', ['name' => 'check', 'size' => 36])</div>
                             <div>
                                 <h6 class="text-muted mb-1" data-i18n="items_active">Active Staff</h6>
                                 <h2 id="activeEmployees" class="mb-0">0</h2>
@@ -114,9 +115,9 @@
                     </div>
                 </div>
                 <div class="col-md-3">
-                    <div class="card stat-card" style="border-left:4px solid #ffc107;background:linear-gradient(135deg,#fff 0%,#fff9e6 100%);box-shadow:0 4px 15px rgba(0,0,0,.1);border-radius:12px;">
+                    <div class="card stat-card">
                         <div class="card-body d-flex align-items-center gap-3">
-                            <div style="font-size:48px;">💼</div>
+                            <div>@include('partials.icon', ['name' => 'briefcase', 'size' => 36])</div>
                             <div>
                                 <h6 class="text-muted mb-1" data-i18n="employees_managers">Managers</h6>
                                 <h2 id="totalManagers" class="mb-0">0</h2>
@@ -125,12 +126,12 @@
                     </div>
                 </div>
                 <div class="col-md-3">
-                    <div class="card stat-card" style="border-left:4px solid #dc3545;background:linear-gradient(135deg,#fff 0%,#fff0f0 100%);box-shadow:0 4px 15px rgba(0,0,0,.1);border-radius:12px;">
+                    <div class="card stat-card">
                         <div class="card-body d-flex align-items-center gap-3">
-                            <div style="font-size:48px;">💰</div>
+                            <div>@include('partials.icon', ['name' => 'dollar', 'size' => 36])</div>
                             <div>
                                 <h6 class="text-muted mb-1" data-i18n="employees_payroll">Monthly Payroll</h6>
-                                <h2 id="totalPayroll" class="mb-0" style="font-size:22px;">IQD 0</h2>
+                                <h2 id="totalPayroll" class="mb-0" style="font-size: 24px;">IQD 0</h2>
                             </div>
                         </div>
                     </div>
@@ -140,9 +141,9 @@
             <!-- Employee Form Card -->
             <div class="row mt-4">
                 <div class="col-md-12">
-                    <div class="card" style="border-radius:12px;box-shadow:0 4px 15px rgba(0,0,0,.1);border:none;">
-                        <div class="card-header bg-primary text-white" style="border-radius:12px 12px 0 0;">
-                            <h5 class="mb-0">📝 <span data-i18n="employees_title">Employee Information</span></h5>
+                    <div class="card" style="border-radius:var(--r-3);box-shadow: var(--shadow);border:none;">
+                        <div class="card-header" style="border-radius:var(--r-3) var(--r-3) 0 0;">
+                            <h5 class="mb-0">@include('partials.icon', ['name' => 'note', 'size' => 18]) <span data-i18n="employees_title">Employee Information</span></h5>
                         </div>
                         <div class="card-body">
                             <form id="employeeForm">
@@ -157,7 +158,7 @@
                                                        placeholder="E001" readonly>
                                                 <div class="input-group-append">
                                                     <button class="btn btn-outline-secondary" type="button"
-                                                            id="btnGenerateId">🔄</button>
+                                                            id="btnGenerateId">@include('partials.icon', ['name' => 'refresh', 'size' => 16])</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -176,10 +177,10 @@
                                             <label for="txtPosition" data-i18n="employees_position">Position <span class="text-danger">*</span></label>
                                             <select class="form-control" id="txtPosition" required>
                                                 <option value="" data-i18n="employees_position">Select position</option>
-                                                <option value="OWNER" data-i18n="position_owner">👑 Owner</option>
-                                                <option value="MANAGER" data-i18n="position_manager">💼 Manager</option>
-                                                <option value="ASSISTANT_MANAGER" data-i18n="position_asst_manager">📋 Assistant Manager</option>
-                                                <option value="CASHIER" data-i18n="position_cashier">🧾 Cashier</option>
+                                                <option value="OWNER" data-i18n="position_owner">Owner</option>
+                                                <option value="MANAGER" data-i18n="position_manager">Manager</option>
+                                                <option value="ASSISTANT_MANAGER" data-i18n="position_asst_manager">Assistant Manager</option>
+                                                <option value="CASHIER" data-i18n="position_cashier">Cashier</option>
                                             </select>
                                         </div>
                                     </div>
@@ -234,7 +235,7 @@
                                     <div class="col-12">
                                         <hr>
                                         <h6 class="text-primary font-weight-bold">
-                                            🔐 Login Credentials
+                                            @include('partials.icon', ['name' => 'lock', 'size' => 16]) Login Credentials
                                             <small class="text-muted font-weight-normal"> — Used by this employee to log into the system</small>
                                         </h6>
                                     </div>
@@ -256,7 +257,7 @@
                                                        data-i18n="employees_password" placeholder="Enter password">
                                                 <div class="input-group-append">
                                                     <button class="btn btn-outline-secondary" type="button"
-                                                            id="btnTogglePassword">👁️</button>
+                                                            id="btnTogglePassword">@include('partials.icon', ['name' => 'eye', 'size' => 16])</button>
                                                 </div>
                                             </div>
                                             <small class="form-text text-muted" id="passwordHint">Required for new employees</small>
@@ -276,7 +277,7 @@
                                         <div class="form-group">
                                             <label>Access Level Preview</label>
                                             <div id="accessLevelPreview" class="p-2 rounded text-center"
-                                                 style="background:#f8f9fa;border:2px dashed #dee2e6;min-height:38px;">
+                                                 style="background:var(--tint);border:2px dashed var(--line);min-height:38px;">
                                                 <small class="text-muted">Select a position</small>
                                             </div>
                                         </div>
@@ -287,19 +288,19 @@
                                 <div class="row mt-3">
                                     <div class="col-md-12">
                                         <button type="button" class="btn btn-success" id="btnSave">
-                                            💾 <span data-i18n="employees_save">Save Employee</span>
+                                            @include('partials.icon', ['name' => 'save', 'size' => 16]) <span data-i18n="employees_save">Save Employee</span>
                                         </button>
                                         <button type="button" class="btn btn-primary" id="btnUpdate" style="display:none;">
-                                            ✏️ <span data-i18n="employees_update">Update Employee</span>
+                                            @include('partials.icon', ['name' => 'edit', 'size' => 16]) <span data-i18n="employees_update">Update Employee</span>
                                         </button>
                                         <button type="button" class="btn btn-danger" id="btnDelete" style="display:none;">
-                                            🗑️ <span data-i18n="employees_delete">Delete Employee</span>
+                                            @include('partials.icon', ['name' => 'trash', 'size' => 16]) <span data-i18n="employees_delete">Delete Employee</span>
                                         </button>
                                         <button type="button" class="btn btn-warning" id="btnClear">
-                                            🔄 <span data-i18n="clear">Clear Form</span>
+                                            @include('partials.icon', ['name' => 'refresh', 'size' => 16]) <span data-i18n="clear">Clear Form</span>
                                         </button>
                                         <span id="ownerOnlyNote" class="text-muted ml-3" style="display:none;">
-                                            <small>⚠️ Only Owners can delete employees</small>
+                                            <small>@include('partials.icon', ['name' => 'alert', 'size' => 16]) Only Owners can delete employees</small>
                                         </span>
                                     </div>
                                 </div>
@@ -312,9 +313,9 @@
             <!-- Search Section -->
             <div class="row mt-4">
                 <div class="col-md-12">
-                    <div class="card" style="border-radius:12px;box-shadow:0 4px 15px rgba(0,0,0,.1);border:none;">
-                        <div class="card-header bg-info text-white" style="border-radius:12px 12px 0 0;">
-                            <h5 class="mb-0">🔍 <span data-i18n="search">Search Employees</span></h5>
+                    <div class="card" style="border-radius:var(--r-3);box-shadow: var(--shadow);border:none;">
+                        <div class="card-header" style="border-radius:var(--r-3) var(--r-3) 0 0;">
+                            <h5 class="mb-0">@include('partials.icon', ['name' => 'search', 'size' => 18]) <span data-i18n="search">Search Employees</span></h5>
                         </div>
                         <div class="card-body">
                             <div class="row">
@@ -351,7 +352,7 @@
                                     <div class="form-group">
                                         <label>&nbsp;</label>
                                         <button type="button" class="btn btn-info btn-block" id="btnSearch">
-                                            🔍 <span data-i18n="search">Search</span>
+                                            @include('partials.icon', ['name' => 'search', 'size' => 16]) <span data-i18n="search">Search</span>
                                         </button>
                                     </div>
                                 </div>
@@ -364,9 +365,9 @@
             <!-- Employees Table -->
             <div class="row mt-4 mb-5">
                 <div class="col-md-12">
-                    <div class="card" style="border-radius:12px;box-shadow:0 4px 15px rgba(0,0,0,.1);border:none;">
-                        <div class="card-header bg-dark text-white" style="border-radius:12px 12px 0 0;">
-                            <h5 class="mb-0">📋 <span data-i18n="employees_title">Employee List</span></h5>
+                    <div class="card" style="border-radius:var(--r-3);box-shadow: var(--shadow);border:none;">
+                        <div class="card-header bg-dark text-white" style="border-radius:var(--r-3) var(--r-3) 0 0;">
+                            <h5 class="mb-0">@include('partials.icon', ['name' => 'clipboard', 'size' => 18]) <span data-i18n="employees_title">Employee List</span></h5>
                         </div>
                         <div class="card-body p-0">
                             <div class="table-responsive">
@@ -405,6 +406,7 @@
     <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('js/bootstrap.min.js') }}"></script>
     <!-- Language Support -->
+    <script src="{{ asset('js/icons.js') }}"></script>
     <script src="{{ asset('js/languages.js') }}"></script>
     <!-- Navbar JS -->
     <script src="{{ asset('js/navbar-global.js') }}"></script>

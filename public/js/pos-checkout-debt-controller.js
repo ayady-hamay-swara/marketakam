@@ -11,6 +11,7 @@ const DEBTS_URL = "/api/debts";
 let allProducts = [], allCustomers = [];
 let cart = [], paymentMethod = "CASH";
 let selectedCustomerForDebt = null;
+let hasUserTouchedReceivedAmount = false;
 
 // ═══════════════════════════════════════════════════════
 // INIT
@@ -60,7 +61,10 @@ function setupPosListeners() {
         $('#cashSection').toggle(paymentMethod==='CASH');
     });
 
-    $('#amountReceived').on('input', calcChange);
+    $('#amountReceived').on('input', function() {
+        hasUserTouchedReceivedAmount = true;
+        calcChange();
+    });
     $('#btnClearCart').on('click', clearCart);
     $('#btnCompleteSale').on('click', completeSale);
     $('#btnSellAsDebt').on('click', openCustomerSelect);  // NEW
@@ -136,9 +140,9 @@ function showSearchResults(q, cat){
     res.slice(0,10).forEach(p=>{
         const qty=p.qtyOnHand||0, min=p.minStockLevel||10;
         const isOut=qty===0, isLow=!isOut&&qty<=min;
-        let stk = `<span style="color:#27ae60;">✅ ${qty}</span>`;
-        if(isOut)  stk=`<span style="color:#e74c3c;">❌ ${t('items_out_stock')}</span>`;
-        else if(isLow) stk=`<span style="color:#f39c12;">⚠️ ${qty}</span>`;
+        let stk = `<span class="stock-ok">${qty}</span>`;
+        if(isOut)  stk=`<span class="stock-out">${t('items_out_stock')}</span>`;
+        else if(isLow) stk=`<span class="stock-low">${qty}</span>`;
 
         const row=$(`
             <div class="prod-result-row" style="display:flex; justify-content:space-between; padding:10px 16px; cursor:pointer; border-bottom:1px solid #f0f0f0;">
@@ -204,7 +208,7 @@ function renderCart(){
     if(!cart.length){
         body.html(`
             <div class="cart-empty">
-                <div style="font-size:48px;">🛒</div>
+                ${illus('cart')}
                 <p>${t('pos_cart_empty_title')}</p>
                 <small>${t('pos_cart_empty_desc')}</small>
             </div>
@@ -248,6 +252,15 @@ function recalc(){
     $('#subtotal').text('IQD '+fmt(sub));
     $('#discountAmount').text('- IQD '+fmt(disc));
     $('#totalAmount').text('IQD '+fmt(total));
+
+    const amountInput = $('#amountReceived');
+    if (paymentMethod === 'CASH' && cart.length && !hasUserTouchedReceivedAmount) {
+        const currentValue = parseFloat(amountInput.val()) || 0;
+        if (!amountInput.val() || currentValue === 0) {
+            amountInput.val(total);
+        }
+    }
+
     calcChange();
 }
 
@@ -349,7 +362,7 @@ function renderCustomers(customers){
     if(!customers || customers.length === 0){
         list.html(`
             <div class="text-center text-muted py-4">
-                <div style="font-size:48px;">👥</div>
+                ${illus('people')}
                 <p>${t('customers_empty')}</p>
                 <small>${t('add') + ' ' + t('debts_customer_name')}</small>
             </div>
@@ -364,7 +377,7 @@ function renderCustomers(customers){
                     <div class="customer-name">${c.name}</div>
                     <div class="customer-phone">${c.phone || t('no_phone')}</div>
                 </div>
-                <div class="customer-debt-badge">💳</div>
+                <div class="customer-debt-badge">${icon('card', 16)}</div>
             </div>
         `);
 
@@ -450,12 +463,12 @@ function saveOrder(order, isDebt){
     const $btnComplete = $('#btnCompleteSale');
     const $btnDebt = $('#btnSellAsDebt');
 
-    $btnComplete.prop('disabled', true).text(`⏳ ${t('loading')}`);
+    $btnComplete.prop('disabled', true).html(icon('clock', 18) + ' ' + t('loading'));
     $btnDebt.prop('disabled', true);
 
     // Ensure buttons are re-enabled even if something goes wrong
     const resetButtons = () => {
-        $btnComplete.prop('disabled', false).text(`✅ ${t('pos_complete_sale')}`);
+        $btnComplete.prop('disabled', false).html(icon('check', 18) + ' ' + t('pos_complete_sale'));
         $btnDebt.prop('disabled', false);
     };
 
@@ -550,7 +563,7 @@ function showReceipt(order, data){
     $('#receiptContent').html(`
         <div style="font-family:monospace; font-size:13px;">
             <div style="text-align:center; margin-bottom:10px;">
-                <strong>🏪 ${t('brand_name')}</strong><br>
+                <strong>${t('brand_name')}</strong><br>
                 <small>${now}</small><br>
                 <small>#${order.orderNumber||'N/A'}</small>
             </div>
@@ -617,11 +630,8 @@ function playBeep(){
     }catch(e){}
 }
 
-function showToast(msg,type='info'){
-    const c={success:'#27ae60',error:'#e74c3c',warning:'#f39c12',info:'#3498db'};
-    const ic={success:'✅',error:'❌',warning:'⚠️',info:'ℹ️'};
-    const toastEl=$(`<div style="position:fixed;bottom:20px;right:20px;z-index:9999;background:${c[type]};color:white;padding:12px 20px;border-radius:10px;box-shadow:0 4px 15px rgba(0,0,0,.3);font-weight:600;font-size:14px;">${ic[type]} ${msg}</div>`);
-    $('body').append(toastEl); setTimeout(()=>toastEl.fadeOut(300,()=>toastEl.remove()),2500);
+function showToast(msg,type='info') {
+    return window.mkToast(msg, type);
 }
 
 console.log('POS Controller with Debt Ready!');
