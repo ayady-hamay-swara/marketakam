@@ -22,7 +22,7 @@ $("#cmbItemCode").val("");
 function loadOrderId() {
     var ajaxConfig = {
         method: "GET",
-        url: "http://localhost:8080/api/v1/orders",
+        url: "/api/orders",
         async: true
     }
 
@@ -30,14 +30,6 @@ function loadOrderId() {
         var arrayIndex = parseInt(header.getResponseHeader("X-Count"))-1;
         var id = parseInt((Order[arrayIndex]).orderId) + 1;
         $("#spnOrderId").text(id);
-        // console.log("working");
-        // console.log(Order);
-        // if (Order == null) {
-        //     $("#spnOrderId").text("1");
-        // } else {
-        //     var id = parseInt(Order[Order.length - 1].orderId) + 1;
-        //     $("#spnOrderId").text(id);
-        // }
     }).fail(function (jqxhr, textStatus, errorMsg) {
         console.log(errorMsg);
     });
@@ -46,7 +38,7 @@ function loadOrderId() {
 function loadAllCustomersIds() {
     var ajaxConfig = {
         method: "GET",
-        url: "http://localhost:8080/api/v1/customers",
+        url: "/api/customers",
         async: true
     }
 
@@ -64,13 +56,12 @@ function loadAllCustomersIds() {
 
     $("#cmbCustomerId").change(function () {
         if ($(this).val()==0){
-            // alert("Please select Item");
         } else{
             var customerId = $(this).val();
             console.log(customerId);
             var ajaxConfig = {
                 method: "GET",
-                url: "http://localhost:8080/api/v1/customers/" + customerId,
+                url: "/api/customers/" + customerId,
                 async: true
             }
 
@@ -87,7 +78,7 @@ function loadAllCustomersIds() {
 function loadAllItemCodes() {
     var ajaxConfig = {
         method: "GET",
-        url: "http://localhost:8080/api/v1/items",
+        url: "/api/items",
         async: true
     }
 
@@ -110,7 +101,7 @@ function loadAllItemCodes() {
             var itemCode = $(this).val();
             var ajaxConfig = {
                 method: "GET",
-                url: "http://localhost:8080/api/v1/items/" + itemCode,
+                url: "/api/items/" + itemCode,
                 async: true
             }
 
@@ -122,10 +113,6 @@ function loadAllItemCodes() {
                     if($(this).find("td:first-child").text() == item.code){
                         var qtyInTable = parseInt($(this).find("td:nth-child(3)").text());
                         var qtyOnHandNew = item.qtyOnHand-qtyInTable;
-                        $("#lblQtyOnHand").text(qtyOnHandNew);
-                        console.log("working 12");
-                        console.log(item.qtyOnHand-qtyInTable);
-                        console.log(qtyOnHandNew);
                         $("#lblQtyOnHand").text(qtyOnHandNew);
                     }
                 });
@@ -283,7 +270,7 @@ $("#btnPlaceOrder").click(function () {
         array.push({ orderId: orderId, itemCode: itemCode, qty: qty,unitPrice: unitPrice });
 
     });
-    
+
     var data = {
         orderId: parseInt($("#spnOrderId").text()),
         date: $("#spnOrderDate").text(),
@@ -293,7 +280,7 @@ $("#btnPlaceOrder").click(function () {
 
     var ajaxConfig = {
         method: "POST",
-        url: "http://localhost:8080/api/v1/orders",
+        url: "/api/orders",
         async: true,
         data: JSON.stringify(data),
         contentType: "application/json"

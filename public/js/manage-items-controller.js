@@ -22,6 +22,25 @@ $(document).ready(function () {
     generateItemCode();
 });
 
+function normalizeUnicodeDigits(value) {
+    if (value === null || value === undefined) {
+        return '';
+    }
+
+    const map = {
+        '٠': '0', '١': '1', '٢': '2', '٣': '3', '٤': '4',
+        '٥': '5', '٦': '6', '٧': '7', '٨': '8', '٩': '9',
+        '۰': '0', '۱': '1', '۲': '2', '۳': '3', '۴': '4',
+        '۵': '5', '۶': '6', '۷': '7', '۸': '8', '۹': '9'
+    };
+
+    return String(value).replace(/[٠-٩۰-۹]/g, char => map[char] || char);
+}
+
+function normalizeNumericInput(value) {
+    return normalizeUnicodeDigits(value).replace(/\s+/g, '');
+}
+
 function setupEventListeners() {
     $('#btnGenerateCode').on('click', generateItemCode);
     $('#btnFloorPrice').on('click', floorPriceTo250);
@@ -38,7 +57,20 @@ function setupEventListeners() {
         });
     }
 
-    $('#txtSearch').on('input', searchItems);
+    $('#txtCode, #txtBarcode, #txtPrice, #txtStock, #txtMinStock').on('input', function () {
+        const normalized = normalizeNumericInput(this.value);
+        if (this.value !== normalized) {
+            this.value = normalized;
+        }
+    });
+
+    $('#txtSearch').on('input', function () {
+        const normalized = normalizeUnicodeDigits(this.value);
+        if (this.value !== normalized) {
+            this.value = normalized;
+        }
+        searchItems();
+    });
     $('#filterCategory').on('change', searchItems);
     $('#filterStock').on('change', searchItems);
 }
@@ -259,27 +291,27 @@ function normalizePriceValue(value) {
 }
 
 function getFormData() {
-    const price = normalizePriceValue($('#txtPrice').val());
+    const price = normalizePriceValue(normalizeNumericInput($('#txtPrice').val()));
     $('#txtPrice').val(price);
 
     return {
-        code: $('#txtCode').val().trim(),
+        code: normalizeUnicodeDigits($('#txtCode').val()).trim(),
         name: $('#txtName').val().trim(),
         category: $('#txtCategory').val() || null,
         price: price,
-        stock: Number($('#txtStock').val()),
-        min_stock: Number($('#txtMinStock').val()) || 0,
-        barcode: $('#txtBarcode').val() || null,
+        stock: Number(normalizeNumericInput($('#txtStock').val())),
+        min_stock: Number(normalizeNumericInput($('#txtMinStock').val())) || 0,
+        barcode: normalizeUnicodeDigits($('#txtBarcode').val()) || null,
         notes: $('#txtNotes').val() || null,
         is_active: true,
     };
 }
 
 function validateForm() {
-    const code = $('#txtCode').val().trim();
+    const code = normalizeUnicodeDigits($('#txtCode').val()).trim();
     const name = $('#txtName').val().trim();
-    const price = Number($('#txtPrice').val());
-    const stock = Number($('#txtStock').val());
+    const price = Number(normalizeNumericInput($('#txtPrice').val()));
+    const stock = Number(normalizeNumericInput($('#txtStock').val()));
 
     if (!code) {
         showNotification(t('item_code_required'), 'warning');
@@ -428,7 +460,7 @@ function generateItemCode() {
 }
 
 function searchItems() {
-    const search = $('#txtSearch').val().toLowerCase().trim();
+    const search = normalizeUnicodeDigits($('#txtSearch').val()).toLowerCase().trim();
     const category = $('#filterCategory').val();
     const stockFilter = $('#filterStock').val();
 

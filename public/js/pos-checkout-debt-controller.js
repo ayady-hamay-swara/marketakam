@@ -13,6 +13,21 @@ let cart = [], paymentMethod = "CASH";
 let selectedCustomerForDebt = null;
 let hasUserTouchedReceivedAmount = false;
 
+function normalizeUnicodeDigits(value) {
+    if (value === null || value === undefined) {
+        return '';
+    }
+
+    const map = {
+        '٠': '0', '١': '1', '٢': '2', '٣': '3', '٤': '4',
+        '٥': '5', '٦': '6', '٧': '7', '٨': '8', '٩': '9',
+        '۰': '0', '۱': '1', '۲': '2', '۳': '3', '۴': '4',
+        '۵': '5', '۶': '6', '۷': '7', '۸': '8', '۹': '9'
+    };
+
+    return String(value).replace(/[٠-٩۰-۹]/g, char => map[char] || char);
+}
+
 // ═══════════════════════════════════════════════════════
 // INIT
 // ═══════════════════════════════════════════════════════
@@ -34,9 +49,28 @@ $.ajaxSetup({
 
 function setupPosListeners() {
     $('#productSearch').on('input', function(){
-        const q = $(this).val().trim();
+        const raw = $(this).val();
+        const q = normalizeUnicodeDigits(raw).trim();
         console.log('Search input event:', q);
-        if(q.length<1){ $('#productResults').hide(); return; }
+
+        if (!q.length) {
+            $('#productResults').hide();
+            return;
+        }
+
+        const exactMatch = allProducts.find(product => {
+            const code = normalizeUnicodeDigits(product.code || '');
+            const barcode = normalizeUnicodeDigits(product.barcode || '');
+            return code === q || barcode === q;
+        });
+
+        if (exactMatch) {
+            addToCart(exactMatch);
+            $(this).val('');
+            $('#productResults').hide();
+            return;
+        }
+
         showSearchResults(q, $('#categoryFilter').val());
     });
 
@@ -125,8 +159,15 @@ function showSearchResults(q, cat){
     console.log('showSearchResults called with:', q, cat);
     console.log('allProducts:', allProducts);
     let res = allProducts;
-    const ql = q.toLowerCase();
-    res = res.filter(p=>p.description.toLowerCase().includes(ql)||p.code.toLowerCase().includes(ql)||(p.barcode&&p.barcode.includes(q)));
+    const normalizedQ = normalizeUnicodeDigits(q).toLowerCase();
+
+    res = res.filter(p => {
+        const description = normalizeUnicodeDigits(p.description || '').toLowerCase();
+        const code = normalizeUnicodeDigits(p.code || '').toLowerCase();
+        const barcode = normalizeUnicodeDigits(p.barcode || '').toLowerCase();
+        return description.includes(normalizedQ) || code.includes(normalizedQ) || barcode.includes(normalizedQ);
+    });
+
     if(cat) res = res.filter(p=>p.category===cat);
     console.log('Filtered results:', res);
 

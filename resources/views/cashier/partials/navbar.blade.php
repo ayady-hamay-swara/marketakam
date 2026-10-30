@@ -1,5 +1,26 @@
 <nav class="navbar navbar-expand-lg navbar-dark global-navbar">
 
+    {{-- Hover pop effect for settings button --}}
+    <style>
+        .nav-icon-btn {
+            transition: transform 0.2s ease, background-color 0.2s ease;
+        }     .nav-link {
+            transition: transform 0.2s ease, background-color 0.2s ease;
+
+        }
+        .nav-item {
+           padding: 0.5rem 0.5rem;
+        }
+        .nav-icon-btn:hover {
+            transform: scale(1.05);
+               background-color: rgba(255, 255, 255, 0.15);
+        }
+        .nav-link:hover {
+            transform: scale(1.05);
+               background-color: rgba(255, 255, 255, 0.15);
+        }
+    </style>
+
     {{-- Brand --}}
     @php
         $store = \App\Models\Store::find(auth()->user()->current_store_id ?? 1);

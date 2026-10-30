@@ -1,0 +1,4 @@
+Global migrations: 3
+Tenant migrations: 15
+Seeders: 2
+README: setup and caveats

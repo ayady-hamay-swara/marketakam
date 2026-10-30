@@ -5,7 +5,9 @@
 
 @section('content')
 <div class="ow-toolbar">
-    <p class="sub" data-i18n="owner_dash_sub">کورتەی ئەمڕۆی فرۆشگاکەت</p>
+    <p class="sub" data-i18n="owner_dash_sub">
+        {{ isset($store) ? "کورتەی ئەمڕۆی {$store->name}" : 'کورتەی ئەمڕۆی فرۆشگاکەت' }}
+    </p>
     <a href="{{ url('/owner/pos') }}" class="btn btn-primary">@include('partials.icon', ['name' => 'cart', 'size' => 16])<span data-i18n="owner_new_sale">فرۆشتنی نوێ</span></a>
 </div>
 
