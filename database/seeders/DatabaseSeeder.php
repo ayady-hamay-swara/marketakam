@@ -8,17 +8,6 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        $this->call([
-            StoreSeeder::class,
-            UserSeeder::class,
-            EmployeeSeeder::class,
-            CustomerSeeder::class,
-            ProductSeeder::class,
-            SettingsSeeder::class,
-            OrderSeeder::class,
-            OrderItemSeeder::class,
-            DebtSeeder::class,
-            DebtPaymentSeeder::class,
-        ]);
+        $this->command?->warn('No default seeders are called. Run Global\GlobalDatabaseSeeder on the global database or Tenant\TenantDatabaseSeeder on a tenant database.');
     }
 }
