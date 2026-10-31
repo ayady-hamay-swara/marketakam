@@ -25,7 +25,10 @@ _ide_helper.php
 Homestead.json
 Homestead.yaml
 Thumbs.db
-/app
+/app/Http
+/app/Models
+/app/Modules
+/app/Providers
 /config
 ERdiagram.png
 store_managment_system.svg
